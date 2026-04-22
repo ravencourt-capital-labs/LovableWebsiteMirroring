@@ -33,14 +33,14 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Milan-based boutique advisory firm bridging buy-side and sell-side across Europe, MENA, and North America. Allocator-grade diligence, capital formation, and transaction execution.",
+          "Milan-based boutique advisory firm specialising in capital formation, M&A, and buy-side engagement across Europe, MENA, and North America. Allocator-grade diligence and transaction execution.",
       },
       { name: "author", content: "Ravencourt Capital" },
       { property: "og:title", content: "Ravencourt Capital — Private Markets Advisory" },
       {
         property: "og:description",
         content:
-          "Milan-based boutique advisory firm bridging buy-side and sell-side across Europe, MENA, and North America.",
+          "Milan-based boutique advisory firm specialising in capital formation, M&A, and buy-side engagement across Europe, MENA, and North America.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
