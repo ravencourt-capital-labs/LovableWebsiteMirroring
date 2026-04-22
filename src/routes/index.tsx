@@ -7,8 +7,10 @@ export const Route = createFileRoute("/")({
 });
 
 const NAV = [
-  { id: "approach", label: "Approach" },
-  { id: "services", label: "Services" },
+  { id: "about", label: "About" },
+  { id: "advisory", label: "Advisory" },
+  { id: "capabilities", label: "Capabilities" },
+  { id: "fulfillmentos", label: "FulfillmentOS" },
   { id: "geographies", label: "Geographies" },
   { id: "team", label: "Team" },
   { id: "contact", label: "Contact" },
@@ -18,14 +20,8 @@ const TEAM = [
   {
     initials: "RK",
     name: "Rohan Kapoor",
-    title: "Founder & Principal",
+    title: "Founder and Principal",
     linkedin: "https://linkedin.com/in/raisingcapitalcontact",
-  },
-  {
-    initials: "LM",
-    name: "Dr. Luciano Mazzola",
-    title: "Senior Advisor, Legal and Cross-Border Structuring",
-    linkedin: "https://lcopartners.eu/en/professionals/luciano-mazzola-en",
   },
   {
     initials: "S",
@@ -34,16 +30,10 @@ const TEAM = [
     linkedin: "https://linkedin.com/in/sanian",
   },
   {
-    initials: "KL",
-    name: "Konstantinos Lanaras",
-    title: "Intern — Investment Research & Partnerships",
-    sub: "Politecnico di Milano, MSc Fintech, Finance & Digital Innovation",
-  },
-  {
-    initials: "JZ",
-    name: "Joey Zhu",
-    title: "Intern — Investment Research & Partnerships",
-    sub: "NYU Stern, BSc Finance",
+    initials: "LM",
+    name: "Dr. Luciano Mazzola",
+    title: "Senior Advisor, Legal and Cross-Border Structuring",
+    linkedin: "https://lcopartners.eu/en/professionals/luciano-mazzola-en",
   },
 ];
 
@@ -58,12 +48,12 @@ function Header() {
             Ravencourt <span className="text-[var(--bronze)]">Capital</span>
           </span>
         </a>
-        <nav className="hidden md:flex items-center gap-10">
+        <nav className="hidden lg:flex items-center gap-8">
           {NAV.map((n) => (
             <a
               key={n.id}
               href={`#${n.id}`}
-              className="text-xs uppercase tracking-[0.18em] text-[var(--ink-soft)] hover:text-[var(--bronze)] transition-colors"
+              className="text-[11px] uppercase tracking-[0.18em] text-[var(--ink-soft)] hover:text-[var(--bronze)] transition-colors"
             >
               {n.label}
             </a>
@@ -71,12 +61,12 @@ function Header() {
         </nav>
         <a
           href="#contact"
-          className="hidden md:inline-flex text-xs uppercase tracking-[0.18em] border border-[var(--ink)] text-[var(--ink)] px-4 py-2 hover:bg-[var(--ink)] hover:text-background transition-colors"
+          className="hidden lg:inline-flex text-[11px] uppercase tracking-[0.18em] border border-[var(--ink)] text-[var(--ink)] px-4 py-2 hover:bg-[var(--ink)] hover:text-background transition-colors"
         >
           Get in touch
         </a>
         <button
-          className="md:hidden text-[var(--ink)] text-sm uppercase tracking-widest"
+          className="lg:hidden text-[var(--ink)] text-sm uppercase tracking-widest"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
         >
@@ -84,7 +74,7 @@ function Header() {
         </button>
       </div>
       {open && (
-        <div className="md:hidden border-t border-[var(--rule)] bg-background">
+        <div className="lg:hidden border-t border-[var(--rule)] bg-background">
           <div className="px-6 py-6 flex flex-col gap-5">
             {NAV.map((n) => (
               <a
@@ -109,7 +99,6 @@ function Hero() {
       id="top"
       className="relative min-h-screen flex items-center bg-[var(--ink)] text-[oklch(0.95_0.008_85)] overflow-hidden"
     >
-      {/* Subtle geometric line work */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.07]">
         <svg className="w-full h-full" viewBox="0 0 1200 800" preserveAspectRatio="none">
           <line x1="0" y1="200" x2="1200" y2="200" stroke="currentColor" strokeWidth="0.5" />
@@ -118,21 +107,24 @@ function Hero() {
           <line x1="900" y1="0" x2="900" y2="800" stroke="currentColor" strokeWidth="0.5" />
         </svg>
       </div>
-      <div className="absolute top-1/2 right-0 -translate-y-1/2 hidden lg:block opacity-30">
-        <div className="w-[420px] h-[420px] border border-[var(--bronze)] rotate-45" />
+      <div className="absolute top-1/2 right-0 -translate-y-1/2 hidden lg:block opacity-25">
+        <div className="w-[460px] h-[460px] border border-[var(--bronze)] rotate-45" />
       </div>
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-12 w-full pt-24">
-        <div className="max-w-3xl">
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-12 w-full pt-28 pb-20">
+        <div className="max-w-4xl">
           <div className="flex items-center gap-4 mb-10">
             <img src={logo} alt="" className="h-12 w-12 object-contain" />
             <p className="eyebrow text-[var(--bronze-soft)] !mb-0">Ravencourt Capital · Milan</p>
           </div>
-          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight">
-            We find the right match across private markets.
+          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight">
+            Allocator-Grade Private Markets Advisory.
           </h1>
-          <p className="mt-8 text-lg md:text-xl text-[oklch(0.82_0.01_85)] font-light max-w-2xl leading-relaxed">
-            Allocator-grade advisory bridging buy-side and sell-side across Europe, MENA, and
-            North America.
+          <p className="mt-10 text-lg md:text-xl text-[oklch(0.82_0.01_85)] font-light max-w-3xl leading-relaxed">
+            Ravencourt Capital is a Milan-based boutique advisory firm operating at the
+            intersection of capital formation, M&amp;A, and buy-side engagement across Europe,
+            MENA, and North America. We combine operational insight with quantitative assessment
+            frameworks to deliver structured, executable outcomes across the full transaction
+            lifecycle.
           </p>
           <div className="mt-12">
             <a
@@ -158,35 +150,99 @@ function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
   );
 }
 
-function WhatWeDo() {
+function About() {
   return (
-    <section id="approach" className="py-28 lg:py-36 border-b border-[var(--rule)]">
+    <section id="about" className="py-28 lg:py-36 border-b border-[var(--rule)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <SectionHeader eyebrow="What we do" title="Two sides of the same conversation." />
+        <SectionHeader eyebrow="About" title="A senior-led advisory firm built for private markets." />
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-20 max-w-6xl">
+          <p className="text-[var(--ink-soft)] leading-relaxed text-base md:text-lg">
+            Ravencourt Capital supports two core counterparties in private markets — funds and
+            investors on the buy side, and founders, managers, and GPs on the sell side. All
+            engagements run through a senior-led process built around alignment, confidentiality,
+            and governance. We do not operate as a volume-driven intermediary. Every mandate is
+            evaluated for structural fit before market engagement begins.
+          </p>
+          <p className="text-[var(--ink-soft)] leading-relaxed text-base md:text-lg">
+            Our approach reflects the structural shift in private markets from financial
+            engineering to operational value creation in a higher cost of capital environment. We
+            place emphasis on entry discipline, transaction structure, and execution feasibility
+            — recognising that value is shaped at buy, built through operational execution, and
+            realised at exit. Mandates are assessed through a combination of operational insight
+            and quantitative frameworks, ensuring that capital, structure, and execution remain
+            aligned from entry through exit.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Advisory() {
+  const buy = [
+    "Institutional filtration of opportunities aligned to mandate constraints",
+    "Entry discipline assessment and downside protection analysis",
+    "Replication of internal investment committee logic and scrutiny",
+    "Execution risk evaluation across structure, timing, and counterparties",
+    "Curated, mandate-aligned engagement with controlled information flow",
+  ];
+  const sell = [
+    "Allocator-grade positioning anchored in entry valuation and transaction structure",
+    "Operational and governance alignment for institutional readiness",
+    "Transaction structuring aligned to investor expectations and execution feasibility",
+    "Mandate-driven investor targeting based on fit, not volume",
+    "Disciplined engagement process designed to maximise conversion probability",
+  ];
+  return (
+    <section
+      id="advisory"
+      className="py-28 lg:py-36 border-b border-[var(--rule)] bg-[oklch(0.97_0.006_85)]"
+    >
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+        <SectionHeader
+          eyebrow="Buy-side and sell-side advisory"
+          title="Two sides of the same conversation."
+        />
         <div className="grid md:grid-cols-2 gap-px bg-[var(--rule)] border border-[var(--rule)]">
           <div className="bg-background p-10 lg:p-14">
-            <p className="eyebrow mb-6">Buy-side</p>
+            <p className="eyebrow mb-6">Buy-side allocators</p>
             <h3 className="font-serif text-2xl md:text-3xl text-[var(--ink)] mb-6">
               For funds and investors
             </h3>
-            <p className="text-[var(--ink-soft)] leading-relaxed">
+            <p className="text-[var(--ink-soft)] leading-relaxed mb-8">
               We help funds and investors source the right deals before they become competitive.
-              We qualify counterparties upfront — strategy, geography, ticket size — so every
-              introduction is already relevant. When we bring you something, we have already done
-              the work.
+              Every opportunity is qualified upfront against mandate constraints — strategy,
+              geography, ticket size, and execution timeline — so that introductions are relevant
+              before they are made.
             </p>
+            <ul className="space-y-3">
+              {buy.map((b) => (
+                <li key={b} className="flex gap-3 text-sm text-[var(--ink-soft)] leading-relaxed">
+                  <span className="text-[var(--bronze)] mt-[0.45rem] h-px w-3 bg-[var(--bronze)] shrink-0" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="bg-background p-10 lg:p-14">
-            <p className="eyebrow mb-6">Sell-side</p>
+            <p className="eyebrow mb-6">Sell-side managers, funds, and founders</p>
             <h3 className="font-serif text-2xl md:text-3xl text-[var(--ink)] mb-6">
-              For founders and managers
+              For founders, managers, and GPs
             </h3>
-            <p className="text-[var(--ink-soft)] leading-relaxed">
-              We connect founders and fund managers with the right capital and the right buyers.
-              We sharpen positioning before any conversation happens and target investors whose
-              mandate, ticket size, and timeline genuinely fit the strategy — not volume, but the
-              right contacts.
+            <p className="text-[var(--ink-soft)] leading-relaxed mb-8">
+              We connect founders and fund managers with capital and counterparties whose
+              mandate, ticket size, and timeline genuinely fit the strategy. We sharpen
+              positioning before any conversation happens and stay involved through execution to
+              maximise conversion probability.
             </p>
+            <ul className="space-y-3">
+              {sell.map((b) => (
+                <li key={b} className="flex gap-3 text-sm text-[var(--ink-soft)] leading-relaxed">
+                  <span className="text-[var(--bronze)] mt-[0.45rem] h-px w-3 bg-[var(--bronze)] shrink-0" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
@@ -194,39 +250,48 @@ function WhatWeDo() {
   );
 }
 
-function Approach() {
-  const cards = [
+function Capabilities() {
+  const items = [
     {
-      n: "01",
-      t: "Match",
-      b: "We identify the right counterparty for every mandate — buyer to seller, fund to investor — based on structural fit, not proximity.",
+      t: "Capital formation and strategic positioning",
+      d: "Sell-side advisory across capital raises, secondary transactions, and strategic placements.",
+      b: "Capital raising is executed through allocator-aligned positioning, where narrative, valuation, and structure are engineered to withstand institutional diligence. Our focus is on capital efficiency, investor-fit mapping, and conversion probability rather than a volume-driven approach. All positioning is stress-tested against the entry logic and return expectations of the target investor universe.",
     },
     {
-      n: "02",
-      t: "Analyse",
-      b: "Every engagement is assessed through a combination of operational insight and quantitative frameworks. We apply institutional-grade scrutiny before any introduction is made.",
+      t: "M&A and strategic transactions",
+      d: "Advisory across founder-led and mid-market transactions from €2M to €50M.",
+      b: "We advise on transactions involving private equity, strategic acquirers, family offices, and search funds across Europe, MENA, and North America. Engagements are structured around valuation realism, buyer intent verification, and executable deal pathways. We do not engage mandates where execution feasibility is absent.",
     },
     {
-      n: "03",
-      t: "Execute",
-      b: "We stay involved through the full transaction lifecycle — from mandate selection and positioning through to closing. Structure, discipline, and outcome alignment at every stage.",
+      t: "Buy-side diligence and opportunity screening",
+      d: "Investment opportunities filtered and stress-tested through institutional-grade analysis.",
+      b: "Work is delivered as an extension of the investment team, with emphasis on downside protection and return visibility. Opportunities are assessed through commercial analysis, financial structuring logic, and execution risk evaluation. Our approach replicates the scrutiny of an internal investment committee, not a third-party opinion.",
+    },
+    {
+      t: "Search fund and direct deal advisory",
+      d: "Support for searchers and acquisition entrepreneurs across the full transaction lifecycle.",
+      b: "We advise searchers and acquisition entrepreneurs on deal sourcing, target evaluation, and transaction structuring. Analysis focuses on cash-flow durability, debt capacity, and post-acquisition operational feasibility. Engagements are structured to support both the search process and the capital raise required to close.",
     },
   ];
   return (
-    <section className="py-28 lg:py-36 border-b border-[var(--rule)] bg-[oklch(0.97_0.006_85)]">
+    <section id="capabilities" className="py-28 lg:py-36 border-b border-[var(--rule)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <SectionHeader eyebrow="Our approach" title="Disciplined at every stage." />
-        <div className="grid md:grid-cols-3 gap-8">
-          {cards.map((c) => (
-            <div
-              key={c.n}
-              className="border border-[var(--rule)] p-10 bg-background hover:border-[var(--bronze)] transition-colors"
-            >
-              <p className="font-serif text-[var(--bronze)] text-sm tracking-widest mb-8">
-                {c.n}
+        <SectionHeader eyebrow="Execution capabilities" title="A focused mandate set." />
+        <div className="border-t border-[var(--ink)]">
+          {items.map((it, i) => (
+            <div key={i} className="grid md:grid-cols-12 gap-6 py-12 border-b border-[var(--rule)]">
+              <div className="md:col-span-1 font-serif text-[var(--bronze)] text-sm tracking-widest pt-2">
+                0{i + 1}
+              </div>
+              <div className="md:col-span-5">
+                <h3 className="font-serif text-2xl md:text-3xl text-[var(--ink)] leading-snug mb-3">
+                  {it.t}
+                </h3>
+                <p className="text-sm text-[var(--ink-soft)] italic leading-relaxed">{it.d}</p>
+              </div>
+              <p className="md:col-span-6 text-[var(--ink-soft)] leading-relaxed md:pt-2">
+                {it.b}
               </p>
-              <h3 className="font-serif text-3xl text-[var(--ink)] mb-6">{c.t}</h3>
-              <p className="text-[var(--ink-soft)] leading-relaxed text-sm">{c.b}</p>
             </div>
           ))}
         </div>
@@ -235,44 +300,41 @@ function Approach() {
   );
 }
 
-function Services() {
-  const items = [
-    {
-      t: "Capital Formation & Strategic Positioning",
-      b: "Advisory for sell-side mandates across capital raises, M&A, and secondary transactions. Positioning engineered to withstand institutional diligence.",
-    },
-    {
-      t: "M&A & Strategic Transactions",
-      b: "Advisory across founder-led and mid-market transactions from €2M to €50M involving private equity, strategic acquirers, family offices, and search funds.",
-    },
-    {
-      t: "Buy-Side Diligence & Opportunity Screening",
-      b: "Investment opportunities filtered and stress-tested through commercial analysis, financial structuring logic, and execution risk assessment.",
-    },
-    {
-      t: "Search Fund & Direct Deal Advisory",
-      b: "Support for searchers and acquisition entrepreneurs across deal sourcing, target evaluation, and transaction structuring focused on cash-flow durability and debt capacity.",
-    },
+function FulfillmentOS() {
+  const lines = [
+    "Mandate-level alignment verified before any market engagement begins",
+    "Investor-grade documentation and data integrity maintained throughout",
+    "Structured execution pathways with defined decision gates at each stage",
+    "Governance control maintained across counterparties and jurisdictions",
+    "Capital attribution discipline linked to outcome-based fee structures",
+    "Cross-border structuring and compliance consistency across Europe, MENA, and North America",
   ];
   return (
-    <section id="services" className="py-28 lg:py-36 border-b border-[var(--rule)]">
+    <section
+      id="fulfillmentos"
+      className="py-28 lg:py-36 border-b border-[var(--rule)] bg-[oklch(0.97_0.006_85)]"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <SectionHeader eyebrow="Services" title="A focused mandate set." />
-        <div className="border-t border-[var(--ink)]">
-          {items.map((it, i) => (
+        <SectionHeader
+          eyebrow="How we operate"
+          title="FulfillmentOS — the system behind every mandate."
+        />
+        <p className="max-w-3xl text-[var(--ink-soft)] leading-relaxed text-base md:text-lg mb-14">
+          All engagements at Ravencourt Capital are executed through FulfillmentOS — our internal
+          operating system governing mandate selection, structuring discipline, and outcome
+          attribution. FulfillmentOS is not a product. It is the structured methodology that
+          ensures every engagement is governed consistently from intake to close.
+        </p>
+        <div className="grid md:grid-cols-2 gap-x-12 gap-y-2 max-w-6xl">
+          {lines.map((l, i) => (
             <div
-              key={i}
-              className="grid md:grid-cols-12 gap-6 py-10 border-b border-[var(--rule)] group"
+              key={l}
+              className="border-l-2 border-[var(--bronze)] pl-6 py-5 flex items-start gap-5"
             >
-              <div className="md:col-span-1 font-serif text-[var(--bronze)] text-sm tracking-widest pt-1">
-                0{i + 1}
-              </div>
-              <h3 className="md:col-span-5 font-serif text-2xl md:text-3xl text-[var(--ink)] leading-snug">
-                {it.t}
-              </h3>
-              <p className="md:col-span-6 text-[var(--ink-soft)] leading-relaxed md:pt-2">
-                {it.b}
-              </p>
+              <span className="font-serif text-[var(--bronze)] text-xs tracking-widest pt-1">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <p className="text-[var(--ink-soft)] leading-relaxed">{l}</p>
             </div>
           ))}
         </div>
@@ -286,24 +348,21 @@ function Geographies() {
     {
       t: "Europe",
       tag: "Primary market",
-      b: "Cross-border mandates across Western and Southern Europe with emphasis on Italy, France, Germany, Luxembourg, Greece, and the UK.",
+      b: "Cross-border mandates across Western and Southern Europe with particular depth in Italy, France, Germany, Luxembourg, Greece, and the United Kingdom. Relationships span founder-led SMEs, mid-market sponsors, and institutional allocators.",
     },
     {
       t: "MENA",
       tag: "Active coverage",
-      b: "Gulf family offices, sovereign-adjacent capital, and emerging market mandates.",
+      b: "Active coverage across Gulf-based family offices, sovereign-adjacent capital pools, and emerging market mandates. Particular focus on cross-border transactions bridging European deal flow with Middle Eastern and North African capital.",
     },
     {
       t: "North America",
       tag: "Selective",
-      b: "Cross-border engagements with institutional allocators and acquisition entrepreneurs.",
+      b: "Select cross-border engagements with institutional allocators, family offices, and acquisition entrepreneurs. Focus on transatlantic mandates where European execution capability and North American capital appetite intersect.",
     },
   ];
   return (
-    <section
-      id="geographies"
-      className="py-28 lg:py-36 border-b border-[var(--rule)] bg-[oklch(0.97_0.006_85)]"
-    >
+    <section id="geographies" className="py-28 lg:py-36 border-b border-[var(--rule)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <SectionHeader eyebrow="Geographies" title="Where we operate." />
         <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
@@ -321,48 +380,37 @@ function Geographies() {
   );
 }
 
-function TeamCard({ m }: { m: (typeof TEAM)[number] }) {
-  return (
-    <div className="text-center px-4">
-      <div className="mx-auto w-32 h-32 rounded-full bg-[var(--ink)] text-[oklch(0.95_0.008_85)] flex items-center justify-center font-serif text-2xl tracking-wider border border-[var(--bronze)]/40 mb-6">
-        {m.initials}
-      </div>
-      <h3 className="font-serif text-xl text-[var(--ink)] mb-1">{m.name}</h3>
-      <p className="text-sm text-[var(--ink-soft)] leading-snug max-w-xs mx-auto">{m.title}</p>
-      {m.sub && (
-        <p className="text-xs text-[var(--ink-soft)]/80 mt-2 italic max-w-xs mx-auto">{m.sub}</p>
-      )}
-      {m.linkedin && (
-        <a
-          href={m.linkedin}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-block mt-4 text-xs uppercase tracking-[0.2em] text-[var(--bronze)] hover:text-[var(--ink)] transition-colors"
-        >
-          LinkedIn →
-        </a>
-      )}
-    </div>
-  );
-}
-
 function Team() {
   return (
-    <section id="team" className="py-28 lg:py-36 border-b border-[var(--rule)]">
+    <section
+      id="team"
+      className="py-28 lg:py-36 border-b border-[var(--rule)] bg-[oklch(0.97_0.006_85)]"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <SectionHeader eyebrow="Team" title="Senior-led, by design." />
-        <div className="grid md:grid-cols-3 gap-12 lg:gap-16 mb-16">
-          {TEAM.slice(0, 3).map((m) => (
-            <TeamCard key={m.name} m={m} />
+        <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
+          {TEAM.map((m) => (
+            <div key={m.name} className="text-center px-4">
+              <div className="mx-auto w-32 h-32 rounded-full bg-[var(--ink)] text-[oklch(0.95_0.008_85)] flex items-center justify-center font-serif text-2xl tracking-wider border border-[var(--bronze)]/40 mb-6">
+                {m.initials}
+              </div>
+              <h3 className="font-serif text-xl text-[var(--ink)] mb-1">{m.name}</h3>
+              <p className="text-sm text-[var(--ink-soft)] leading-snug max-w-xs mx-auto">
+                {m.title}
+              </p>
+              <a
+                href={m.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block mt-4 text-xs uppercase tracking-[0.2em] text-[var(--bronze)] hover:text-[var(--ink)] transition-colors"
+              >
+                LinkedIn →
+              </a>
+            </div>
           ))}
         </div>
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 max-w-4xl mx-auto">
-          {TEAM.slice(3).map((m) => (
-            <TeamCard key={m.name} m={m} />
-          ))}
-        </div>
-        <p className="text-center font-serif text-xl md:text-2xl text-[var(--ink)] italic mt-20">
-          “All engagements are senior-led. No junior handoffs.”
+        <p className="text-center text-sm text-[var(--ink-soft)] italic mt-16 tracking-wide">
+          All engagements are senior-led. No junior handoffs.
         </p>
       </div>
     </section>
@@ -379,7 +427,8 @@ function Contact() {
           <h2 className="font-serif text-4xl md:text-5xl leading-tight">Let’s talk.</h2>
           <p className="mt-6 text-lg text-[oklch(0.82_0.01_85)] font-light leading-relaxed">
             If you are active in private markets — on the buy side, sell side, or advising
-            founders and managers — we are always open to a conversation.
+            founders and managers — we are always open to a conversation. All enquiries are
+            treated with strict confidentiality.
           </p>
         </div>
 
@@ -409,7 +458,7 @@ function Contact() {
             </div>
             <div className="pt-4">
               <a
-                href="https://linkedin.com"
+                href="https://linkedin.com/in/raisingcapitalcontact"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex border border-[var(--bronze)] text-[var(--bronze)] px-6 py-3 text-xs uppercase tracking-[0.2em] hover:bg-[var(--bronze)] hover:text-[var(--ink)] transition-colors"
@@ -452,11 +501,10 @@ function Contact() {
             </div>
             <button
               type="submit"
-              disabled={sent}
-              className="inline-flex items-center gap-3 border border-[var(--bronze)] text-[var(--bronze)] px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-[var(--bronze)] hover:text-[var(--ink)] transition-colors disabled:opacity-60"
+              className="mt-4 inline-flex items-center gap-3 border border-[var(--bronze)] text-[var(--bronze)] px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-[var(--bronze)] hover:text-[var(--ink)] transition-colors"
             >
-              {sent ? "Thank you" : "Send message"}
-              {!sent && <span aria-hidden>→</span>}
+              {sent ? "Message sent" : "Send message"}
+              <span aria-hidden>→</span>
             </button>
           </form>
         </div>
@@ -467,11 +515,18 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="bg-[var(--ink)] border-t border-[oklch(0.3_0.02_250)] py-8 text-[oklch(0.7_0.01_85)]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-3 text-xs tracking-wide">
-        <p>Ravencourt Capital © 2025</p>
-        <p>P.IVA 11381320966</p>
-        <p>Milan, Italy</p>
+    <footer className="bg-[var(--ink)] text-[oklch(0.7_0.01_85)] border-t border-[oklch(0.28_0.025_250)]">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs tracking-wide">
+        <p>
+          Ravencourt Capital © 2025 · P.IVA 11381320966 · Milan, Italy ·{" "}
+          <a
+            href="mailto:contact@ravencourtcapital.com"
+            className="hover:text-[var(--bronze)] transition-colors"
+          >
+            contact@ravencourtcapital.com
+          </a>
+        </p>
+        <p className="text-[oklch(0.55_0.015_85)]">Private Markets Advisory</p>
       </div>
     </footer>
   );
@@ -479,13 +534,14 @@ function Footer() {
 
 function RavencourtPage() {
   return (
-    <div className="bg-background text-[var(--ink)]">
+    <div className="bg-background text-foreground">
       <Header />
       <main>
         <Hero />
-        <WhatWeDo />
-        <Approach />
-        <Services />
+        <About />
+        <Advisory />
+        <Capabilities />
+        <FulfillmentOS />
         <Geographies />
         <Team />
         <Contact />
