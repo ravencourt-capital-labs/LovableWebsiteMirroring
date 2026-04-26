@@ -412,9 +412,6 @@ function Team() {
             </div>
           ))}
         </div>
-        <p className="text-center text-sm text-[var(--ink-soft)] italic mt-16 tracking-wide">
-          All engagements are senior-led. No junior handoffs.
-        </p>
       </div>
     </section>
   );
