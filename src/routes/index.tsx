@@ -117,14 +117,12 @@ function Hero() {
             <p className="eyebrow text-[var(--bronze-soft)] !mb-0">Ravencourt Capital · Milan</p>
           </div>
           <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight">
-            Allocator-Grade Private Markets Advisory.
+            Private Markets Advisory. Capital Raising, M&amp;A, and Strategic Transactions.
           </h1>
           <p className="mt-10 text-lg md:text-xl text-[oklch(0.82_0.01_85)] font-light max-w-3xl leading-relaxed">
-            Ravencourt Capital is a Milan-based boutique advisory firm operating at the
-            intersection of capital formation, M&amp;A, and buy-side engagement across Europe,
-            MENA, and North America. We combine operational insight with quantitative assessment
-            frameworks to deliver structured, executable outcomes across the full transaction
-            lifecycle.
+            Ravencourt Capital is a Milan-based boutique advisory firm. We advise founders, fund
+            managers, and investors across capital raises, M&amp;A processes, and buy-side
+            mandates in Europe, MENA, and North America.
           </p>
           <div className="mt-12">
             <a
@@ -155,22 +153,12 @@ function About() {
     <section id="about" className="py-28 lg:py-36 border-b border-[var(--rule)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <SectionHeader eyebrow="About" title="A senior-led advisory firm built for private markets." />
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-20 max-w-6xl">
+        <div className="max-w-4xl">
           <p className="text-[var(--ink-soft)] leading-relaxed text-base md:text-lg">
-            Ravencourt Capital supports two core counterparties in private markets — funds and
-            investors on the buy side, and founders, managers, and GPs on the sell side. All
-            engagements run through a senior-led process built around alignment, confidentiality,
-            and governance. We do not operate as a volume-driven intermediary. Every mandate is
-            evaluated for structural fit before market engagement begins.
-          </p>
-          <p className="text-[var(--ink-soft)] leading-relaxed text-base md:text-lg">
-            Our approach reflects the structural shift in private markets from financial
-            engineering to operational value creation in a higher cost of capital environment. We
-            place emphasis on entry discipline, transaction structure, and execution feasibility
-            — recognising that value is shaped at buy, built through operational execution, and
-            realised at exit. Mandates are assessed through a combination of operational insight
-            and quantitative frameworks, ensuring that capital, structure, and execution remain
-            aligned from entry through exit.
+            We work on the side of founders and investors who need more than an introduction. Our
+            engagements are structured around mandate clarity, execution discipline, and
+            counterparty fit. We do not take on mandates we cannot execute. All work is senior-led
+            from first conversation to close.
           </p>
         </div>
       </div>
@@ -180,18 +168,16 @@ function About() {
 
 function Advisory() {
   const buy = [
-    "Institutional filtration of opportunities aligned to mandate constraints",
-    "Entry discipline assessment and downside protection analysis",
-    "Replication of internal investment committee logic and scrutiny",
-    "Execution risk evaluation across structure, timing, and counterparties",
-    "Curated, mandate-aligned engagement with controlled information flow",
+    "We help funds and investors identify opportunities that match their mandate before they become widely marketed",
+    "We qualify targets against stated investment criteria including geography, sector, ticket size, and timeline",
+    "We support due diligence preparation and counterparty assessment at early stages of a process",
+    "We facilitate structured introductions where mandate fit has already been established",
   ];
   const sell = [
-    "Allocator-grade positioning anchored in entry valuation and transaction structure",
-    "Operational and governance alignment for institutional readiness",
-    "Transaction structuring aligned to investor expectations and execution feasibility",
-    "Mandate-driven investor targeting based on fit, not volume",
-    "Disciplined engagement process designed to maximise conversion probability",
+    "We advise founders and managers on how to position a business or fund for a capital raise or strategic transaction",
+    "We support the preparation of materials, financial narratives, and investor-facing documentation",
+    "We identify and approach investors whose mandate, ticket size, and timeline are genuinely aligned with the situation",
+    "We manage the process through to term sheet and beyond, staying involved rather than stepping back after introductions",
   ];
   return (
     <section
@@ -230,10 +216,10 @@ function Advisory() {
               For founders, managers, and GPs
             </h3>
             <p className="text-[var(--ink-soft)] leading-relaxed mb-8">
-              We connect founders and fund managers with capital and counterparties whose
-              mandate, ticket size, and timeline genuinely fit the strategy. We sharpen
-              positioning before any conversation happens and stay involved through execution to
-              maximise conversion probability.
+              We advise founders and fund managers on positioning, process, and counterparty fit
+              — ensuring that mandate, ticket size, and timeline are genuinely aligned before any
+              conversation happens. We stay involved through execution rather than stepping back
+              after introductions.
             </p>
             <ul className="space-y-3">
               {sell.map((b) => (
@@ -255,22 +241,22 @@ function Capabilities() {
     {
       t: "Capital formation and strategic positioning",
       d: "Sell-side advisory across capital raises, secondary transactions, and strategic placements.",
-      b: "Capital raising is executed through allocator-aligned positioning, where narrative, valuation, and structure are engineered to withstand institutional diligence. Our focus is on capital efficiency, investor-fit mapping, and conversion probability rather than a volume-driven approach. All positioning is stress-tested against the entry logic and return expectations of the target investor universe.",
+      b: "Capital raising is executed through allocator-aligned positioning, where narrative, valuation, and structure are engineered to withstand institutional diligence. Positioning is stress-tested against the entry logic and return expectations of the target investor universe.",
     },
     {
       t: "M&A and strategic transactions",
       d: "Advisory across founder-led and mid-market transactions from €2M to €50M.",
-      b: "We advise on transactions involving private equity, strategic acquirers, family offices, and search funds across Europe, MENA, and North America. Engagements are structured around valuation realism, buyer intent verification, and executable deal pathways. We do not engage mandates where execution feasibility is absent.",
+      b: "We advise on transactions involving private equity, strategic acquirers, family offices, and search funds across Europe, MENA, and North America. Engagements are structured around valuation realism, buyer intent verification, and executable deal pathways.",
     },
     {
       t: "Buy-side diligence and opportunity screening",
       d: "Investment opportunities filtered and stress-tested through institutional-grade analysis.",
-      b: "Work is delivered as an extension of the investment team, with emphasis on downside protection and return visibility. Opportunities are assessed through commercial analysis, financial structuring logic, and execution risk evaluation. Our approach replicates the scrutiny of an internal investment committee, not a third-party opinion.",
+      b: "Work is delivered as an extension of the investment team, with emphasis on downside protection and return visibility. Our approach replicates the scrutiny of an internal investment committee, not a third-party opinion.",
     },
     {
       t: "Search fund and direct deal advisory",
       d: "Support for searchers and acquisition entrepreneurs across the full transaction lifecycle.",
-      b: "We advise searchers and acquisition entrepreneurs on deal sourcing, target evaluation, and transaction structuring. Analysis focuses on cash-flow durability, debt capacity, and post-acquisition operational feasibility. Engagements are structured to support both the search process and the capital raise required to close.",
+      b: "We advise searchers and acquisition entrepreneurs on deal sourcing, target evaluation, and transaction structuring. Analysis focuses on cash-flow durability, debt capacity, and post-acquisition operational feasibility.",
     },
   ];
   return (
@@ -312,29 +298,32 @@ function FulfillmentOS() {
   return (
     <section
       id="fulfillmentos"
-      className="py-28 lg:py-36 border-b border-[var(--rule)] bg-[oklch(0.97_0.006_85)]"
+      className="py-28 lg:py-36 border-b border-[oklch(0.28_0.025_250)] bg-[var(--ink)] text-[oklch(0.95_0.008_85)]"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <SectionHeader
-          eyebrow="How we operate"
-          title="FulfillmentOS — the system behind every mandate."
-        />
-        <p className="max-w-3xl text-[var(--ink-soft)] leading-relaxed text-base md:text-lg mb-14">
-          All engagements at Ravencourt Capital are executed through FulfillmentOS — our internal
-          operating system governing mandate selection, structuring discipline, and outcome
-          attribution. FulfillmentOS is not a product. It is the structured methodology that
-          ensures every engagement is governed consistently from intake to close.
-        </p>
-        <div className="grid md:grid-cols-2 gap-x-12 gap-y-2 max-w-6xl">
+        <div className="mb-14 max-w-4xl">
+          <p className="eyebrow mb-4 text-[var(--bronze-soft)]">How we operate</p>
+          <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight">
+            FulfillmentOS.
+          </h2>
+          <p className="mt-8 text-lg md:text-xl text-[oklch(0.82_0.01_85)] font-light leading-relaxed">
+            FulfillmentOS is the internal operating framework that governs how every Ravencourt
+            engagement is structured, executed, and closed. It is not a product. It is how we
+            work.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-x-16 gap-y-8 max-w-6xl">
           {lines.map((l, i) => (
             <div
               key={l}
-              className="border-l-2 border-[var(--bronze)] pl-6 py-5 flex items-start gap-5"
+              className="border-l-2 border-[var(--bronze)] pl-6 py-4 flex items-start gap-6"
             >
-              <span className="font-serif text-[var(--bronze)] text-xs tracking-widest pt-1">
+              <span className="font-serif text-[var(--bronze)] text-sm tracking-widest pt-1">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <p className="text-[var(--ink-soft)] leading-relaxed">{l}</p>
+              <p className="text-[oklch(0.88_0.01_85)] leading-relaxed text-lg md:text-xl font-light">
+                {l}
+              </p>
             </div>
           ))}
         </div>
@@ -424,11 +413,13 @@ function Contact() {
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="max-w-3xl mb-16">
           <p className="eyebrow mb-4 text-[var(--bronze-soft)]">Contact</p>
-          <h2 className="font-serif text-4xl md:text-5xl leading-tight">Let’s talk.</h2>
+          <h2 className="font-serif text-4xl md:text-5xl leading-tight">
+            Start a confidential conversation.
+          </h2>
           <p className="mt-6 text-lg text-[oklch(0.82_0.01_85)] font-light leading-relaxed">
-            If you are active in private markets — on the buy side, sell side, or advising
-            founders and managers — we are always open to a conversation. All enquiries are
-            treated with strict confidentiality.
+            All enquiries are treated with strict confidentiality. If you are considering a
+            transaction, a capital raise, or a strategic process and want an initial assessment,
+            we are available to speak.
           </p>
         </div>
 
@@ -503,7 +494,7 @@ function Contact() {
               type="submit"
               className="mt-4 inline-flex items-center gap-3 border border-[var(--bronze)] text-[var(--bronze)] px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-[var(--bronze)] hover:text-[var(--ink)] transition-colors"
             >
-              {sent ? "Message sent" : "Send message"}
+              {sent ? "Enquiry submitted" : "Submit enquiry"}
               <span aria-hidden>→</span>
             </button>
           </form>
