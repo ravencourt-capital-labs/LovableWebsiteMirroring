@@ -35,6 +35,18 @@ const TEAM = [
     title: "Senior Advisor, Legal and Cross-Border Structuring",
     linkedin: "https://lcopartners.eu/en/professionals/luciano-mazzola-en",
   },
+  {
+    initials: "KL",
+    name: "Konstantinos Lanaras",
+    title: "Intern — Investment Research & Partnerships · Politecnico di Milano, MSc Fintech, Finance & Digital Innovation",
+    linkedin: "",
+  },
+  {
+    initials: "JZ",
+    name: "Joey Zhu",
+    title: "Intern — Investment Research & Partnerships · NYU Stern, BSc Finance",
+    linkedin: "",
+  },
 ];
 
 function Header() {
@@ -387,14 +399,16 @@ function Team() {
               <p className="text-sm text-[var(--ink-soft)] leading-snug max-w-xs mx-auto">
                 {m.title}
               </p>
-              <a
-                href={m.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-block mt-4 text-xs uppercase tracking-[0.2em] text-[var(--bronze)] hover:text-[var(--ink)] transition-colors"
-              >
-                LinkedIn →
-              </a>
+              {m.linkedin && (
+                <a
+                  href={m.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-block mt-4 text-xs uppercase tracking-[0.2em] text-[var(--bronze)] hover:text-[var(--ink)] transition-colors"
+                >
+                  LinkedIn →
+                </a>
+              )}
             </div>
           ))}
         </div>
