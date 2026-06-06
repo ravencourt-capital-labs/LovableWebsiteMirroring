@@ -350,27 +350,9 @@ function AllocatorExplorer({
   groups: { label: string; items: string[] }[];
 }) {
   const [active, setActive] = useState(0);
-  const stats = [
-    { value: "320+", label: "Mapped allocators" },
-    { value: "18", label: "Jurisdictions covered" },
-    { value: "6", label: "Investor archetypes" },
-    { value: "€25M+", label: "Top ticket band" },
-  ];
   const current = groups[active];
   return (
     <div>
-      {/* Stats strip */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[var(--rule)] border border-[var(--rule)] mb-12">
-        {stats.map((s) => (
-          <div key={s.label} className="bg-background p-6 lg:p-8">
-            <p className="font-serif text-3xl md:text-4xl text-[var(--ink)] leading-none">
-              {s.value}
-            </p>
-            <p className="eyebrow mt-3 text-[10px]">{s.label}</p>
-          </div>
-        ))}
-      </div>
-
       {/* Interactive explorer */}
       <div className="grid lg:grid-cols-12 gap-px bg-[var(--rule)] border border-[var(--rule)]">
         {/* Left rail: dimensions */}
