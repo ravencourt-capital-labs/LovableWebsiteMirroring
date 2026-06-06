@@ -533,7 +533,7 @@ function Contact() {
         <div className="max-w-3xl mb-16">
           <p className="eyebrow mb-4 text-[var(--bronze-soft)]">Contact</p>
           <h2 className="font-serif text-4xl md:text-5xl leading-tight">
-            Start a confidential conversation.
+            Begin a conversation.
           </h2>
           <p className="mt-6 text-lg text-[oklch(0.82_0.01_85)] font-light leading-relaxed">
             All enquiries are treated with strict confidentiality. If you are considering a
