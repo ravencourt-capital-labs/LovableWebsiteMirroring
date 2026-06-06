@@ -51,7 +51,7 @@ const TEAM = [
     name: "Konstantinos Lanaras",
     title: "Private Markets Coverage Analyst",
     location: "Luxembourg",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/konstantinoslanaras0504/",
   },
   {
     initials: "JZ",
