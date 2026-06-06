@@ -250,10 +250,6 @@ function Advisory() {
       className="py-28 lg:py-36 border-b border-[var(--rule)] bg-[oklch(0.97_0.006_85)]"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <SectionHeader
-          eyebrow="Buy-side & Sell-side Execution"
-          title="Two sides of the same conversation."
-        />
         <div className="grid md:grid-cols-2 gap-px bg-[var(--rule)] border border-[var(--rule)]">
           <div className="bg-background p-10 lg:p-14">
             <p className="text-[var(--ink-soft)] leading-relaxed mb-8">
