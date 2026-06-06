@@ -206,20 +206,25 @@ function About() {
     <section id="about" className="py-28 lg:py-36 border-b border-[var(--rule)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <SectionHeader eyebrow="About" title="A senior-led firm built for private markets." />
-        <div className="max-w-4xl space-y-6">
-          <p className="text-[var(--ink-soft)] leading-relaxed text-base md:text-lg">
-            Ravencourt Capital is a Milan-based private markets boutique operating across Europe,
-            MENA, North America, and select global markets through a cross-border team in Milan,
-            Dubai, Luxembourg, and New York.
-          </p>
-          <p className="text-[var(--ink-soft)] leading-relaxed text-base md:text-lg">
-            We execute across capital formation, M&amp;A, and buy-side mandates with a focus on
-            entry discipline, transaction structure, and execution feasibility.
-          </p>
-          <p className="text-[var(--ink-soft)] leading-relaxed text-base md:text-lg">
-            All engagements run through a senior-led process built around mandate alignment,
-            institutional readiness, and outcome attribution.
-          </p>
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
+          <div className="lg:col-span-4 hidden lg:block">
+            <div className="h-px w-16 bg-[var(--bronze)]" />
+          </div>
+          <div className="lg:col-span-8 max-w-2xl space-y-6">
+            <p className="text-[var(--ink-soft)] leading-[1.75] text-base md:text-lg">
+              Ravencourt Capital is a Milan-based private markets boutique operating across Europe,
+              MENA, North America, and select global markets through a cross-border team in Milan,
+              Dubai, Luxembourg, and New York.
+            </p>
+            <p className="text-[var(--ink-soft)] leading-[1.75] text-base md:text-lg">
+              We execute across capital formation, M&amp;A, and buy-side mandates with a focus on
+              entry discipline, transaction structure, and execution feasibility.
+            </p>
+            <p className="text-[var(--ink-soft)] leading-[1.75] text-base md:text-lg">
+              All engagements run through a senior-led process built around mandate alignment,
+              institutional readiness, and outcome attribution.
+            </p>
+          </div>
         </div>
       </div>
     </section>
