@@ -397,24 +397,7 @@ function AllocatorCoverage() {
             precise targeting for every mandate we execute.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--rule)] border border-[var(--rule)]">
-          {groups.map((g) => (
-            <div key={g.label} className="bg-background p-8 lg:p-10">
-              <p className="eyebrow mb-5">{g.label}</p>
-              <ul className="space-y-2">
-                {g.items.map((it) => (
-                  <li
-                    key={it}
-                    className="flex gap-3 text-sm text-[var(--ink-soft)] leading-relaxed"
-                  >
-                    <span className="text-[var(--bronze)] mt-[0.55rem] h-px w-3 bg-[var(--bronze)] shrink-0" />
-                    <span>{it}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <AllocatorExplorer groups={groups} />
       </div>
     </section>
   );
