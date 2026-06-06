@@ -8,8 +8,9 @@ export const Route = createFileRoute("/")({
 
 const NAV = [
   { id: "about", label: "About" },
-  { id: "advisory", label: "Advisory" },
+  { id: "buyside", label: "Buy-side & Sell-side" },
   { id: "capabilities", label: "Capabilities" },
+  { id: "allocators", label: "Allocators" },
   { id: "fulfillmentos", label: "FulfillmentOS" },
   { id: "geographies", label: "Geographies" },
   { id: "team", label: "Team" },
@@ -134,11 +135,11 @@ function Hero() {
             <p className="eyebrow text-[var(--bronze-soft)] !mb-0">Ravencourt Capital · Milan</p>
           </div>
           <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight">
-            Private Markets Advisory. Capital Raising, M&amp;A, and Strategic Transactions.
+            Private Markets Execution. Capital Raising, M&amp;A, and Strategic Transactions.
           </h1>
           <p className="mt-10 text-lg md:text-xl text-[oklch(0.82_0.01_85)] font-light max-w-3xl leading-relaxed">
-            Ravencourt Capital is a Milan-based boutique advisory firm. We advise founders, fund
-            managers, and investors across capital raises, M&amp;A processes, and buy-side
+            Ravencourt Capital is a Milan-based private markets boutique. We work with founders,
+            fund managers, and investors across capital raises, M&amp;A processes, and buy-side
             mandates in Europe, MENA, and North America.
           </p>
           <div className="mt-12">
@@ -169,13 +170,20 @@ function About() {
   return (
     <section id="about" className="py-28 lg:py-36 border-b border-[var(--rule)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <SectionHeader eyebrow="About" title="A senior-led advisory firm built for private markets." />
-        <div className="max-w-4xl">
+        <SectionHeader eyebrow="About" title="A senior-led firm built for private markets." />
+        <div className="max-w-4xl space-y-6">
           <p className="text-[var(--ink-soft)] leading-relaxed text-base md:text-lg">
-            We work on the side of founders and investors who need more than an introduction. Our
-            engagements are structured around mandate clarity, execution discipline, and
-            counterparty fit. We do not take on mandates we cannot execute. All work is senior-led
-            from first conversation to close.
+            Ravencourt Capital is a Milan-based private markets boutique operating across Europe,
+            MENA, North America, and select global markets through a cross-border team in Milan,
+            Dubai, Luxembourg, and New York.
+          </p>
+          <p className="text-[var(--ink-soft)] leading-relaxed text-base md:text-lg">
+            We execute across capital formation, M&amp;A, and buy-side mandates with a focus on
+            entry discipline, transaction structure, and execution feasibility.
+          </p>
+          <p className="text-[var(--ink-soft)] leading-relaxed text-base md:text-lg">
+            All engagements run through a senior-led process built around mandate alignment,
+            institutional readiness, and outcome attribution.
           </p>
         </div>
       </div>
@@ -198,12 +206,12 @@ function Advisory() {
   ];
   return (
     <section
-      id="advisory"
+      id="buyside"
       className="py-28 lg:py-36 border-b border-[var(--rule)] bg-[oklch(0.97_0.006_85)]"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <SectionHeader
-          eyebrow="Buy-side and sell-side advisory"
+          eyebrow="Buy-side & Sell-side Execution"
           title="Two sides of the same conversation."
         />
         <div className="grid md:grid-cols-2 gap-px bg-[var(--rule)] border border-[var(--rule)]">
