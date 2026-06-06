@@ -265,12 +265,12 @@ function Capabilities() {
   const items = [
     {
       t: "Capital formation and strategic positioning",
-      d: "Sell-side advisory across capital raises, secondary transactions, and strategic placements.",
+      d: "Sell-side execution across capital raises, secondary transactions, and strategic placements.",
       b: "Capital raising is executed through allocator-aligned positioning, where narrative, valuation, and structure are engineered to withstand institutional diligence. Positioning is stress-tested against the entry logic and return expectations of the target investor universe.",
     },
     {
       t: "M&A and strategic transactions",
-      d: "Advisory across founder-led and mid-market transactions from €2M to €50M.",
+      d: "Coverage across founder-led and mid-market transactions from €2M to €50M.",
       b: "We advise on transactions involving private equity, strategic acquirers, family offices, and search funds across Europe, MENA, and North America. Engagements are structured around valuation realism, buyer intent verification, and executable deal pathways.",
     },
     {
@@ -279,7 +279,7 @@ function Capabilities() {
       b: "Work is delivered as an extension of the investment team, with emphasis on downside protection and return visibility. Our approach replicates the scrutiny of an internal investment committee, not a third-party opinion.",
     },
     {
-      t: "Search fund and direct deal advisory",
+      t: "Search Fund & Direct Deal Execution",
       d: "Support for searchers and acquisition entrepreneurs across the full transaction lifecycle.",
       b: "We advise searchers and acquisition entrepreneurs on deal sourcing, target evaluation, and transaction structuring. Analysis focuses on cash-flow durability, debt capacity, and post-acquisition operational feasibility.",
     },
