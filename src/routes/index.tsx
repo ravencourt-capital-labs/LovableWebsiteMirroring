@@ -228,16 +228,16 @@ function About() {
 
 function Advisory() {
   const buy = [
-    "We help funds and investors identify opportunities that match their mandate before they become widely marketed",
-    "We qualify targets against stated investment criteria including geography, sector, ticket size, and timeline",
-    "We support due diligence preparation and counterparty assessment at early stages of a process",
-    "We facilitate structured introductions where mandate fit has already been established",
+    "Mandate-fit identification across strategy, geography, ticket size, and timeline",
+    "Upfront qualification against stated investment criteria before any introduction",
+    "Counterparty assessment and due diligence support at early process stages",
+    "Structured introductions only where mandate alignment is already established",
   ];
   const sell = [
-    "We advise founders and managers on how to position a business or fund for a capital raise or strategic transaction",
-    "We support the preparation of materials, financial narratives, and investor-facing documentation",
-    "We identify and approach investors whose mandate, ticket size, and timeline are genuinely aligned with the situation",
-    "We manage the process through to term sheet and beyond, staying involved rather than stepping back after introductions",
+    "Positioning and narrative development for capital raises and strategic transactions",
+    "Investor-facing materials, financial documentation, and readiness preparation",
+    "Allocator identification mapped to mandate fit, ticket size, and timeline",
+    "End-to-end process management through to term sheet and beyond",
   ];
   return (
     <section
@@ -256,10 +256,7 @@ function Advisory() {
               For funds and investors
             </h3>
             <p className="text-[var(--ink-soft)] leading-relaxed mb-8">
-              We help funds and investors source the right deals before they become competitive.
-              Every opportunity is qualified upfront against mandate constraints — strategy,
-              geography, ticket size, and execution timeline — so that introductions are relevant
-              before they are made.
+              We source and qualify opportunities against your mandate before they reach the open market.
             </p>
             <ul className="space-y-3">
               {buy.map((b) => (
@@ -276,10 +273,7 @@ function Advisory() {
               For founders, managers, and GPs
             </h3>
             <p className="text-[var(--ink-soft)] leading-relaxed mb-8">
-              We advise founders and fund managers on positioning, process, and counterparty fit
-              — ensuring that mandate, ticket size, and timeline are genuinely aligned before any
-              conversation happens. We stay involved through execution rather than stepping back
-              after introductions.
+              We position and run the process — staying involved through execution, not just the opening conversation.
             </p>
             <ul className="space-y-3">
               {sell.map((b) => (
