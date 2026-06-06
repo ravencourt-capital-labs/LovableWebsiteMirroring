@@ -754,20 +754,30 @@ function Footer() {
         </div>
         <div className="border-t border-[oklch(0.28_0.025_250)] pt-8 flex flex-col gap-3 text-xs tracking-wide">
           <p className="uppercase tracking-[0.18em] text-[oklch(0.7_0.01_85)]">
-            Ravencourt Capital — Allocator-Aligned Private Markets Execution
+            Ravencourt Capital — Allocator-Aligned Private Markets Platform
           </p>
-          <p className="text-[oklch(0.6_0.015_85)]">
-            Ravencourt Capital © 2025 · P.IVA 11381320966 · Milan, Italy ·{" "}
-            <a
-              href="mailto:contact@ravencourtcapital.com"
-              className="hover:text-[var(--bronze)] transition-colors"
-            >
-              contact@ravencourtcapital.com
-            </a>
+          <p className="text-[oklch(0.7_0.01_85)]">
+            Milan, Italy · Cross-Border Execution
           </p>
-          <p className="text-[oklch(0.55_0.015_85)]">
-            For professional and institutional use only. Not for retail distribution.
+          <p className="text-[oklch(0.6_0.015_85)] leading-relaxed">
+            Cross-border team presence: Milan · Dubai · Luxembourg · New York ·
+            Europe · MENA · North America · Select Global Markets
           </p>
+          <p className="text-[oklch(0.6_0.015_85)]">P.IVA 11381320966</p>
+          <div className="mt-6 pt-6 border-t border-[oklch(0.22_0.02_250)] flex flex-col gap-2 text-[oklch(0.55_0.015_85)]">
+            <p>© {new Date().getFullYear()} Ravencourt Capital. All rights reserved.</p>
+            <p>Ravencourt Capital di Rohan Kapoor</p>
+            <p>Registered Office: Via Carlo Imbonati, 62/2, 20159 Milano, Italy</p>
+            <p>
+              <a
+                href="mailto:contact@ravencourtcapital.com"
+                className="hover:text-[var(--bronze)] transition-colors"
+              >
+                contact@ravencourtcapital.com
+              </a>{" "}
+              · For professional and institutional use only. Not for retail distribution.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
