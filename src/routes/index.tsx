@@ -630,17 +630,40 @@ function Contact() {
 function Footer() {
   return (
     <footer className="bg-[var(--ink)] text-[oklch(0.7_0.01_85)] border-t border-[oklch(0.28_0.025_250)]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-12 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs tracking-wide">
-        <p>
-          Ravencourt Capital © 2025 · P.IVA 11381320966 · Milan, Italy ·{" "}
-          <a
-            href="mailto:contact@ravencourtcapital.com"
-            className="hover:text-[var(--bronze)] transition-colors"
-          >
-            contact@ravencourtcapital.com
-          </a>
-        </p>
-        <p className="text-[oklch(0.55_0.015_85)]">Private Markets Advisory</p>
+      <div className="mx-auto max-w-7xl px-6 lg:px-12 py-16">
+        <div className="max-w-4xl mb-12">
+          <p className="eyebrow mb-4 text-[var(--bronze-soft)]">Regulatory Framework</p>
+          <p className="text-[oklch(0.82_0.01_85)] leading-relaxed text-sm md:text-base font-light">
+            Ravencourt Capital operates as a private markets execution platform focused on capital
+            formation, M&amp;A, and buy-side mandates. In jurisdictions where capital placement,
+            securities promotion, or investment arrangement activity requires local authorization,
+            Ravencourt engages regulated partner firms holding the appropriate FCA, DFSA, FSRA, or
+            equivalent regulatory permissions.
+          </p>
+          <p className="mt-4 text-[oklch(0.82_0.01_85)] leading-relaxed text-sm md:text-base font-light">
+            This website is directed exclusively at professional clients and sophisticated
+            investors. It does not constitute an offer or solicitation to buy or sell securities
+            in any jurisdiction.
+          </p>
+        </div>
+        <div className="border-t border-[oklch(0.28_0.025_250)] pt-8 flex flex-col gap-3 text-xs tracking-wide">
+          <p className="uppercase tracking-[0.18em] text-[oklch(0.7_0.01_85)]">
+            Ravencourt Capital — Allocator-Aligned Private Markets Execution
+          </p>
+          <p className="text-[oklch(0.6_0.015_85)]">
+            Ravencourt Capital © 2025 · P.IVA 11381320966 · Milan, Italy ·{" "}
+            <a
+              href="mailto:contact@ravencourtcapital.com"
+              className="hover:text-[var(--bronze)] transition-colors"
+            >
+              contact@ravencourtcapital.com
+            </a>
+          </p>
+          <p className="text-[oklch(0.55_0.015_85)]">
+            For professional and institutional use only. Not for retail distribution. Ravencourt
+            Capital S.à r.l. | Luxembourg
+          </p>
+        </div>
       </div>
     </footer>
   );
@@ -655,6 +678,7 @@ function RavencourtPage() {
         <About />
         <Advisory />
         <Capabilities />
+        <AllocatorCoverage />
         <FulfillmentOS />
         <Geographies />
         <Team />
