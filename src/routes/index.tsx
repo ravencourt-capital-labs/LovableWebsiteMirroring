@@ -344,6 +344,135 @@ function FulfillmentOS() {
   return _FulfillmentOS();
 }
 
+function AllocatorExplorer({
+  groups,
+}: {
+  groups: { label: string; items: string[] }[];
+}) {
+  const [active, setActive] = useState(0);
+  const stats = [
+    { value: "320+", label: "Mapped allocators" },
+    { value: "18", label: "Jurisdictions covered" },
+    { value: "6", label: "Investor archetypes" },
+    { value: "€25M+", label: "Top ticket band" },
+  ];
+  const current = groups[active];
+  return (
+    <div>
+      {/* Stats strip */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[var(--rule)] border border-[var(--rule)] mb-12">
+        {stats.map((s) => (
+          <div key={s.label} className="bg-background p-6 lg:p-8">
+            <p className="font-serif text-3xl md:text-4xl text-[var(--ink)] leading-none">
+              {s.value}
+            </p>
+            <p className="eyebrow mt-3 text-[10px]">{s.label}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Interactive explorer */}
+      <div className="grid lg:grid-cols-12 gap-px bg-[var(--rule)] border border-[var(--rule)]">
+        {/* Left rail: dimensions */}
+        <div className="lg:col-span-4 bg-background">
+          <p className="eyebrow px-6 lg:px-8 pt-6 pb-4 text-[10px] text-[var(--ink-soft)]">
+            Filter by dimension
+          </p>
+          <ul>
+            {groups.map((g, i) => {
+              const isActive = i === active;
+              return (
+                <li key={g.label}>
+                  <button
+                    type="button"
+                    onMouseEnter={() => setActive(i)}
+                    onFocus={() => setActive(i)}
+                    onClick={() => setActive(i)}
+                    className={`group w-full text-left px-6 lg:px-8 py-5 border-t border-[var(--rule)] flex items-center justify-between gap-4 transition-colors ${
+                      isActive
+                        ? "bg-[var(--ink)] text-white"
+                        : "hover:bg-[oklch(0.97_0.005_85)] text-[var(--ink)]"
+                    }`}
+                  >
+                    <span className="flex items-center gap-4 min-w-0">
+                      <span
+                        className={`font-serif tabular-nums text-sm ${
+                          isActive ? "text-[var(--bronze-soft)]" : "text-[var(--bronze)]"
+                        }`}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-[13px] tracking-[0.04em] uppercase font-medium truncate">
+                        {g.label}
+                      </span>
+                    </span>
+                    <span
+                      className={`flex items-center gap-3 text-[11px] tabular-nums shrink-0 ${
+                        isActive ? "text-white/70" : "text-[var(--ink-soft)]"
+                      }`}
+                    >
+                      <span>{String(g.items.length).padStart(2, "0")}</span>
+                      <span
+                        aria-hidden
+                        className={`h-px w-6 transition-all ${
+                          isActive
+                            ? "w-10 bg-[var(--bronze-soft)]"
+                            : "bg-[var(--rule)] group-hover:w-10 group-hover:bg-[var(--bronze)]"
+                        }`}
+                      />
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        {/* Right panel: items */}
+        <div className="lg:col-span-8 bg-background p-8 lg:p-12 min-h-[420px]">
+          <div className="flex items-baseline justify-between mb-8 pb-6 border-b border-[var(--rule)]">
+            <div>
+              <p className="eyebrow text-[10px] text-[var(--bronze)] mb-3">
+                Dimension {String(active + 1).padStart(2, "0")}
+              </p>
+              <h3 className="font-serif text-3xl md:text-4xl text-[var(--ink)] leading-none">
+                {current.label}
+              </h3>
+            </div>
+            <p className="text-[11px] tracking-[0.2em] uppercase text-[var(--ink-soft)]">
+              {current.items.length} segments
+            </p>
+          </div>
+          <ul
+            key={current.label}
+            className="grid sm:grid-cols-2 gap-x-8 gap-y-1 animate-in fade-in duration-300"
+          >
+            {current.items.map((it, i) => (
+              <li
+                key={it}
+                className="group flex items-center justify-between gap-4 py-3 border-b border-[var(--rule)]/60 hover:border-[var(--bronze)] transition-colors"
+              >
+                <span className="flex items-center gap-4 min-w-0">
+                  <span className="font-serif text-xs text-[var(--ink-soft)] tabular-nums group-hover:text-[var(--bronze)] transition-colors">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm md:text-[15px] text-[var(--ink)] leading-snug">
+                    {it}
+                  </span>
+                </span>
+                <span
+                  aria-hidden
+                  className="h-px w-4 bg-[var(--rule)] group-hover:w-8 group-hover:bg-[var(--bronze)] transition-all"
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AllocatorCoverage() {
   const groups = [
     {
