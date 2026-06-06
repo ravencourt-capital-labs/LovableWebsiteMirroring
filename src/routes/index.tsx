@@ -261,7 +261,7 @@ function Advisory() {
             <ul className="space-y-3">
               {buy.map((b) => (
                 <li key={b} className="flex gap-3 text-sm text-[var(--ink-soft)] leading-relaxed">
-                  <span className="text-[var(--bronze)] mt-[0.45rem] h-px w-3 bg-[var(--bronze)] shrink-0" />
+                  <span className="mt-[0.5rem] h-1 w-1 rounded-full bg-[var(--bronze)] shrink-0" />
                   <span>{b}</span>
                 </li>
               ))}
@@ -278,7 +278,7 @@ function Advisory() {
             <ul className="space-y-3">
               {sell.map((b) => (
                 <li key={b} className="flex gap-3 text-sm text-[var(--ink-soft)] leading-relaxed">
-                  <span className="text-[var(--bronze)] mt-[0.45rem] h-px w-3 bg-[var(--bronze)] shrink-0" />
+                  <span className="mt-[0.5rem] h-1 w-1 rounded-full bg-[var(--bronze)] shrink-0" />
                   <span>{b}</span>
                 </li>
               ))}
