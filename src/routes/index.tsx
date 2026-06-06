@@ -762,8 +762,7 @@ function Footer() {
             </a>
           </p>
           <p className="text-[oklch(0.55_0.015_85)]">
-            For professional and institutional use only. Not for retail distribution. Ravencourt
-            Capital — Milan, Italy · P.IVA 11381320966
+            For professional and institutional use only. Not for retail distribution.
           </p>
         </div>
       </div>
