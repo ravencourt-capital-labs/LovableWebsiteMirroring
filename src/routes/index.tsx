@@ -319,7 +319,7 @@ function Capabilities() {
     },
   ];
   return (
-    <section id="capabilities" className="py-28 lg:py-36 border-b border-[var(--rule)]">
+    <section id="capabilities" className="pt-28 lg:pt-36 border-b border-[var(--rule)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <SectionHeader eyebrow="Execution capabilities" title="A focused mandate set." />
         <div className="border-t border-[var(--ink)]">
