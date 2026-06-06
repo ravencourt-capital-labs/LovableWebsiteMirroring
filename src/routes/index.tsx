@@ -506,8 +506,17 @@ function Team() {
                   : undefined
               }
             >
-              <div className="mx-auto w-40 h-40 bg-[var(--ink)] text-[oklch(0.95_0.008_85)] flex items-center justify-center font-serif text-3xl tracking-wider border border-[var(--bronze)]/40 mb-6">
-                {m.initials}
+              <div className="mx-auto w-40 h-40 bg-[var(--ink)] text-[oklch(0.95_0.008_85)] flex items-center justify-center font-serif text-3xl tracking-wider border border-[var(--bronze)]/40 mb-6 overflow-hidden">
+                {m.image ? (
+                  <img
+                    src={m.image}
+                    alt={m.name}
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: m.objectPosition ?? "50% 25%" }}
+                  />
+                ) : (
+                  m.initials
+                )}
               </div>
               <h3 className="text-sm uppercase tracking-[0.18em] font-semibold text-[var(--ink)] mb-3">
                 {m.name}
