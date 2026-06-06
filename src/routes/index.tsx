@@ -4,6 +4,7 @@ import logo from "@/assets/ravencourt-logo.png";
 import lucianoImg from "@/assets/luciano.jpg.asset.json";
 import joeyImg from "@/assets/joey.jpg.asset.json";
 import saaniaImg from "@/assets/saania.jpg.asset.json";
+import milanHero from "@/assets/milan-hero.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   component: RavencourtPage,
@@ -126,40 +127,65 @@ function Hero() {
       id="top"
       className="relative min-h-screen flex items-center bg-[var(--ink)] text-[oklch(0.95_0.008_85)] overflow-hidden"
     >
-      <div className="absolute inset-0 pointer-events-none opacity-[0.07]">
-        <svg className="w-full h-full" viewBox="0 0 1200 800" preserveAspectRatio="none">
-          <line x1="0" y1="200" x2="1200" y2="200" stroke="currentColor" strokeWidth="0.5" />
-          <line x1="0" y1="600" x2="1200" y2="600" stroke="currentColor" strokeWidth="0.5" />
-          <line x1="300" y1="0" x2="300" y2="800" stroke="currentColor" strokeWidth="0.5" />
-          <line x1="900" y1="0" x2="900" y2="800" stroke="currentColor" strokeWidth="0.5" />
-        </svg>
+      {/* Cinematic Milan background */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={milanHero.url}
+          alt="Milan skyline at dusk"
+          className="w-full h-full object-cover opacity-55"
+          width={1920}
+          height={1280}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/90 via-[var(--ink)]/40 to-[var(--ink)]" />
       </div>
-      <div className="absolute top-1/2 right-0 -translate-y-1/2 hidden lg:block opacity-25">
-        <div className="w-[460px] h-[460px] border border-[var(--bronze)] rotate-45" />
+
+      {/* Centered hero content */}
+      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12 w-full pt-28 pb-40 flex flex-col items-center text-center">
+        <div className="flex items-center gap-4 mb-10">
+          <img src={logo} alt="" className="h-12 w-12 object-contain" />
+          <p className="eyebrow text-[var(--bronze-soft)] !mb-0">Ravencourt Capital · Milan</p>
+        </div>
+        <div className="w-16 h-px bg-[var(--bronze)] mb-10" />
+        <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight max-w-5xl">
+          Private Markets Execution. Capital Raising, M&amp;A, and Strategic Transactions.
+        </h1>
+        <p className="mt-10 text-lg md:text-xl text-[oklch(0.82_0.01_85)] font-light max-w-2xl leading-relaxed">
+          A Milan-based private markets boutique executing capital raises, M&amp;A processes, and
+          buy-side mandates across Europe, MENA, and North America.
+        </p>
+        <div className="mt-12">
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-3 border border-[var(--bronze)] text-[var(--bronze)] px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-[var(--bronze)] hover:text-[var(--ink)] transition-colors"
+          >
+            Get in touch
+            <span aria-hidden>→</span>
+          </a>
+        </div>
       </div>
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-12 w-full pt-28 pb-20">
-        <div className="max-w-4xl">
-          <div className="flex items-center gap-4 mb-10">
-            <img src={logo} alt="" className="h-12 w-12 object-contain" />
-            <p className="eyebrow text-[var(--bronze-soft)] !mb-0">Ravencourt Capital · Milan</p>
-          </div>
-          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight">
-            Private Markets Execution. Capital Raising, M&amp;A, and Strategic Transactions.
-          </h1>
-          <p className="mt-10 text-lg md:text-xl text-[oklch(0.82_0.01_85)] font-light max-w-3xl leading-relaxed">
-            Ravencourt Capital is a Milan-based private markets boutique. We work with founders,
-            fund managers, and investors across capital raises, M&amp;A processes, and buy-side
-            mandates in Europe, MENA, and North America.
-          </p>
-          <div className="mt-12">
+
+      {/* Bottom capabilities strip */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-[var(--ink)]/70 backdrop-blur-sm">
+        <div className="mx-auto max-w-7xl flex divide-x divide-white/10">
+          {[
+            { eyebrow: "Expertise", label: "Capital Raising", href: "#capabilities" },
+            { eyebrow: "Expertise", label: "M&A Advisory", href: "#capabilities" },
+            { eyebrow: "Expertise", label: "Buy-Side Mandates", href: "#buyside" },
+            { eyebrow: "Proprietary", label: "FulfillmentOS", href: "#fulfillmentos" },
+          ].map((c) => (
             <a
-              href="#contact"
-              className="inline-flex items-center gap-3 border border-[var(--bronze)] text-[var(--bronze)] px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-[var(--bronze)] hover:text-[var(--ink)] transition-colors"
+              key={c.label}
+              href={c.href}
+              className="group flex-1 py-8 px-6 hover:bg-white/[0.03] transition-colors"
             >
-              Get in touch
-              <span aria-hidden>→</span>
+              <p className="text-[9px] tracking-[0.3em] text-[var(--bronze)] uppercase mb-3 opacity-80 group-hover:opacity-100">
+                {c.eyebrow}
+              </p>
+              <h3 className="text-[11px] tracking-[0.2em] uppercase font-medium text-white/80 group-hover:text-white">
+                {c.label}
+              </h3>
             </a>
-          </div>
+          ))}
         </div>
       </div>
     </section>
