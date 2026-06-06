@@ -20,31 +20,36 @@ const TEAM = [
   {
     initials: "RK",
     name: "Rohan Kapoor",
-    title: "Founder and Principal",
+    title: "Founder & Principal",
+    location: "Milan, Italy",
     linkedin: "https://linkedin.com/in/raisingcapitalcontact",
-  },
-  {
-    initials: "S",
-    name: "Sania",
-    title: "Partner, Institutional Coverage",
-    linkedin: "https://linkedin.com/in/sanian",
   },
   {
     initials: "LM",
     name: "Dr. Luciano Mazzola",
-    title: "Senior Advisor, Legal and Cross-Border Structuring",
+    title: "Cross-border structuring advisor",
+    location: "Milan, Italy",
     linkedin: "https://lcopartners.eu/en/professionals/luciano-mazzola-en",
+  },
+  {
+    initials: "SS",
+    name: "Saania Shaikh",
+    title: "Partnerships & Operations Director",
+    location: "Dubai, UAE",
+    linkedin: "https://linkedin.com/in/sanian",
   },
   {
     initials: "KL",
     name: "Konstantinos Lanaras",
-    title: "Intern — Investment Research & Partnerships · Politecnico di Milano, MSc Fintech, Finance & Digital Innovation",
+    title: "Private Markets Coverage Analyst",
+    location: "Luxembourg",
     linkedin: "",
   },
   {
     initials: "JZ",
     name: "Joey Zhu",
-    title: "Intern — Investment Research & Partnerships · NYU Stern, BSc Finance",
+    title: "FulfillmentOS & Data Pipeline Analyst",
+    location: "New York",
     linkedin: "",
   },
 ];
@@ -389,16 +394,35 @@ function Team() {
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <SectionHeader eyebrow="Team" title="Senior-led, by design." />
-        <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
-          {TEAM.map((m) => (
-            <div key={m.name} className="text-center px-4">
-              <div className="mx-auto w-32 h-32 rounded-full bg-[var(--ink)] text-[oklch(0.95_0.008_85)] flex items-center justify-center font-serif text-2xl tracking-wider border border-[var(--bronze)]/40 mb-6">
+        <div className="grid md:grid-cols-3 gap-x-12 gap-y-16 lg:gap-x-16 lg:gap-y-20">
+          {TEAM.map((m, i) => (
+            <div
+              key={m.name}
+              className={`text-center px-4 ${
+                i === 3 ? "md:col-start-1 lg:col-start-1" : ""
+              } ${i === 3 ? "md:col-start-1" : ""}`}
+              style={
+                i === 3
+                  ? { gridColumnStart: 1 }
+                  : i === 4
+                  ? { gridColumnStart: 3 }
+                  : undefined
+              }
+            >
+              <div className="mx-auto w-40 h-40 bg-[var(--ink)] text-[oklch(0.95_0.008_85)] flex items-center justify-center font-serif text-3xl tracking-wider border border-[var(--bronze)]/40 mb-6">
                 {m.initials}
               </div>
-              <h3 className="font-serif text-xl text-[var(--ink)] mb-1">{m.name}</h3>
-              <p className="text-sm text-[var(--ink-soft)] leading-snug max-w-xs mx-auto">
+              <h3 className="text-sm uppercase tracking-[0.18em] font-semibold text-[var(--ink)] mb-3">
+                {m.name}
+              </h3>
+              <p className="text-sm text-[var(--ink-soft)] leading-snug max-w-xs mx-auto mb-2">
                 {m.title}
               </p>
+              {m.location && (
+                <p className="text-sm text-[var(--ink-soft)] leading-snug">
+                  Based in <span className="font-semibold text-[var(--ink)]">{m.location}</span>
+                </p>
+              )}
               {m.linkedin && (
                 <a
                   href={m.linkedin}
