@@ -68,6 +68,7 @@ const TEAM = [
 function Header() {
   const [open, setOpen] = useState(false);
   return (
+    <>
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-md border-b border-[var(--rule)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12 h-16 flex items-center justify-between">
         <a href="#top" className="flex items-center gap-3 text-[var(--ink)]">
@@ -76,48 +77,72 @@ function Header() {
             Ravencourt <span className="text-[var(--bronze)]">Capital</span>
           </span>
         </a>
-        <nav className="hidden lg:flex items-center gap-8">
-          {NAV.map((n) => (
-            <a
-              key={n.id}
-              href={`#${n.id}`}
-              className="text-[11px] uppercase tracking-[0.18em] text-[var(--ink-soft)] hover:text-[var(--bronze)] transition-colors"
-            >
-              {n.label}
-            </a>
-          ))}
-        </nav>
-        <a
-          href="#contact"
-          className="hidden lg:inline-flex text-[11px] uppercase tracking-[0.18em] border border-[var(--ink)] text-[var(--ink)] px-4 py-2 hover:bg-[var(--ink)] hover:text-background transition-colors"
-        >
-          Get in touch
-        </a>
-        <button
-          className="lg:hidden text-[var(--ink)] text-sm uppercase tracking-widest"
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
-        >
-          {open ? "Close" : "Menu"}
-        </button>
-      </div>
-      {open && (
-        <div className="lg:hidden border-t border-[var(--rule)] bg-background">
-          <div className="px-6 py-6 flex flex-col gap-5">
-            {NAV.map((n) => (
-              <a
-                key={n.id}
-                href={`#${n.id}`}
-                onClick={() => setOpen(false)}
-                className="text-xs uppercase tracking-[0.2em] text-[var(--ink-soft)]"
-              >
-                {n.label}
-              </a>
-            ))}
-          </div>
+        <div className="flex items-center gap-6 lg:gap-10">
+          <a
+            href="#contact"
+            className="hidden sm:inline-flex text-[11px] uppercase tracking-[0.18em] border border-[var(--ink)] text-[var(--ink)] px-4 py-2 hover:bg-[var(--ink)] hover:text-background transition-colors"
+          >
+            Get in touch
+          </a>
+          <button
+            onClick={() => setOpen(true)}
+            aria-label="Open index"
+            className="group flex items-center gap-4"
+          >
+            <span className="text-[10px] uppercase tracking-[0.35em] text-[var(--ink-soft)] group-hover:text-[var(--bronze)] transition-colors">
+              Index
+            </span>
+            <span className="flex flex-col gap-1.5">
+              <span className="block h-px w-7 bg-[var(--ink)] group-hover:bg-[var(--bronze)] transition-colors" />
+              <span className="block h-px w-4 ml-auto bg-[var(--ink)] group-hover:bg-[var(--bronze)] transition-colors" />
+            </span>
+          </button>
         </div>
-      )}
+      </div>
     </header>
+    {open && (
+      <div className="fixed inset-0 z-[60] bg-[var(--ink)] text-[oklch(0.95_0.008_85)] flex flex-col">
+        <div className="mx-auto w-full max-w-7xl px-6 lg:px-12 h-16 flex items-center justify-between border-b border-white/10">
+          <span className="font-serif text-lg tracking-wide">
+            Ravencourt <span className="text-[var(--bronze)]">Capital</span>
+          </span>
+          <button
+            onClick={() => setOpen(false)}
+            aria-label="Close index"
+            className="group flex items-center gap-4"
+          >
+            <span className="text-[10px] uppercase tracking-[0.35em] text-white/70 group-hover:text-[var(--bronze)] transition-colors">
+              Close
+            </span>
+            <span className="relative h-4 w-4">
+              <span className="absolute inset-0 m-auto h-px w-4 rotate-45 bg-white group-hover:bg-[var(--bronze)] transition-colors" />
+              <span className="absolute inset-0 m-auto h-px w-4 -rotate-45 bg-white group-hover:bg-[var(--bronze)] transition-colors" />
+            </span>
+          </button>
+        </div>
+        <nav className="flex-1 overflow-y-auto">
+          <ol className="mx-auto max-w-7xl px-6 lg:px-12 py-12 lg:py-16 flex flex-col divide-y divide-white/10">
+            {NAV.map((n, i) => (
+              <li key={n.id}>
+                <a
+                  href={`#${n.id}`}
+                  onClick={() => setOpen(false)}
+                  className="group flex items-baseline gap-6 lg:gap-10 py-5 lg:py-6"
+                >
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 w-8 shrink-0">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="font-serif text-3xl lg:text-5xl text-white group-hover:text-[var(--bronze)] transition-colors">
+                    {n.label}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
+    )}
+    </>
   );
 }
 
