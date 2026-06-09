@@ -288,7 +288,12 @@ function Method() {
         />
         <ol className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--rule)] border border-[var(--rule)]">
           {steps.map(([t, d], i) => (
-            <li key={t} className="bg-background p-8 lg:p-10 flex flex-col">
+            <li
+              key={t}
+              className={`bg-background p-8 lg:p-10 flex flex-col ${
+                i === steps.length - 1 ? "md:col-span-2 lg:col-span-3" : ""
+              }`}
+            >
               <div className="flex items-baseline gap-4 mb-4">
                 <span className="font-serif text-[var(--bronze)] text-2xl tabular-nums">
                   {String(i + 1).padStart(2, "0")}
@@ -447,17 +452,26 @@ function Team() {
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <SectionHeader eyebrow="Team" title="The Team" />
         <div className="grid md:grid-cols-3 gap-x-12 gap-y-16 lg:gap-x-16 lg:gap-y-20">
-          {TEAM.map((m, i) => (
-            <div
-              key={m.name}
-              className={`text-center px-4 ${
-                i === 3
-                  ? "md:col-start-1 md:justify-self-end lg:pr-8"
-                  : i === 4
-                  ? "md:col-start-3 md:justify-self-start lg:pl-8"
-                  : ""
-              }`}
-            >
+          {TEAM.slice(0, 3).map((m) => (
+            <TeamCard key={m.name} m={m} />
+          ))}
+        </div>
+        <div className="mt-16 lg:mt-20 grid md:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-16 max-w-3xl mx-auto">
+          {TEAM.slice(3).map((m) => (
+            <TeamCard key={m.name} m={m} />
+          ))}
+        </div>
+        <p className="mt-16 text-center text-sm text-[var(--ink-soft)] italic">
+          All engagements are senior-led. No junior handoffs.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function TeamCard({ m }: { m: typeof TEAM[number] }) {
+  return (
+    <div className="text-center px-4">
               <div className="mx-auto w-36 h-36 rounded-full bg-[oklch(0.9_0.012_85)] text-[var(--ink)] flex items-center justify-center font-serif text-3xl tracking-wider border border-[var(--bronze)]/40 mb-6 overflow-hidden">
                 {m.image ? (
                   <img
@@ -485,13 +499,6 @@ function Team() {
                 {m.title}
               </p>
             </div>
-          ))}
-        </div>
-        <p className="mt-16 text-center text-sm text-[var(--ink-soft)] italic">
-          All engagements are senior-led. No junior handoffs.
-        </p>
-      </div>
-    </section>
   );
 }
 
