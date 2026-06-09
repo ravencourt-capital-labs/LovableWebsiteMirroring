@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { Menu } from "lucide-react";
 import logo from "@/assets/ravencourt-logo.png";
 import lucianoImg from "@/assets/luciano.jpg.asset.json";
 import konstantinosImg from "@/assets/konstantinos.jpeg.asset.json";
