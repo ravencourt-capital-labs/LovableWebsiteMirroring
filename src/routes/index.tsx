@@ -66,7 +66,7 @@ const TEAM = [
     title: "Private Markets Coverage Analyst",
     linkedin: "https://www.linkedin.com/in/konstantinoslanaras0504/",
     image: konstantinosImg.url,
-    objectPosition: "50% 30%",
+    objectPosition: "50% 50%",
   },
   {
     initials: "JZ",
