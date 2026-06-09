@@ -345,7 +345,7 @@ function Intelligence() {
           {tiles.map(([t, d], i) => (
             <div
               key={t}
-              className="group bg-background p-8 min-h-[220px] flex flex-col transition-colors hover:bg-[oklch(0.95_0.008_85)]"
+              className="group relative bg-background p-8 min-h-[220px] flex flex-col transition-colors hover:bg-[oklch(0.95_0.008_85)]"
             >
               <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--bronze)] mb-4 tabular-nums">
                 {String(i + 1).padStart(2, "0")}
@@ -354,6 +354,10 @@ function Intelligence() {
               <p className="text-sm text-[var(--ink-soft)] leading-relaxed opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 transition-all duration-500">
                 {d}
               </p>
+              <div className="absolute bottom-5 right-5 w-4 h-4 flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                <span className="absolute w-3 h-px bg-[var(--ink-soft)]" />
+                <span className="absolute w-px h-3 bg-[var(--ink-soft)]" />
+              </div>
             </div>
           ))}
         </div>
