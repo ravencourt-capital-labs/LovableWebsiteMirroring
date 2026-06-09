@@ -179,7 +179,7 @@ function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/75 via-[var(--ink)]/60 to-[var(--ink)]" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6 lg:px-12 w-full pt-28 pb-24 flex flex-col items-start text-left">
+      <div className="relative z-10 mx-auto max-w-6xl px-6 lg:px-12 w-full pt-28 pb-32 flex flex-col items-start text-left">
         <div className="flex items-center gap-4 mb-10">
           <img src={logo} alt="" className="h-12 w-12 object-contain" />
           <p className="eyebrow text-[var(--bronze-soft)] !mb-0">Ravencourt Capital · Milan</p>
@@ -193,22 +193,31 @@ function Hero() {
           companies, private funds, strategic transactions, M&amp;A processes, investor readiness,
           and buy-side diligence across Europe, MENA, North America, and select global markets.
         </p>
-        <div className="mt-12 flex flex-col sm:flex-row gap-4">
-          <a
-            href="#contact"
-            className="inline-flex items-center justify-center gap-3 bg-[var(--bronze)] border border-[var(--bronze)] text-[var(--ink)] px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-transparent hover:text-[var(--bronze)] transition-colors"
-          >
-            Start a confidential conversation
-            <span aria-hidden>→</span>
-          </a>
-          <a
-            href="#method"
-            className="inline-flex items-center justify-center gap-3 border border-white/40 text-white/90 px-8 py-4 text-xs uppercase tracking-[0.2em] hover:border-[var(--bronze)] hover:text-[var(--bronze)] transition-colors"
-          >
-            Our approach
-          </a>
-        </div>
       </div>
+
+      <nav className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/15">
+        <div className="mx-auto max-w-7xl px-6 lg:px-12">
+          <ul className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 py-5">
+            {[
+              { id: "what-we-do", label: "Mandates" },
+              { id: "method", label: "Approach" },
+              { id: "intelligence", label: "Intelligence" },
+              { id: "footprint", label: "Footprint" },
+              { id: "team", label: "Team" },
+              { id: "contact", label: "Contact" },
+            ].map((s) => (
+              <li key={s.id}>
+                <a
+                  href={`#${s.id}`}
+                  className="text-[10px] uppercase tracking-[0.32em] text-white/70 hover:text-[var(--bronze)] transition-colors"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
     </section>
   );
 }
