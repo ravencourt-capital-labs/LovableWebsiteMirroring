@@ -91,13 +91,13 @@ function Header() {
           <a href="#top" className="flex items-center gap-3 text-[var(--ink)]">
             <img src={logo} alt="Ravencourt Capital" className="h-9 w-9 object-contain" />
             <span className="font-serif text-lg tracking-wide hidden sm:inline">
-              Ravencourt <span className="text-[var(--bronze)]">Capital</span>
+              Ravencourt <span className="text-[var(--ink)]">Capital</span>
             </span>
           </a>
           <div className="flex items-center gap-6 lg:gap-10">
             <a
               href="#contact"
-              className="hidden sm:inline-flex text-[11px] uppercase tracking-[0.18em] bg-[var(--bronze)] border border-[var(--bronze)] text-[var(--ink)] px-4 py-2 hover:bg-transparent hover:text-[var(--bronze)] transition-colors"
+              className="hidden sm:inline-flex text-[11px] uppercase tracking-[0.18em] bg-[var(--ink)] border border-[var(--ink)] text-white px-4 py-2 hover:bg-transparent hover:text-[var(--ink)] transition-colors"
             >
               Make an Enquiry
             </a>
@@ -106,7 +106,7 @@ function Header() {
               aria-label="Open menu"
               className="group flex items-center gap-4"
             >
-              <Menu className="w-6 h-6 text-[var(--ink)] group-hover:text-[var(--bronze)] transition-colors" strokeWidth={1.5} />
+              <Menu className="w-6 h-6 text-[var(--ink)] group-hover:text-[var(--ink-soft)] transition-colors" strokeWidth={1.5} />
             </button>
           </div>
         </div>
@@ -115,19 +115,19 @@ function Header() {
         <div className="fixed inset-0 z-[60] bg-[var(--ink)] text-[oklch(0.95_0.008_85)] flex flex-col">
           <div className="mx-auto w-full max-w-7xl px-6 lg:px-12 h-16 flex items-center justify-between border-b border-white/10">
             <span className="font-serif text-lg tracking-wide">
-              Ravencourt <span className="text-[var(--bronze)]">Capital</span>
+              Ravencourt <span className="text-white/70">Capital</span>
             </span>
             <button
               onClick={() => setOpen(false)}
-              aria-label="Close index"
+              aria-label="Close menu"
               className="group flex items-center gap-4"
             >
-              <span className="text-[10px] uppercase tracking-[0.35em] text-white/70 group-hover:text-[var(--bronze)] transition-colors">
+              <span className="text-[10px] uppercase tracking-[0.35em] text-white/70 group-hover:text-white transition-colors">
                 Close
               </span>
               <span className="relative h-4 w-4">
-                <span className="absolute inset-0 m-auto h-px w-4 rotate-45 bg-white group-hover:bg-[var(--bronze)] transition-colors" />
-                <span className="absolute inset-0 m-auto h-px w-4 -rotate-45 bg-white group-hover:bg-[var(--bronze)] transition-colors" />
+                <span className="absolute inset-0 m-auto h-px w-4 rotate-45 bg-white group-hover:bg-white transition-colors" />
+                <span className="absolute inset-0 m-auto h-px w-4 -rotate-45 bg-white group-hover:bg-white transition-colors" />
               </span>
             </button>
           </div>
@@ -143,7 +143,7 @@ function Header() {
                     <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 w-8 shrink-0">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="font-serif text-3xl lg:text-5xl text-white group-hover:text-[var(--bronze)] transition-colors">
+                    <span className="font-serif text-3xl lg:text-5xl text-white group-hover:text-white/70 transition-colors">
                       {n.label}
                     </span>
                   </a>
@@ -177,9 +177,9 @@ function Hero() {
       <div className="relative z-10 mx-auto max-w-6xl px-6 lg:px-12 w-full pt-28 pb-32 flex flex-col items-start text-left">
         <div className="flex items-center gap-4 mb-10">
           <img src={logo} alt="" className="h-12 w-12 object-contain" />
-          <p className="eyebrow text-[var(--bronze-soft)] !mb-0">Ravencourt Capital · Milan</p>
+          <p className="eyebrow text-white/60 !mb-0">Ravencourt Capital · Milan</p>
         </div>
-        <div className="w-16 h-px bg-[var(--bronze)] mb-10" />
+        <div className="w-16 h-px bg-white/30 mb-10" />
         <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight max-w-5xl">
           Private Markets Advisory. Strategic Capital, M&amp;A, and Transaction Readiness.
         </h1>
@@ -204,7 +204,7 @@ function Hero() {
               <li key={s.id}>
                 <a
                   href={`#${s.id}`}
-                  className="text-[10px] uppercase tracking-[0.32em] text-white/70 hover:text-[var(--bronze)] transition-colors"
+                  className="text-[10px] uppercase tracking-[0.32em] text-white/70 hover:text-white transition-colors"
                 >
                   {s.label}
                 </a>
