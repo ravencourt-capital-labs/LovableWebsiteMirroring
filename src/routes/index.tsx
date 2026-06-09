@@ -5,6 +5,7 @@ import lucianoImg from "@/assets/luciano.jpg.asset.json";
 import konstantinosImg from "@/assets/konstantinos.jpeg.asset.json";
 import joeyImg from "@/assets/joey.jpg.asset.json";
 import saaniaImg from "@/assets/saania.jpg.asset.json";
+import rohanImg from "@/assets/rohan.png.asset.json";
 import milanHero from "@/assets/milan-hero.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -43,6 +44,8 @@ const TEAM = [
     name: "Rohan Kapoor",
     title: "Founder and Principal",
     linkedin: "https://linkedin.com/in/raisingcapitalcontact",
+    image: rohanImg.url,
+    objectPosition: "50% 25%",
   },
   {
     initials: "LM",
