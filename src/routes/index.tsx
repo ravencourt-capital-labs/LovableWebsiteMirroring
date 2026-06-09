@@ -519,15 +519,34 @@ function Regulatory() {
 }
 
 const CONTACT_TILES = [
-  "Private Company or Founder",
-  "Private Fund or GP",
-  "M&A or Strategic Transaction",
-  "Buy-Side or Allocator",
+  {
+    label: "Private Company or Founder",
+    url: "https://cal.com/team/ravencourt-capital/strategic-capital-investor-readiness-founders-gps",
+  },
+  {
+    label: "Private Fund or GP",
+    url: "https://cal.com/team/ravencourt-capital/strategic-capital-investor-readiness-founders-gps",
+  },
+  {
+    label: "M&A or Strategic Transaction",
+    url: "https://cal.com/team/ravencourt-capital/m-a-advisory-founder-led-sme-sale-strategic-transaction",
+  },
+  {
+    label: "Buy-Side or Allocator",
+    url: "https://cal.com/team/ravencourt-capital/buy-side-advisory-institutional-acquisitions-capital-deployment",
+  },
+  {
+    label: "Co-Advisory or Referral Partner",
+    url: "https://cal.com/team/ravencourt-capital/co-advisory-by-referral",
+  },
 ];
 
 function Contact() {
   const [sent, setSent] = useState(false);
-  const [subject, setSubject] = useState(CONTACT_TILES[0]);
+  const [selected, setSelected] = useState<string | null>(null);
+
+  const selectedTile = CONTACT_TILES.find((t) => t.label === selected);
+
   return (
     <section id="contact" className="bg-[var(--ink)] text-[oklch(0.95_0.008_85)] py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
@@ -542,29 +561,43 @@ function Contact() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-10">
           {CONTACT_TILES.map((t) => (
             <button
-              key={t}
+              key={t.label}
               type="button"
-              onClick={() => setSubject(t)}
+              onClick={() => setSelected(t.label)}
               className={`text-left px-5 py-4 border text-xs uppercase tracking-[0.18em] transition-colors ${
-                subject === t
+                selected === t.label
                   ? "border-[var(--bronze)] bg-[var(--bronze)]/10 text-[var(--bronze-soft)]"
                   : "border-white/20 text-white/70 hover:border-[var(--bronze)] hover:text-[var(--bronze-soft)]"
               }`}
             >
-              {t}
+              {t.label}
             </button>
           ))}
         </div>
-        <a
-          href="#contact"
-          onClick={() => setSubject("Co-Advisory or Referral Partner enquiry")}
-          className="inline-block text-xs uppercase tracking-[0.2em] text-[var(--bronze-soft)] hover:text-[var(--bronze)] mb-14 border-b border-[var(--bronze)]/40 pb-1"
-        >
-          Co-Advisory or Referral Partner enquiry →
-        </a>
+
+        <div className="mb-14">
+          {selectedTile ? (
+            <a
+              href={selectedTile.url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-3 border border-[var(--bronze)] text-[var(--bronze)] px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-[var(--bronze)] hover:text-[var(--ink)] transition-colors"
+            >
+              Book a call — {selectedTile.label}
+              <span aria-hidden>→</span>
+            </a>
+          ) : (
+            <button
+              disabled
+              className="inline-flex items-center gap-3 border border-white/20 text-white/40 px-8 py-4 text-xs uppercase tracking-[0.2em] cursor-not-allowed"
+            >
+              Select a category above
+            </button>
+          )}
+        </div>
 
         <div className="grid md:grid-cols-2 gap-16">
           <form
@@ -578,8 +611,9 @@ function Contact() {
               <label className="eyebrow block mb-2 text-[var(--bronze-soft)]">Subject</label>
               <input
                 readOnly
-                value={subject}
-                className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] outline-none py-3 text-base text-white/90"
+                value={selected ?? ""}
+                placeholder="Select a category above"
+                className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] outline-none py-3 text-base text-white/90 placeholder:text-white/30"
               />
             </div>
             <div>
@@ -644,17 +678,6 @@ function Contact() {
             <div>
               <p className="eyebrow mb-2 text-[var(--bronze-soft)]">Office</p>
               <p className="text-lg leading-relaxed">Milan, Italy</p>
-            </div>
-            <div>
-              <p className="eyebrow mb-2 text-[var(--bronze-soft)]">Book a call</p>
-              <a
-                href="https://cal.com/team/ravencourt-capital/strategic-capital-exit-advisory"
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm hover:text-[var(--bronze)] transition-colors break-all"
-              >
-                cal.com/team/ravencourt-capital
-              </a>
             </div>
           </div>
         </div>
