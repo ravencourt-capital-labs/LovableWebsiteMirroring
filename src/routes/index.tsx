@@ -43,7 +43,7 @@ const TEAM = [
   {
     initials: "RK",
     name: "Rohan Kapoor",
-    title: "Founder and Principal",
+    title: "Founder & Principal · Milan, Italy. Rohan leads Ravencourt Capital's advisory execution, mandate evaluation, client discussions, strategic positioning, commercial structuring, and private-markets engagement process.",
     linkedin: "https://linkedin.com/in/raisingcapitalcontact",
     image: rohanImg.url,
     objectPosition: "50% 25%",
@@ -51,15 +51,15 @@ const TEAM = [
   {
     initials: "LM",
     name: "Dr. Luciano Mazzola",
-    title: "Legal and Cross-Border Structuring Advisor",
+    title: "Legal & Cross-Border Structuring Advisor · Milan, Italy. Dr. Mazzola supports Ravencourt on legal and cross-border structuring considerations, including selected jurisdictional, governance, and transaction-related matters.",
     linkedin: "https://lcopartners.eu/en/professionals/luciano-mazzola-en",
     image: lucianoImg.url,
     objectPosition: "50% 5%",
   },
   {
     initials: "SS",
-    name: "Sania",
-    title: "Partnerships and Operations Director",
+    name: "Sania Shaikh",
+    title: "Partnerships & Operations Director · Remote / Cross-border. Sania supports Ravencourt across partnerships, outreach coordination, client communication, CRM discipline, documentation flow, onboarding, and internal operating processes.",
     linkedin: "https://linkedin.com/in/sanian",
     image: saaniaImg.url,
     objectPosition: "50% 26%",
@@ -67,7 +67,7 @@ const TEAM = [
   {
     initials: "KL",
     name: "Konstantinos Lanaras",
-    title: "Private Markets Coverage Analyst",
+    title: "Private Markets Coverage Analyst · Remote / Europe. Konstantinos supports private-market coverage, research, opportunity mapping, website execution, and selected market-facing workstreams.",
     linkedin: "https://www.linkedin.com/in/konstantinoslanaras0504/",
     image: konstantinosImg.url,
     objectPosition: "50% 50%",
@@ -75,7 +75,7 @@ const TEAM = [
   {
     initials: "JZ",
     name: "Joey Zhu",
-    title: "FulfillmentOS and Data Pipeline Analyst",
+    title: "FulfillmentOS & Data Pipeline Analyst · Remote / Global. Joey supports Ravencourt's FulfillmentOS infrastructure, lead data pipelines, classification workflows, and execution-support systems.",
     linkedin: "https://www.linkedin.com/in/joey-zhu-7006a0318/",
     image: joeyImg.url,
     objectPosition: "50% 28%",
