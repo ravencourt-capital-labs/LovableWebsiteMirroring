@@ -43,7 +43,8 @@ const TEAM = [
   {
     initials: "RK",
     name: "Rohan Kapoor",
-    title: "Founder & Principal · Milan, Italy",
+    role: "Founder & Principal",
+    location: "Milan, Italy",
     linkedin: "https://linkedin.com/in/raisingcapitalcontact",
     image: rohanImg.url,
     objectPosition: "50% 25%",
@@ -51,7 +52,8 @@ const TEAM = [
   {
     initials: "LM",
     name: "Dr. Luciano Mazzola",
-    title: "Legal & Cross-Border Structuring Advisor · Milan, Italy",
+    role: "Legal & Cross-Border Structuring Advisor",
+    location: "Milan, Italy",
     linkedin: "https://lcopartners.eu/en/professionals/luciano-mazzola-en",
     image: lucianoImg.url,
     objectPosition: "50% 5%",
@@ -59,7 +61,8 @@ const TEAM = [
   {
     initials: "SS",
     name: "Sania Shaikh",
-    title: "Partnerships & Operations Director · Remote / Cross-border",
+    role: "Partnerships & Operations Director",
+    location: "Remote / Cross-border",
     linkedin: "https://linkedin.com/in/sanian",
     image: saaniaImg.url,
     objectPosition: "50% 26%",
@@ -67,7 +70,8 @@ const TEAM = [
   {
     initials: "KL",
     name: "Konstantinos Lanaras",
-    title: "Private Markets Coverage Analyst · Remote / Europe",
+    role: "Private Markets Coverage Analyst",
+    location: "Remote / Europe",
     linkedin: "https://www.linkedin.com/in/konstantinoslanaras0504/",
     image: konstantinosImg.url,
     objectPosition: "50% 50%",
@@ -75,7 +79,8 @@ const TEAM = [
   {
     initials: "JZ",
     name: "Joey Zhu",
-    title: "FulfillmentOS & Data Pipeline Analyst · Remote / Global",
+    role: "FulfillmentOS & Data Pipeline Analyst",
+    location: "Remote / Global",
     linkedin: "https://www.linkedin.com/in/joey-zhu-7006a0318/",
     image: joeyImg.url,
     objectPosition: "50% 28%",
