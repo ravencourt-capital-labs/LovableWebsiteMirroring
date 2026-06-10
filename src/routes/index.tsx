@@ -602,15 +602,10 @@ const CONTACT_TILES = [
 ];
 
 function Contact() {
+  const [sent, setSent] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
 
   const selectedTile = CONTACT_TILES.find((t) => t.label === selected);
-
-  const handleSubmit = () => {
-    if (selectedTile) {
-      window.open(selectedTile.url, "_blank", "noopener,noreferrer");
-    }
-  };
 
   return (
     <section id="contact" className="bg-[var(--ink)] text-[oklch(0.95_0.008_85)] py-20 lg:py-28">
@@ -648,13 +643,15 @@ function Contact() {
 
         <div className="mb-14">
           {selectedTile ? (
-            <button
-              onClick={handleSubmit}
+            <a
+              href={selectedTile.url}
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center gap-3 border border-white text-white px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-[var(--ink)] transition-colors"
             >
-              Submit Enquiry
+              Book a call — {selectedTile.label}
               <span aria-hidden>→</span>
-            </button>
+            </a>
           ) : (
             <button
               disabled
@@ -665,28 +662,86 @@ function Contact() {
           )}
         </div>
 
-        <div className="grid md:grid-cols-3 gap-12">
-          <div>
-            <p className="eyebrow mb-2 text-[var(--bronze-soft)]">Email</p>
-            <a
-              href="mailto:contact@ravencourtcapital.com"
-              className="text-lg hover:text-[var(--bronze)] transition-colors"
+        <div className="grid md:grid-cols-2 gap-16">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSent(true);
+            }}
+            className="space-y-6"
+          >
+            <div>
+              <label className="eyebrow block mb-2 text-[var(--bronze-soft)]">Subject</label>
+              <input
+                readOnly
+                value={selected ?? ""}
+                placeholder="Select a category above"
+                className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] outline-none py-3 text-base text-white/90 placeholder:text-white/30"
+              />
+            </div>
+            <div>
+              <label className="eyebrow block mb-2 text-[var(--bronze-soft)]">Name</label>
+              <input
+                required
+                type="text"
+                className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] focus:border-[var(--bronze)] outline-none py-3 text-base"
+              />
+            </div>
+            <div>
+              <label className="eyebrow block mb-2 text-[var(--bronze-soft)]">Organisation</label>
+              <input
+                type="text"
+                className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] focus:border-[var(--bronze)] outline-none py-3 text-base"
+              />
+            </div>
+            <div>
+              <label className="eyebrow block mb-2 text-[var(--bronze-soft)]">Email</label>
+              <input
+                required
+                type="email"
+                className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] focus:border-[var(--bronze)] outline-none py-3 text-base"
+              />
+            </div>
+            <div>
+              <label className="eyebrow block mb-2 text-[var(--bronze-soft)]">Message</label>
+              <textarea
+                required
+                rows={4}
+                className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] focus:border-[var(--bronze)] outline-none py-3 text-base resize-none"
+              />
+            </div>
+            <button
+              type="submit"
+              className="mt-4 inline-flex items-center gap-3 border border-white text-white px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-[var(--ink)] transition-colors"
             >
-              contact@ravencourtcapital.com
-            </a>
-          </div>
-          <div>
-            <p className="eyebrow mb-2 text-[var(--bronze-soft)]">Telephone</p>
-            <a
-              href="tel:+393896497363"
-              className="text-lg hover:text-[var(--bronze)] transition-colors"
-            >
-              +39 389 649 7363
-            </a>
-          </div>
-          <div>
-            <p className="eyebrow mb-2 text-[var(--bronze-soft)]">Office</p>
-            <p className="text-lg leading-relaxed">Via Carlo Imbonati, 62/2, 20159 Milano, Italy</p>
+              {sent ? "Enquiry submitted" : "Submit enquiry"}
+              <span aria-hidden>→</span>
+            </button>
+          </form>
+
+          <div className="space-y-8">
+            <div>
+              <p className="eyebrow mb-2 text-[var(--bronze-soft)]">Email</p>
+              <a
+                href="mailto:contact@ravencourtcapital.com"
+                className="text-lg hover:text-[var(--bronze)] transition-colors"
+              >
+                contact@ravencourtcapital.com
+              </a>
+            </div>
+            <div>
+              <p className="eyebrow mb-2 text-[var(--bronze-soft)]">Telephone</p>
+              <a
+                href="tel:+393896497363"
+                className="text-lg hover:text-[var(--bronze)] transition-colors"
+              >
+                +39 389 649 7363
+              </a>
+            </div>
+            <div>
+              <p className="eyebrow mb-2 text-[var(--bronze-soft)]">Office</p>
+              <p className="text-lg leading-relaxed">Via Carlo Imbonati, 62/2, 20159 Milano, Italy</p>
+            </div>
           </div>
         </div>
       </div>
