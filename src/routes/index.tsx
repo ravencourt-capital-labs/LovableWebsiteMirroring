@@ -181,12 +181,16 @@ function Hero() {
         </div>
         <div className="w-16 h-px bg-white/30 mb-10" />
         <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight max-w-5xl">
-          Private Markets Advisory. Strategic Capital, M&amp;A, and Transaction Readiness.
+          Private Markets Advisory. Strategic Capital. M&amp;A and Secondaries. Transaction Readiness.
         </h1>
         <p className="mt-10 text-lg md:text-xl text-[oklch(0.86_0.01_85)] font-light max-w-3xl leading-relaxed">
-          Ravencourt Capital is a Milan-based private markets advisory boutique supporting private
-          companies, private funds, strategic transactions, M&amp;A processes, investor readiness,
-          and buy-side diligence across Europe, MENA, North America, and select global markets.
+          Ravencourt Capital is a Milan-based private markets advisory boutique supporting
+          founder-led companies, fund managers, acquisition entrepreneurs, family offices,
+          strategic buyers, and institutional partners across strategic capital readiness, M&amp;A,
+          secondary transactions, capital solutions, and buy-side diligence.
+        </p>
+        <p className="mt-6 text-xs md:text-sm text-white/60 uppercase tracking-[0.22em] max-w-3xl leading-relaxed">
+          Strategic Capital Readiness · M&amp;A Advisory · Secondaries &amp; Capital Solutions · Buy-Side Diligence · FulfillmentOS
         </p>
       </div>
 
