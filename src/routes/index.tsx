@@ -381,6 +381,10 @@ function Intelligence() {
             </div>
           ))}
         </div>
+        <p className="mt-10 text-sm text-[var(--ink-soft)] italic max-w-4xl leading-relaxed">
+          This layer supports founder-led companies, fund managers, M&amp;A situations, secondaries,
+          searchers, and buy-side counterparties by ensuring engagement is based on fit, not volume.
+        </p>
       </div>
     </section>
   );
@@ -388,12 +392,12 @@ function Intelligence() {
 
 function FulfillmentOS() {
   const lines = [
-    "Mandate alignment verified before any market engagement begins",
-    "Investor-grade documentation and data integrity maintained throughout",
-    "Structured execution pathways with defined decision gates at each stage",
-    "Governance discipline maintained across counterparties and jurisdictions",
-    "Fee structures aligned to mandate type — fixed fees for advisory, success fees tied to transaction close",
-    "Cross-border structuring and compliance consistency across Europe, MENA, and North America",
+    "Mandate Alignment — We verify mandate-level alignment before deeper market engagement begins.",
+    "Documentation Discipline — We maintain investor-grade documentation standards, data-room discipline, and version control throughout the process.",
+    "Decision Gates — We structure engagements around defined checkpoints, decision gates, and scope-controlled workstreams.",
+    "Governance Control — We maintain process discipline across counterparties, communication, documentation, and jurisdictional considerations.",
+    "Outcome Attribution — We track documented engagement scope, process contribution, counterparty interaction, and outcome attribution.",
+    "Cross-Border Consistency — We coordinate execution across jurisdictions with attention to legal, regulatory, cultural, and commercial context.",
   ];
   return (
     <section
