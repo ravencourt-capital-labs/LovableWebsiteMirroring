@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Menu, ArrowLeft, ArrowRight } from "lucide-react";
 import logo from "@/assets/ravencourt-logo.png";
 import lucianoImg from "@/assets/luciano.jpg.asset.json";
 import konstantinosImg from "@/assets/konstantinos.jpeg.asset.json";
@@ -8,6 +8,9 @@ import joeyImg from "@/assets/joey.jpg.asset.json";
 import saaniaImg from "@/assets/saania.jpg.asset.json";
 import rohanImg from "@/assets/rohan.png.asset.json";
 import milanHero from "@/assets/milan-hero.jpg.asset.json";
+import corridorImg from "@/assets/corridor.png.asset.json";
+import deltaImg from "@/assets/delta.png.asset.json";
+import boardroomImg from "@/assets/boardroom.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: RavencourtPage,
@@ -162,21 +165,68 @@ function Header() {
   );
 }
 
+const HERO_SLIDES = [
+  {
+    headline: "Private Markets Advisory.",
+    subtext:
+      "A Milan-based advisory boutique supporting founder-led companies, fund managers, and institutional partners across private markets.",
+    image: milanHero.url,
+    alt: "Milan skyline at dusk",
+  },
+  {
+    headline: "Strategic Capital.",
+    subtext:
+      "We prepare companies and fund managers for institutional scrutiny, allocator alignment, and capital processes built to withstand diligence.",
+    image: corridorImg.url,
+    alt: "Marble institutional corridor",
+  },
+  {
+    headline: "M&A and Secondaries.",
+    subtext:
+      "Transaction readiness, counterparty-fit mapping, and process discipline across M&A, secondary transactions, and capital solutions.",
+    image: deltaImg.url,
+    alt: "Aerial delta at golden hour",
+  },
+  {
+    headline: "Transaction Readiness.",
+    subtext:
+      "Every engagement is assessed for documentation discipline, valuation realism, governance readiness, and execution feasibility before deeper market engagement begins.",
+    image: boardroomImg.url,
+    alt: "Boardroom with city skyline",
+  },
+];
+
 function Hero() {
+  const [index, setIndex] = useState(0);
+  const total = HERO_SLIDES.length;
+
+  useEffect(() => {
+    const id = setInterval(() => setIndex((i) => (i + 1) % total), 6000);
+    return () => clearInterval(id);
+  }, [total]);
+
+  const go = (delta: number) => setIndex((i) => (i + delta + total) % total);
+
   return (
     <section
       id="top"
       className="relative min-h-screen flex items-center bg-[var(--ink)] text-[oklch(0.95_0.008_85)] overflow-hidden"
     >
       <div className="absolute inset-0 z-0">
-        <img
-          src={milanHero.url}
-          alt="Milan skyline at dusk"
-          className="w-full h-full object-cover opacity-90"
-          width={1920}
-          height={1280}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/75 via-[var(--ink)]/60 to-[var(--ink)]" />
+        {HERO_SLIDES.map((s, i) => (
+          <img
+            key={i}
+            src={s.image}
+            alt={s.alt}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out ${
+              i === index ? "opacity-100" : "opacity-0"
+            }`}
+            width={1920}
+            height={1280}
+          />
+        ))}
+        <div className="absolute inset-0 bg-[var(--ink)]/55" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/40 via-transparent to-[var(--ink)]/80" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 lg:px-12 w-full pt-28 pb-32 flex flex-col items-start text-left">
@@ -185,27 +235,51 @@ function Hero() {
           <p className="eyebrow text-white/60 !mb-0">Ravencourt Capital · Milan</p>
         </div>
         <div className="w-16 h-px bg-white/30 mb-10" />
-        <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight max-w-5xl">
-          Private Markets Advisory. Strategic Capital. M&amp;A and Secondaries. Transaction Readiness.
-        </h1>
-        <p className="mt-10 text-lg md:text-xl text-[oklch(0.86_0.01_85)] font-light max-w-3xl leading-relaxed">
-          Ravencourt Capital is a Milan-based private markets advisory boutique supporting
-          founder-led companies, fund managers, acquisition entrepreneurs, family offices,
-          strategic buyers, and institutional partners across strategic capital readiness, M&amp;A,
-          secondary transactions, capital solutions, and buy-side diligence.
-        </p>
-        <p className="mt-6 text-xs md:text-sm text-white/60 uppercase tracking-[0.22em] max-w-3xl leading-relaxed">
-          Strategic Capital Readiness · M&amp;A Advisory · Secondaries &amp; Capital Solutions · Buy-Side Diligence · FulfillmentOS
+        {HERO_SLIDES.map((s, i) => (
+          <div
+            key={i}
+            className={`transition-opacity duration-[1200ms] ease-in-out ${
+              i === index ? "opacity-100" : "opacity-0 absolute pointer-events-none"
+            }`}
+            aria-hidden={i !== index}
+          >
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight max-w-5xl text-white">
+              {s.headline}
+            </h1>
+            <p className="mt-10 text-lg md:text-xl text-[oklch(0.92_0.01_85)] font-light max-w-3xl leading-relaxed">
+              {s.subtext}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="absolute bottom-24 right-6 lg:right-12 z-20 flex items-center gap-6">
+        <button
+          onClick={() => go(-1)}
+          aria-label="Previous slide"
+          className="h-10 w-10 flex items-center justify-center border border-white/40 text-white/80 hover:bg-white hover:text-[var(--ink)] transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </button>
+        <button
+          onClick={() => go(1)}
+          aria-label="Next slide"
+          className="h-10 w-10 flex items-center justify-center border border-white/40 text-white/80 hover:bg-white hover:text-[var(--ink)] transition-colors"
+        >
+          <ArrowRight className="h-4 w-4" />
+        </button>
+        <p className="text-xs uppercase tracking-[0.32em] text-white/80 font-light tabular-nums ml-2">
+          {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </p>
       </div>
 
-      <nav className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/15">
+      <nav className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/15 bg-[var(--ink)]/30 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <ul className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 py-5">
             {[
               { id: "what-we-do", label: "Mandates" },
               { id: "method", label: "Approach" },
-              { id: "intelligence", label: "Intelligence" },
+              { id: "intelligence", label: "Intel" },
               { id: "footprint", label: "Footprint" },
               { id: "team", label: "Team" },
               { id: "contact", label: "Contact" },
