@@ -43,7 +43,7 @@ const TEAM = [
   {
     initials: "RK",
     name: "Rohan Kapoor",
-    title: "Founder & Principal · Milan, Italy. Rohan leads Ravencourt Capital's advisory execution, mandate evaluation, client discussions, strategic positioning, commercial structuring, and private-markets engagement process.",
+    title: "Founder & Principal · Milan, Italy",
     linkedin: "https://linkedin.com/in/raisingcapitalcontact",
     image: rohanImg.url,
     objectPosition: "50% 25%",
@@ -51,7 +51,7 @@ const TEAM = [
   {
     initials: "LM",
     name: "Dr. Luciano Mazzola",
-    title: "Legal & Cross-Border Structuring Advisor · Milan, Italy. Dr. Mazzola supports Ravencourt on legal and cross-border structuring considerations, including selected jurisdictional, governance, and transaction-related matters.",
+    title: "Legal & Cross-Border Structuring Advisor · Milan, Italy",
     linkedin: "https://lcopartners.eu/en/professionals/luciano-mazzola-en",
     image: lucianoImg.url,
     objectPosition: "50% 5%",
@@ -59,7 +59,7 @@ const TEAM = [
   {
     initials: "SS",
     name: "Sania Shaikh",
-    title: "Partnerships & Operations Director · Remote / Cross-border. Sania supports Ravencourt across partnerships, outreach coordination, client communication, CRM discipline, documentation flow, onboarding, and internal operating processes.",
+    title: "Partnerships & Operations Director · Remote / Cross-border",
     linkedin: "https://linkedin.com/in/sanian",
     image: saaniaImg.url,
     objectPosition: "50% 26%",
@@ -67,7 +67,7 @@ const TEAM = [
   {
     initials: "KL",
     name: "Konstantinos Lanaras",
-    title: "Private Markets Coverage Analyst · Remote / Europe. Konstantinos supports private-market coverage, research, opportunity mapping, website execution, and selected market-facing workstreams.",
+    title: "Private Markets Coverage Analyst · Remote / Europe",
     linkedin: "https://www.linkedin.com/in/konstantinoslanaras0504/",
     image: konstantinosImg.url,
     objectPosition: "50% 50%",
@@ -75,7 +75,7 @@ const TEAM = [
   {
     initials: "JZ",
     name: "Joey Zhu",
-    title: "FulfillmentOS & Data Pipeline Analyst · Remote / Global. Joey supports Ravencourt's FulfillmentOS infrastructure, lead data pipelines, classification workflows, and execution-support systems.",
+    title: "FulfillmentOS & Data Pipeline Analyst · Remote / Global",
     linkedin: "https://www.linkedin.com/in/joey-zhu-7006a0318/",
     image: joeyImg.url,
     objectPosition: "50% 28%",
@@ -572,31 +572,23 @@ function Regulatory() {
 
 const CONTACT_TILES = [
   {
-    label: "Founder-Led Companies & Management Teams",
+    label: "Private Company or Founder",
     url: "https://cal.com/team/ravencourt-capital/strategic-capital-investor-readiness-founders-gps",
   },
   {
-    label: "Fund Managers & Emerging GPs",
+    label: "Private Fund or GP",
     url: "https://cal.com/team/ravencourt-capital/strategic-capital-investor-readiness-founders-gps",
   },
   {
-    label: "M&A / Strategic Transactions",
+    label: "M&A or Strategic Transaction",
     url: "https://cal.com/team/ravencourt-capital/m-a-advisory-founder-led-sme-sale-strategic-transaction",
   },
   {
-    label: "Secondaries & Capital Solutions",
-    url: "https://cal.com/team/ravencourt-capital/m-a-advisory-founder-led-sme-sale-strategic-transaction",
-  },
-  {
-    label: "Allocators / Family Offices / Strategic Capital Partners",
+    label: "Buy-Side or Allocator",
     url: "https://cal.com/team/ravencourt-capital/buy-side-advisory-institutional-acquisitions-capital-deployment",
   },
   {
-    label: "Search Funds / Acquisition Entrepreneurs",
-    url: "https://cal.com/team/ravencourt-capital/buy-side-advisory-institutional-acquisitions-capital-deployment",
-  },
-  {
-    label: "Co-Advisory / Referral Partners",
+    label: "Co-Advisory or Referral Partner",
     url: "https://cal.com/team/ravencourt-capital/co-advisory-by-referral",
   },
 ];
@@ -624,7 +616,7 @@ function Contact() {
           <p className="mt-6 eyebrow text-[var(--bronze-soft)]">Select the most relevant pathway:</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-10">
           {CONTACT_TILES.map((t) => (
             <button
               key={t.label}
