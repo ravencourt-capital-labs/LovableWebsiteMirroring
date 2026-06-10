@@ -616,9 +616,12 @@ function Contact() {
             Make an Enquiry
           </h2>
           <p className="mt-6 text-lg text-[oklch(0.82_0.01_85)] font-light leading-relaxed">
-            All enquiries are treated with strict confidentiality. Select the description that
-            best fits your situation.
+            All enquiries are treated with discretion. If you are considering a strategic
+            transaction, capital-readiness process, M&amp;A mandate, secondary transaction,
+            buy-side review, fund-manager readiness exercise, acquisition search, or institutional
+            partnership discussion, Ravencourt is available to assess alignment.
           </p>
+          <p className="mt-6 eyebrow text-[var(--bronze-soft)]">Select the most relevant pathway:</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
@@ -737,7 +740,7 @@ function Contact() {
             </div>
             <div>
               <p className="eyebrow mb-2 text-[var(--bronze-soft)]">Office</p>
-              <p className="text-lg leading-relaxed">Milan, Italy</p>
+              <p className="text-lg leading-relaxed">Via Carlo Imbonati, 62/2, 20159 Milano, Italy</p>
             </div>
           </div>
         </div>
