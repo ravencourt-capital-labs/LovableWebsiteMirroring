@@ -418,17 +418,17 @@ function Method() {
 }
 
 function Intelligence() {
-  const tiles = [
-    ["Investor Type", "Counterparties classified by structure — PE fund, family office, corporate investor, search fund, sovereign vehicle — for structural compatibility."],
-    ["Ticket Size", "Minimum and maximum ticket size verified as genuinely compatible with the mandate before any introduction."],
-    ["Geography", "Primary and secondary geographic focus assessed, distinguishing between stated and demonstrated appetite."],
-    ["Asset-Class Appetite", "We identify whether the counterparty is actively deploying in the relevant asset class or strategy type."],
+  const tags: [string, string][] = [
+    ["Investor Type", "Counterparties classified by structure — PE fund, family office, corporate investor, search fund, sovereign vehicle."],
+    ["Ticket Size", "Minimum and maximum ticket size verified as genuinely compatible with the mandate."],
+    ["Geography", "Primary and secondary geographic focus assessed, distinguishing stated and demonstrated appetite."],
+    ["Asset-Class Appetite", "Whether the counterparty is actively deploying in the relevant asset class or strategy type."],
     ["Strategy Fit", "Alignment between strategy, stage, structure, and counterparty thesis evaluated before engagement."],
-    ["Mandate Relevance", "We score the match between the mandate and counterparty criteria across sector, size, structure, and timeline."],
+    ["Mandate Relevance", "Match between mandate and counterparty criteria across sector, size, structure, and timeline."],
     ["Prior Activity", "Recent transaction history assessed to distinguish active deployers from passive monitors."],
-    ["Decision Process", "Committee structure, timeline, and information requirements understood before engagement begins."],
-    ["Relationship Status", "Strength and history of existing relationships weighted to prioritise highest-conversion engagement."],
-    ["Timing and Liquidity Context", "Current deployment timing, liquidity windows, and cycle position assessed for mandate fit."],
+    ["Decision Process", "Committee structure, timeline, and information requirements understood before engagement."],
+    ["Relationship Status", "Strength and history of existing relationships weighted for highest-conversion engagement."],
+    ["Timing and Liquidity Context", "Current deployment timing, liquidity windows, and cycle position assessed for fit."],
     ["Regulatory and Jurisdictional Considerations", "Cross-border regulatory, jurisdictional, and authorisation requirements factored before engagement."],
     ["Follow-On Engagement Probability", "Likelihood of follow-on engagement, repeat deployment, and longer-term relevance evaluated."],
   ];
@@ -440,30 +440,25 @@ function Intelligence() {
           title="Allocator Intelligence"
           sub="Ravencourt's advisory process is supported by a structured intelligence layer designed to improve counterparty relevance, reduce noise, and strengthen decision discipline. We assess:"
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--rule)] border border-[var(--rule)]">
-          {tiles.map(([t, d], i) => (
-            <div
-              key={t}
-              className="group relative bg-background p-8 min-h-[220px] flex flex-col transition-colors hover:bg-[oklch(0.95_0.008_85)]"
-            >
-              <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--bronze)] mb-4 tabular-nums">
-                {String(i + 1).padStart(2, "0")}
+        <div className="flex flex-wrap gap-3">
+          {tags.map(([label, tip]) => (
+            <div key={label} className="group relative">
+              <span className="inline-block px-4 py-2 text-sm border border-[var(--rule)] text-[var(--ink)] rounded-full cursor-default transition-colors hover:border-[var(--bronze)] hover:text-[var(--bronze)]">
+                {label}
               </span>
-              <h3 className="font-serif text-xl text-[var(--ink)] leading-snug mb-3">{t}</h3>
-              <p className="text-sm text-[var(--ink-soft)] leading-relaxed opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 transition-all duration-500">
-                {d}
-              </p>
-              <div className="absolute bottom-5 right-5 w-4 h-4 flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
-                <span className="absolute w-3 h-px bg-[var(--ink-soft)]" />
-                <span className="absolute w-px h-3 bg-[var(--ink-soft)]" />
+              <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 px-3 py-2 text-xs text-[var(--ink)] bg-background border border-[var(--rule)] rounded shadow-sm opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 pointer-events-none z-10">
+                {tip}
+                <span className="absolute left-1/2 -translate-x-1/2 top-full w-2 h-2 bg-background border-r border-b border-[var(--rule)] rotate-45 -mt-1" />
               </div>
             </div>
           ))}
         </div>
-        <p className="mt-10 text-sm text-[var(--ink-soft)] italic max-w-4xl leading-relaxed">
-          This layer supports founder-led companies, fund managers, M&amp;A situations, secondaries,
-          searchers, and buy-side counterparties by ensuring engagement is based on fit, not volume.
-        </p>
+        <div className="mt-14 pt-8 border-t border-[var(--rule)]">
+          <p className="text-sm text-[var(--ink-soft)] italic max-w-4xl leading-relaxed">
+            This layer supports founder-led companies, fund managers, M&amp;A situations, secondaries,
+            searchers, and buy-side counterparties by ensuring engagement is based on fit, not volume.
+          </p>
+        </div>
       </div>
     </section>
   );
