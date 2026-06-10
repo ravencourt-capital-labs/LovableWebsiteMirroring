@@ -244,20 +244,32 @@ function SectionHeader({
 function WhatWeDo() {
   const cards = [
     {
-      t: "Private Companies and Founders",
-      b: "We support founders and private company owners through the process of strategic capital readiness, institutional positioning, and transaction preparation. We help structure the narrative, prepare the documentation, and assess counterparty fit before any market engagement begins.",
+      t: "Founder-Led Companies & Management Teams",
+      b: "We support founder-led companies and management teams preparing for institutional scrutiny, strategic capital processes, acquisition-led growth, shareholder liquidity discussions, or M&A-related engagement. Core areas: Strategic capital readiness · Institutional positioning · Valuation and narrative alignment · Data-room and documentation discipline · Governance and process readiness · Counterparty-fit mapping · Founder preparation and meeting support.",
     },
     {
-      t: "Private Funds and GPs",
-      b: "We support fund managers and GPs in investor readiness, allocator-aligned positioning, and diligence coordination. We do not act as a placement agent. We prepare mandates for institutional engagement and support the process through authorised partners where regulated activity is required.",
+      t: "Fund Managers & Emerging GPs",
+      b: "We support fund managers and emerging GPs in strengthening institutional positioning, LP-readiness, documentation quality, strategy articulation, and allocator-facing communication before deeper market engagement. Core areas: Fund positioning and mandate articulation · LP-readiness review · Track-record and strategy presentation · Data-room and diligence preparation · Allocator-fit mapping · Governance and process discipline · Regulated-partner coordination where required.",
     },
     {
-      t: "M&A and Strategic Transactions",
-      b: "We advise on M&A readiness, buy-side target assessment, and strategic transaction support across founder-led and mid-market situations. Our work covers mandate definition, counterparty mapping, documentation preparation, and diligence coordination.",
+      t: "M&A, Strategic Transactions & Capital Solutions",
+      b: "We support founder-led and mid-market strategic transaction processes where valuation realism, buyer intent, materials quality, process control, and counterparty discipline are essential. Core areas: M&A readiness · Transaction positioning · Buyer and counterparty-fit mapping · Management presentation preparation · Due diligence coordination · Capital-solutions assessment · Process and communication support.",
     },
     {
-      t: "Buy-Side and Allocators",
-      b: "We support funds and investors with buy-side diligence, opportunity screening, and counterparty-fit assessment. We qualify situations against mandate constraints — geography, sector, ticket size, execution timeline — before any engagement is facilitated.",
+      t: "Secondary Transactions & Liquidity Solutions",
+      b: "We support selected GP-led, LP-led, shareholder-liquidity, and portfolio-level secondary situations through readiness review, positioning, documentation preparation, counterparty-fit mapping, diligence coordination, and capital-solutions advisory. Core areas: Secondary transaction readiness · GP-led and LP-led situation review · Continuation and liquidity narrative support · Buyer-fit and counterparty mapping · Documentation preparation · Diligence and Q&A coordination · Authorised-partner execution where required.",
+    },
+    {
+      t: "Allocators, Family Offices & Strategic Capital Partners",
+      b: "We support buy-side counterparties with opportunity screening, mandate-fit assessment, early diligence, and structured review support across selected private-market opportunities. Core areas: Opportunity screening · Mandate-fit assessment · Downside-risk review · Early diligence support · Sector and counterparty mapping · Investment committee preparation support.",
+    },
+    {
+      t: "Search Funds & Acquisition Entrepreneurs",
+      b: "We support searchers and acquisition entrepreneurs across target evaluation, acquisition readiness, transaction structuring, and post-acquisition feasibility analysis. Core areas: Target screening · Cash-flow quality review · Debt-capacity assessment · Seller and counterparty evaluation · Acquisition thesis refinement · Execution pathway support.",
+    },
+    {
+      t: "Co-Advisory & Referral Partners",
+      b: "We work with selected advisors, legal professionals, consultants, intermediaries, and ecosystem partners where complementary capabilities can improve client outcomes. Core areas: Partner qualification · Mandate alignment · Client ownership clarity · Process sequencing · Documentation and referral discipline · Cross-border advisory coordination.",
     },
   ];
   return (
