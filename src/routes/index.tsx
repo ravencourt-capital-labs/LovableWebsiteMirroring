@@ -502,19 +502,19 @@ function Method() {
 }
 
 function Intelligence() {
-  const tags: [string, string][] = [
-    ["Investor Type", "Counterparties classified by structure — PE fund, family office, corporate investor, search fund, sovereign vehicle."],
-    ["Ticket Size", "Minimum and maximum ticket size verified as genuinely compatible with the mandate."],
-    ["Geography", "Primary and secondary geographic focus assessed, distinguishing stated and demonstrated appetite."],
-    ["Asset-Class Appetite", "Whether the counterparty is actively deploying in the relevant asset class or strategy type."],
-    ["Strategy Fit", "Alignment between strategy, stage, structure, and counterparty thesis evaluated before engagement."],
-    ["Mandate Relevance", "Match between mandate and counterparty criteria across sector, size, structure, and timeline."],
-    ["Prior Activity", "Recent transaction history assessed to distinguish active deployers from passive monitors."],
-    ["Decision Process", "Committee structure, timeline, and information requirements understood before engagement."],
-    ["Relationship Status", "Strength and history of existing relationships weighted for highest-conversion engagement."],
-    ["Timing and Liquidity Context", "Current deployment timing, liquidity windows, and cycle position assessed for fit."],
-    ["Regulatory and Jurisdictional Considerations", "Cross-border regulatory, jurisdictional, and authorisation requirements factored before engagement."],
-    ["Follow-On Engagement Probability", "Likelihood of follow-on engagement, repeat deployment, and longer-term relevance evaluated."],
+  const items: [string, string][] = [
+    ["Investor Type", "PE fund, family office, corporate investor, search fund, sovereign vehicle."],
+    ["Ticket Size", "Minimum and maximum verified as genuinely compatible with the mandate."],
+    ["Geography", "Primary and secondary focus, distinguishing stated from demonstrated appetite."],
+    ["Asset-Class Appetite", "Actively deploying in the relevant asset class or strategy type."],
+    ["Strategy Fit", "Alignment between strategy, stage, structure, and counterparty thesis."],
+    ["Mandate Relevance", "Match across sector, size, structure, and timeline."],
+    ["Prior Activity", "Recent transaction history to distinguish active deployers from passive monitors."],
+    ["Decision Process", "Committee structure, timeline, and information requirements."],
+    ["Relationship Status", "Strength and history weighted for highest-conversion engagement."],
+    ["Timing and Liquidity Context", "Deployment timing, liquidity windows, and cycle position."],
+    ["Regulatory and Jurisdictional Considerations", "Cross-border regulatory and authorisation requirements."],
+    ["Follow-On Engagement Probability", "Likelihood of repeat deployment and longer-term relevance."],
   ];
   return (
     <section id="intelligence" className="py-20 lg:py-28 border-b border-[var(--rule)]">
@@ -524,15 +524,19 @@ function Intelligence() {
           title="Allocator Intelligence"
           sub="Ravencourt's advisory process is supported by a structured intelligence layer designed to improve counterparty relevance, reduce noise, and strengthen decision discipline. We assess:"
         />
-        <div className="flex flex-wrap gap-3">
-          {tags.map(([label, tip]) => (
-            <div key={label} className="group relative">
-              <span className="inline-block px-4 py-2 text-sm border border-[var(--rule)] text-[var(--ink)] rounded-full cursor-default transition-colors hover:border-[var(--bronze)] hover:text-[var(--bronze)]">
-                {label}
+        <div className="grid md:grid-cols-2 gap-x-16 gap-y-10">
+          {items.map(([title, desc], i) => (
+            <div key={title} className="flex gap-5">
+              <span className="font-serif text-[var(--bronze)] text-xl tabular-nums shrink-0 min-w-[1.75rem]">
+                {String(i + 1).padStart(2, "0")}
               </span>
-              <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 px-3 py-2 text-xs text-[var(--ink)] bg-background border border-[var(--rule)] rounded shadow-sm opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 pointer-events-none z-10">
-                {tip}
-                <span className="absolute left-1/2 -translate-x-1/2 top-full w-2 h-2 bg-background border-r border-b border-[var(--rule)] rotate-45 -mt-1" />
+              <div>
+                <h4 className="font-serif text-lg md:text-xl text-[var(--ink)] leading-snug">
+                  {title}
+                </h4>
+                <p className="mt-1 text-sm text-[var(--ink-soft)] leading-relaxed font-light">
+                  {desc}
+                </p>
               </div>
             </div>
           ))}
