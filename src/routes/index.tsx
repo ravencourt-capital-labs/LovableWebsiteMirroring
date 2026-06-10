@@ -340,14 +340,18 @@ function Method() {
 
 function Intelligence() {
   const tiles = [
-    ["Investor Type", "We classify counterparties by structure — PE fund, family office, corporate investor, search fund, sovereign vehicle — to ensure structural compatibility."],
-    ["Ticket Size", "We verify that the counterparty's minimum and maximum ticket size is genuinely compatible with the mandate before any introduction."],
-    ["Geography", "We assess primary and secondary geographic focus, distinguishing between stated and demonstrated appetite."],
-    ["Asset Class Appetite", "We identify whether the counterparty is actively deploying in the relevant asset class or strategy type."],
-    ["Mandate Fit", "We score the match between the sell-side mandate and buy-side criteria across sector, size, structure, and timeline."],
-    ["Prior Activity", "We assess recent transaction history to distinguish active deployers from passive monitors."],
-    ["Decision Process", "We understand how decisions are made — committee structure, timeline, information requirements — before engagement begins."],
-    ["Relationship Status", "We track and weight the strength of existing relationships to prioritise highest-conversion introductions."],
+    ["Investor Type", "Counterparties classified by structure — PE fund, family office, corporate investor, search fund, sovereign vehicle — for structural compatibility."],
+    ["Ticket Size", "Minimum and maximum ticket size verified as genuinely compatible with the mandate before any introduction."],
+    ["Geography", "Primary and secondary geographic focus assessed, distinguishing between stated and demonstrated appetite."],
+    ["Asset-Class Appetite", "We identify whether the counterparty is actively deploying in the relevant asset class or strategy type."],
+    ["Strategy Fit", "Alignment between strategy, stage, structure, and counterparty thesis evaluated before engagement."],
+    ["Mandate Relevance", "We score the match between the mandate and counterparty criteria across sector, size, structure, and timeline."],
+    ["Prior Activity", "Recent transaction history assessed to distinguish active deployers from passive monitors."],
+    ["Decision Process", "Committee structure, timeline, and information requirements understood before engagement begins."],
+    ["Relationship Status", "Strength and history of existing relationships weighted to prioritise highest-conversion engagement."],
+    ["Timing and Liquidity Context", "Current deployment timing, liquidity windows, and cycle position assessed for mandate fit."],
+    ["Regulatory and Jurisdictional Considerations", "Cross-border regulatory, jurisdictional, and authorisation requirements factored before engagement."],
+    ["Follow-On Engagement Probability", "Likelihood of follow-on engagement, repeat deployment, and longer-term relevance evaluated."],
   ];
   return (
     <section id="intelligence" className="py-20 lg:py-28 border-b border-[var(--rule)]">
@@ -355,7 +359,7 @@ function Intelligence() {
         <SectionHeader
           eyebrow="Allocator Intelligence Layer"
           title="Allocator Intelligence"
-          sub="Every engagement is assessed across a structured set of dimensions before counterparty contact begins."
+          sub="Ravencourt's advisory process is supported by a structured intelligence layer designed to improve counterparty relevance, reduce noise, and strengthen decision discipline. We assess:"
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--rule)] border border-[var(--rule)]">
           {tiles.map(([t, d], i) => (
