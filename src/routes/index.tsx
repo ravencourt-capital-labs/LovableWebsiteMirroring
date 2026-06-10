@@ -407,15 +407,15 @@ function FulfillmentOS() {
   return (
     <section
       id="fulfillmentos"
-      className="py-20 lg:py-28 bg-[var(--ink)] text-[oklch(0.95_0.008_85)]"
+      className="py-20 lg:py-28 bg-[#0F0E0D] text-[oklch(0.95_0.008_85)]"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mb-14 max-w-4xl">
-          <p className="eyebrow mb-4 text-[var(--bronze-soft)]">How we operate</p>
+          <p className="eyebrow mb-4 text-[var(--gold-soft)]">How we operate</p>
           <h2 className="font-serif text-5xl md:text-6xl leading-[1.05] tracking-tight">
             FulfillmentOS
           </h2>
-          <p className="mt-4 text-lg text-[oklch(0.78_0.01_85)] italic font-light">
+          <p className="mt-4 text-xl md:text-2xl text-[var(--gold)] italic font-light">
             It is not a product. It is how we work.
           </p>
           <p className="mt-8 text-lg md:text-xl text-[oklch(0.86_0.01_85)] font-light leading-relaxed">
@@ -424,13 +424,13 @@ function FulfillmentOS() {
             is how we work.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 gap-x-16 gap-y-6 max-w-6xl">
+        <div className="grid md:grid-cols-2 gap-x-20 gap-y-8 max-w-6xl">
           {lines.map((l, i) => (
             <div
               key={l}
-              className="border-l-2 border-[var(--bronze)] pl-6 py-3 flex items-start gap-6"
+              className="py-3 flex items-start gap-6"
             >
-              <span className="font-serif text-[var(--bronze)] text-2xl leading-none pt-1 tabular-nums shrink-0 min-w-[2rem]">
+              <span className="font-serif text-[var(--gold)] text-2xl leading-none pt-1 tabular-nums shrink-0 min-w-[2rem]">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <p className="text-[oklch(0.88_0.01_85)] leading-relaxed text-base md:text-lg font-light">
