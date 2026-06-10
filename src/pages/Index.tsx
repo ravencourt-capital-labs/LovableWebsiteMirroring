@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, ArrowLeft, ArrowRight } from "lucide-react";
 import logo from "@/assets/ravencourt-logo.png";
@@ -11,26 +10,6 @@ import milanHero from "@/assets/milan-hero.jpg.asset.json";
 import corridorImg from "@/assets/corridor.png.asset.json";
 import deltaImg from "@/assets/delta.png.asset.json";
 import boardroomImg from "@/assets/boardroom.png.asset.json";
-
-export const Route = createFileRoute("/")({
-  component: RavencourtPage,
-  head: () => ({
-    meta: [
-      { title: "Ravencourt Capital — Private Markets Advisory" },
-      {
-        name: "description",
-        content:
-          "Milan-based private markets advisory boutique. Strategic capital readiness, M&A, investor readiness, and buy-side diligence across Europe, MENA, and North America.",
-      },
-      { property: "og:title", content: "Ravencourt Capital — Private Markets Advisory" },
-      {
-        property: "og:description",
-        content:
-          "Milan-based private markets advisory boutique. Strategic capital readiness, M&A, investor readiness, and buy-side diligence across Europe, MENA, and North America.",
-      },
-    ],
-  }),
-});
 
 const NAV = [
   { id: "what-we-do", label: "What We Do" },
@@ -958,3 +937,5 @@ function RavencourtPage() {
     </div>
   );
 }
+
+export default RavencourtPage;
