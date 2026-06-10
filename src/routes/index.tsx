@@ -296,13 +296,13 @@ function WhatWeDo() {
 
 function Method() {
   const steps = [
-    ["Initial Review", "We assess the situation, mandate type, and execution readiness before any engagement begins."],
-    ["Mandate Fit", "We define the mandate parameters — geography, ticket size, structure, timeline — and validate them against market reality."],
-    ["Readiness Assessment", "We identify gaps in documentation, governance, and positioning that would reduce institutional credibility."],
-    ["Positioning and Documentation", "We develop investor-grade materials, financial narratives, and positioning frameworks aligned to the target counterparty universe."],
-    ["Counterparty-Fit Mapping", "We map the right counterparties based on mandate alignment, prior activity, and structural compatibility."],
-    ["Diligence Coordination", "We manage information flow, data room discipline, and Q&A processes with counterparties and their advisors."],
-    ["Execution Support", "We support the process through to term sheet and beyond, staying involved rather than stepping back after introductions. Regulated execution is undertaken only through authorised partners where required."],
+    ["Initial Review", "We assess the opportunity, counterparty, stage, documentation quality, commercial context, and potential mandate relevance."],
+    ["Mandate Fit", "We evaluate whether the client, opportunity, timing, geography, transaction type, and counterparty universe justify Ravencourt's involvement."],
+    ["Readiness Assessment", "We review positioning, documentation, data-room quality, valuation narrative, governance discipline, decision preparedness, and execution risk."],
+    ["Strategic Positioning", "We refine the narrative, materials, commercial logic, institutional communication standard, and relevance to the target counterparty universe."],
+    ["Counterparty-Fit Mapping", "We assess potential counterparty relevance by mandate, ticket size, geography, asset-class appetite, prior activity, decision process, and relationship context."],
+    ["Diligence & Process Support", "We support disciplined communication, documentation flow, meeting preparation, follow-up structure, Q&A coordination, and process accountability."],
+    ["Decision-Stage Execution", "We remain involved through defined engagement checkpoints, supporting alignment between strategy, documentation, counterparty feedback, diligence requirements, and practical next steps."],
   ];
   return (
     <section id="method" className="py-20 lg:py-28 border-b border-[var(--rule)] bg-[oklch(0.945_0.008_85)]">
@@ -310,7 +310,7 @@ function Method() {
         <SectionHeader
           eyebrow="The Ravencourt Method"
           title="How We Work"
-          sub="A structured process from first review to transaction support."
+          sub="Every engagement is assessed through a structured advisory process before deeper work begins."
         />
         <ol className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--rule)] border border-[var(--rule)]">
           {steps.map(([t, d], i) => (
