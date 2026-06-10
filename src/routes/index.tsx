@@ -422,7 +422,7 @@ function WhatWeDo() {
             return (
               <div
                 key={c.t}
-                className="group relative bg-background p-10 lg:p-12 border-t-2 border-[var(--bronze)] transition-all hover:shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5"
+                className={`group relative bg-background p-10 lg:p-12 border-t-2 border-[var(--bronze)] transition-all hover:shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 ${i === cards.length - 1 ? "md:col-span-2" : ""}`}
               >
                 <h3 className="font-serif text-2xl md:text-3xl text-[var(--ink)] leading-snug mb-4 pr-8">
                   {c.t}
