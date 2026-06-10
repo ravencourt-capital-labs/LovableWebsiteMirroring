@@ -223,7 +223,7 @@ function Hero() {
             key={i}
             src={s.image}
             alt={s.alt}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out ${
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms] ease-in-out ${
               i === index ? "opacity-100" : "opacity-0"
             }`}
             width={1920}
