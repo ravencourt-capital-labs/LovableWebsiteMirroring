@@ -198,14 +198,19 @@ const HERO_SLIDES = [
 
 function Hero() {
   const [index, setIndex] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const total = HERO_SLIDES.length;
 
   useEffect(() => {
+    if (hasInteracted) return;
     const id = setInterval(() => setIndex((i) => (i + 1) % total), 6000);
     return () => clearInterval(id);
-  }, [total]);
+  }, [total, hasInteracted]);
 
-  const go = (delta: number) => setIndex((i) => (i + delta + total) % total);
+  const go = (delta: number) => {
+    setHasInteracted(true);
+    setIndex((i) => (i + delta + total) % total);
+  };
 
   return (
     <section
