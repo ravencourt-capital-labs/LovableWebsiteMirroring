@@ -49,7 +49,7 @@ const TEAM = [
     name: "Rohan Kapoor",
     role: "Founder & Principal",
     location: "Milan, Italy",
-    linkedin: "https://linkedin.com/in/raisingcapitalcontact",
+    linkedin: "https://www.linkedin.com/in/ravencourtcapital/",
     image: rohanImg.url,
     objectPosition: "50% 25%",
   },
