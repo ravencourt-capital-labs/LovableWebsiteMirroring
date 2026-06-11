@@ -929,7 +929,7 @@ function Footer() {
           <p>© 2026 Ravencourt Capital. All rights reserved.</p>
         </div>
         <a
-          href="https://linkedin.com/company/ravencourt-capital"
+          href="https://www.linkedin.com/company/ravencourtcapital/"
           target="_blank"
           rel="noreferrer"
           aria-label="Ravencourt Capital on LinkedIn"
