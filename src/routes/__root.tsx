@@ -55,6 +55,14 @@ export const Route = createRootRoute({
         content:
           "Allocator-aligned, cross-border execution across private capital, M&A, and buy-side mandates.",
       },
+      { title: "Lovable App" },
+      { property: "og:title", content: "Lovable App" },
+      { name: "twitter:title", content: "Lovable App" },
+      { name: "description", content: "Capital Connect is a single-page institutional website for Ravencourt Capital, a boutique advisory firm." },
+      { property: "og:description", content: "Capital Connect is a single-page institutional website for Ravencourt Capital, a boutique advisory firm." },
+      { name: "twitter:description", content: "Capital Connect is a single-page institutional website for Ravencourt Capital, a boutique advisory firm." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c27ce419-1370-47d8-a70d-b041d3771c1a/id-preview-94b67a04--88b375e9-9c24-418e-bf50-01417d8a7da8.lovable.app-1781211209238.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c27ce419-1370-47d8-a70d-b041d3771c1a/id-preview-94b67a04--88b375e9-9c24-418e-bf50-01417d8a7da8.lovable.app-1781211209238.png" },
     ],
     links: [
       {
