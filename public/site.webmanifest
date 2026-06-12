@@ -1,0 +1,19 @@
+{
+  "name": "Ravencourt Capital",
+  "short_name": "Ravencourt",
+  "icons": [
+    {
+      "src": "/__l5e/assets-v1/573de366-e31f-42dc-ac0e-8944dc7c020e/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/__l5e/assets-v1/b3a4bfae-6a6d-4c7e-9e06-ab2abd404afa/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0a0a0a",
+  "background_color": "#0a0a0a",
+  "display": "standalone"
+}
