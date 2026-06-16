@@ -67,7 +67,6 @@ const TEAM = [
     name: "Saania Shaikh",
     role: "Partnerships & Operations Director",
     location: "Dubai, UAE",
-    linkedin: "https://www.linkedin.com/in/partner-ravencourtcapital/",
     image: saaniaImg.url,
     objectPosition: "50% 26%",
   },
