@@ -898,10 +898,10 @@ function Contact() {
             <div>
               <p className="eyebrow mb-2 text-[var(--bronze-soft)]">Telephone</p>
               <a
-                href="tel:+393896497363"
+                href="tel:+393780118145"
                 className="text-lg hover:text-[var(--bronze)] transition-colors"
               >
-                +39 389 649 7363
+                +39 378 011 8145
               </a>
             </div>
             <div>
@@ -923,12 +923,12 @@ function Footer() {
           <p className="font-serif text-sm text-white/90">Ravencourt Capital</p>
           <p>Allocator-Aligned Private Markets Advisory</p>
           <p>Milan, Italy · Cross-border coverage across Europe, MENA, North America, and select global markets</p>
-          <p>Ravencourt Capital di Rohan Kapoor · P.IVA 11381320966</p>
+          <p>Ravencourt Capital di Rohan Kapoor · P.IVA IT 11381320966</p>
           <p>Registered Office: Via Carlo Imbonati, 62/2, 20159 Milano, Italy</p>
           <p>
             <a href="mailto:contact@ravencourtcapital.com" className="hover:text-[var(--bronze)] transition-colors">contact@ravencourtcapital.com</a>
             {" · "}
-            <a href="tel:+393896497363" className="hover:text-[var(--bronze)] transition-colors">+39 389 649 7363</a>
+            <a href="tel:+393780118145" className="hover:text-[var(--bronze)] transition-colors">+39 378 011 8145</a>
           </p>
           <p className="italic text-[oklch(0.65_0.01_85)]">For professional and institutional use only. Not for retail distribution.</p>
           <p>© 2026 Ravencourt Capital. All rights reserved.</p>
