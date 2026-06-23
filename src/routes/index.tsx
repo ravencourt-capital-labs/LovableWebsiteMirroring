@@ -923,7 +923,7 @@ function Footer() {
           <p className="font-serif text-sm text-white/90">Ravencourt Capital</p>
           <p>Allocator-Aligned Private Markets Advisory</p>
           <p>Milan, Italy · Cross-border coverage across Europe, MENA, North America, and select global markets</p>
-          <p>Ravencourt Capital di Rohan Kapoor · P.IVA IT 11381320966</p>
+          <p>Ravencourt Capital di Rohan Kapoor · P.IVA IT11381320966</p>
           <p>Registered Office: Via Carlo Imbonati, 62/2, 20159 Milano, Italy</p>
           <p>
             <a href="mailto:contact@ravencourtcapital.com" className="hover:text-[var(--bronze)] transition-colors">contact@ravencourtcapital.com</a>
