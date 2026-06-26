@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, ArrowLeft, ArrowRight, Globe } from "lucide-react";
 import logo from "@/assets/ravencourt-logo.png";
+import { submitEnquiry } from "@/lib/airtable.functions";
 
 const lucianoImg = { url: "/images/luciano.jpg" };
 const konstantinosImg = { url: "/images/konstantinos.jpeg" };
@@ -771,6 +772,12 @@ const CONTACT_TILES = [
 function Contact() {
   const [sent, setSent] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [organisation, setOrganisation] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const selectedTile = CONTACT_TILES.find((t) => t.label === selected);
 
@@ -810,9 +817,31 @@ function Contact() {
 
         <div className="grid md:grid-cols-2 gap-16">
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              setSent(true);
+              setError(null);
+              setSubmitting(true);
+              try {
+                await submitEnquiry({
+                  data: {
+                    subject: selected ?? "",
+                    name,
+                    organisation,
+                    email,
+                    message,
+                  },
+                });
+                setSent(true);
+                setName("");
+                setOrganisation("");
+                setEmail("");
+                setMessage("");
+              } catch (err) {
+                console.error(err);
+                setError("Submission failed. Please try again or email us directly.");
+              } finally {
+                setSubmitting(false);
+              }
             }}
             className="space-y-6"
           >
@@ -830,6 +859,9 @@ function Contact() {
               <input
                 required
                 type="text"
+                maxLength={100}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] focus:border-[var(--bronze)] outline-none py-3 text-base"
               />
             </div>
@@ -837,6 +869,9 @@ function Contact() {
               <label className="eyebrow block mb-2 text-[var(--bronze-soft)]">Organisation</label>
               <input
                 type="text"
+                maxLength={200}
+                value={organisation}
+                onChange={(e) => setOrganisation(e.target.value)}
                 className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] focus:border-[var(--bronze)] outline-none py-3 text-base"
               />
             </div>
@@ -845,6 +880,9 @@ function Contact() {
               <input
                 required
                 type="email"
+                maxLength={255}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] focus:border-[var(--bronze)] outline-none py-3 text-base"
               />
             </div>
@@ -853,16 +891,23 @@ function Contact() {
               <textarea
                 required
                 rows={4}
+                maxLength={2000}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 className="w-full bg-transparent border-b border-[oklch(0.5_0.02_270)] focus:border-[var(--bronze)] outline-none py-3 text-base resize-none"
               />
             </div>
             <button
               type="submit"
+              disabled={submitting || sent}
               className="mt-4 inline-flex items-center gap-3 border border-white text-white px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-[var(--ink)] transition-colors"
             >
-              {sent ? "Enquiry submitted" : "Submit enquiry"}
+              {sent ? "Enquiry submitted" : submitting ? "Submitting…" : "Submit enquiry"}
               <span aria-hidden>→</span>
             </button>
+            {error ? (
+              <p className="text-sm text-red-300">{error}</p>
+            ) : null}
             <div>
               {selectedTile ? (
                 <a
