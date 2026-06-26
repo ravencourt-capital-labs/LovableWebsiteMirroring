@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, ArrowLeft, ArrowRight, Globe } from "lucide-react";
 import logo from "@/assets/ravencourt-logo.png";
+import { submitEnquiry } from "@/lib/airtable.functions";
 
 const lucianoImg = { url: "/images/luciano.jpg" };
 const konstantinosImg = { url: "/images/konstantinos.jpeg" };
