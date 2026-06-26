@@ -36,10 +36,10 @@ export const submitEnquiry = createServerFn({ method: "POST" })
             fields: {
               Subject: data.subject,
               Name: data.name,
-              Organisation: data.organisation,
+              "Company Name": data.organisation,
               Email: data.email,
               Message: data.message,
-              "Enquiry Date": new Date().toISOString(),
+              "Enquiry Date": new Date().toISOString().split("T")[0],
             },
           },
         ],
