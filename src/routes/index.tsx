@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, ArrowLeft, ArrowRight, Globe } from "lucide-react";
 import logo from "@/assets/ravencourt-logo.png";
@@ -53,6 +54,7 @@ const TEAM = [
     linkedin: "https://www.linkedin.com/in/ravencourtcapital/",
     image: rohanImg.url,
     objectPosition: "50% 25%",
+    slug: "rohan-kapoor",
   },
   {
     initials: "LM",
@@ -62,6 +64,7 @@ const TEAM = [
     linkedin: "https://lcopartners.eu/en/professionals/luciano-mazzola-en",
     image: lucianoImg.url,
     objectPosition: "50% 5%",
+    slug: "luciano-mazzola",
   },
   {
     initials: "SS",
@@ -70,6 +73,7 @@ const TEAM = [
     location: "Dubai, UAE",
     image: saaniaImg.url,
     objectPosition: "50% 26%",
+    slug: "saania-shaikh",
   },
   {
     initials: "KL",
@@ -88,6 +92,7 @@ const TEAM = [
     linkedin: "https://www.linkedin.com/in/joey-zhu-7006a0318/",
     image: joeyImg.url,
     objectPosition: "50% 28%",
+    slug: "joey-zhu",
   },
 ];
 
@@ -711,6 +716,15 @@ function TeamCard({ m }: { m: typeof TEAM[number] }) {
               <p className="text-xs text-[var(--ink-soft)] leading-snug max-w-xs mx-auto mt-1 uppercase tracking-wider">
                 {m.location}
               </p>
+              {m.slug ? (
+                <Link
+                  to="/team/$slug"
+                  params={{ slug: m.slug }}
+                  className="inline-flex items-center gap-1.5 mt-4 text-xs uppercase tracking-[0.18em] text-[var(--ink-soft)] hover:text-[var(--bronze)] transition-colors"
+                >
+                  View profile <span aria-hidden>→</span>
+                </Link>
+              ) : null}
             </div>
   );
 }
