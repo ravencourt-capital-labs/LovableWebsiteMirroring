@@ -607,40 +607,228 @@ function FulfillmentOS() {
 }
 
 function Footprint() {
+  const [active, setActive] = useState<string | null>(null);
+
   const regions = [
     {
+      id: "europe",
       t: "Europe",
       b: "Primary market. Coverage across selected European private-market situations involving founder-led companies, fund managers, family offices, searchers, acquisition entrepreneurs, strategic acquirers, and institutional counterparties.",
+      cx: 515,
+      cy: 155,
+      rx: 62,
+      ry: 42,
+      path: "M480 135 L540 125 L575 145 L565 180 L525 195 L485 180 Z",
     },
     {
+      id: "mena",
       t: "MENA",
       b: "Selective cross-border coverage across selected Gulf and MENA relationships where European private-market opportunities, family-office engagement, strategic transactions, or institutional partnership opportunities may be relevant.",
+      cx: 555,
+      cy: 225,
+      rx: 58,
+      ry: 48,
+      path: "M530 195 L590 195 L605 240 L580 275 L540 265 L520 230 Z",
     },
     {
+      id: "namerica",
       t: "North America",
       b: "Selective cross-border engagement where European execution capability, private-market opportunities, and North American capital or strategic interest may intersect.",
+      cx: 185,
+      cy: 165,
+      rx: 90,
+      ry: 60,
+      path: "M110 130 L260 120 L290 170 L255 215 L140 215 L105 185 Z",
     },
     {
+      id: "global",
       t: "Select Global Markets",
       b: "Relationship-led engagement in select global markets where Ravencourt's relationship network, advisory capability, and mandate relevance justify involvement.",
+      cx: 750,
+      cy: 230,
+      rx: 80,
+      ry: 65,
+      path: "M700 190 L800 185 L830 230 L790 280 L710 275 L685 230 Z",
     },
   ];
+
+  const activeRegion = regions.find((r) => r.id === active) ?? null;
+
   return (
     <section id="footprint" className="py-20 lg:py-28 border-b border-[var(--rule)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <SectionHeader eyebrow="Operating Footprint" title="Where We Operate" />
-        <p className="text-lg md:text-xl text-[var(--ink)] font-light leading-relaxed max-w-4xl mb-16">
+        <p className="text-lg md:text-xl text-[var(--ink)] font-light leading-relaxed max-w-4xl mb-12">
           Ravencourt is Milan-based, with cross-border coverage across Europe, MENA, North America,
           and select global markets. Our operating model is selective by design.
         </p>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
-          {regions.map((r) => (
-            <div key={r.t}>
-              <div className="h-px w-12 bg-[var(--bronze)] mb-6" />
-              <h3 className="font-serif text-3xl text-[var(--ink)] mb-4">{r.t}</h3>
-              <p className="text-[var(--ink-soft)] leading-relaxed text-sm">{r.b}</p>
+
+        <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 items-start">
+          {/* Map */}
+          <div className="relative">
+            <svg
+              viewBox="0 0 1000 420"
+              className="w-full h-auto"
+              role="img"
+              aria-label="World map showing Ravencourt Capital operating regions"
+            >
+              <defs>
+                <radialGradient id="milan-glow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="var(--bronze)" stopOpacity="0.35" />
+                  <stop offset="100%" stopColor="var(--bronze)" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+
+              {/* Base landmasses — very subtle */}
+              <g style={{ fill: "var(--rule)", opacity: 0.55 }}>
+                {/* North America */}
+                <path d="M95 105 L160 95 L215 100 L285 115 L320 135 L310 165 L285 185 L255 205 L220 215 L175 210 L135 205 L105 185 L85 150 Z" />
+                {/* South America */}
+                <path d="M235 235 L280 230 L310 245 L315 285 L300 330 L275 360 L255 355 L235 320 L225 280 Z" />
+                {/* Europe / Africa / Middle East */}
+                <path d="M470 90 L545 85 L600 105 L625 140 L620 185 L640 220 L655 265 L640 310 L605 335 L560 330 L530 300 L515 260 L500 220 L480 185 L465 145 Z" />
+                {/* Asia */}
+                <path d="M620 100 L720 90 L815 105 L865 140 L890 190 L875 235 L840 265 L795 275 L750 265 L710 245 L680 215 L655 180 L635 140 Z" />
+                {/* Australia */}
+                <path d="M780 310 L835 305 L865 325 L860 355 L830 370 L790 365 L770 340 Z" />
+              </g>
+
+              {/* Operating region overlays */}
+              {regions.map((r) => {
+                const isActive = active === r.id;
+                return (
+                  <g
+                    key={r.id}
+                    className="cursor-pointer transition-all duration-300"
+                    onMouseEnter={() => setActive(r.id)}
+                    onMouseLeave={() => setActive(null)}
+                    onClick={() => setActive(isActive ? null : r.id)}
+                    style={{ outline: "none" }}
+                    tabIndex={0}
+                    role="button"
+                    aria-label={r.t}
+                    onFocus={() => setActive(r.id)}
+                    onBlur={() => setActive(null)}
+                  >
+                    <ellipse
+                      cx={r.cx}
+                      cy={r.cy}
+                      rx={r.rx}
+                      ry={r.ry}
+                      style={{
+                        fill: isActive ? "var(--bronze)" : "var(--ink)",
+                        opacity: isActive ? 0.2 : 0.12,
+                        transition: "all 300ms ease",
+                      }}
+                    />
+                    <path
+                      d={r.path}
+                      style={{
+                        fill: isActive ? "var(--bronze)" : "var(--ink)",
+                        opacity: isActive ? 0.35 : 0.2,
+                        transition: "all 300ms ease",
+                      }}
+                    />
+                    <text
+                      x={r.cx}
+                      y={r.cy + 5}
+                      textAnchor="middle"
+                      className="font-serif"
+                      style={{
+                        fill: isActive ? "var(--ink)" : "var(--ink-soft)",
+                        fontSize: 14,
+                        fontWeight: 400,
+                        letterSpacing: "0.04em",
+                        opacity: isActive ? 1 : 0.85,
+                        transition: "all 300ms ease",
+                        pointerEvents: "none",
+                      }}
+                    >
+                      {r.t}
+                    </text>
+                  </g>
+                );
+              })}
+
+              {/* Milan marker */}
+              <g>
+                <circle cx="525" cy="160" r="28" fill="url(#milan-glow)" />
+                <circle cx="525" cy="160" r="5" style={{ fill: "var(--bronze)" }} />
+                <circle cx="525" cy="160" r="9" style={{ fill: "none", stroke: "var(--bronze)", strokeWidth: 1, opacity: 0.6 }} />
+                <text
+                  x="545"
+                  y="145"
+                  className="font-sans"
+                  style={{
+                    fill: "var(--ink)",
+                    fontSize: 10,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    fontWeight: 500,
+                  }}
+                >
+                  Milan
+                </text>
+              </g>
+            </svg>
+
+            {/* Mobile helper */}
+            <p className="lg:hidden mt-4 text-xs text-[var(--ink-soft)] text-center">
+              Tap a region to view coverage details
+            </p>
+          </div>
+
+          {/* Region legend / detail panel */}
+          <div className="space-y-6">
+            {regions.map((r) => {
+              const isActive = active === r.id;
+              return (
+                <div
+                  key={r.id}
+                  onMouseEnter={() => setActive(r.id)}
+                  onMouseLeave={() => setActive(null)}
+                  onClick={() => setActive(isActive ? null : r.id)}
+                  className={`group border-l-2 pl-6 py-1 cursor-pointer transition-all duration-300 ${
+                    isActive ? "border-[var(--bronze)]" : "border-[var(--rule)]"
+                  }`}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isActive}
+                  onFocus={() => setActive(r.id)}
+                  onBlur={() => setActive(null)}
+                >
+                  <h3
+                    className={`font-serif text-2xl transition-colors duration-300 ${
+                      isActive ? "text-[var(--bronze)]" : "text-[var(--ink)]"
+                    }`}
+                  >
+                    {r.t}
+                  </h3>
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ${
+                      isActive ? "max-h-96 opacity-100 mt-3" : "max-h-0 opacity-0 mt-0 lg:max-h-0"
+                    }`}
+                  >
+                    <p className="text-[var(--ink-soft)] leading-relaxed text-sm">{r.b}</p>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Active detail card (desktop persistent) */}
+            <div className="hidden lg:block mt-8 p-6 bg-[oklch(0.94_0.008_85)] border border-[var(--rule)]">
+              {activeRegion ? (
+                <>
+                  <p className="eyebrow mb-3">{activeRegion.t}</p>
+                  <p className="text-[var(--ink-soft)] leading-relaxed text-sm">{activeRegion.b}</p>
+                </>
+              ) : (
+                <p className="text-sm text-[var(--ink-soft)] italic">
+                  Hover over a region on the map to see coverage details.
+                </p>
+              )}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
