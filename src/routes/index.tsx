@@ -61,7 +61,6 @@ const TEAM = [
     name: "Dr. Luciano Mazzola",
     role: "Legal & Cross-Border Structuring Advisor",
     location: "Milan, Italy",
-    linkedin: "https://lcopartners.eu/en/professionals/luciano-mazzola-en",
     image: lucianoImg.url,
     objectPosition: "50% 5%",
     slug: "luciano-mazzola",
