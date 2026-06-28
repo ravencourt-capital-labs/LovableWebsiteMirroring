@@ -607,259 +607,40 @@ function FulfillmentOS() {
 }
 
 function Footprint() {
-  const [active, setActive] = useState<string | null>(null);
-
   const regions = [
     {
-      id: "europe",
       t: "Europe",
-      tag: "Primary Market",
-      coords: "45.46° N · 9.19° E",
       b: "Primary market. Coverage across selected European private-market situations involving founder-led companies, fund managers, family offices, searchers, acquisition entrepreneurs, strategic acquirers, and institutional counterparties.",
-      path: "M470 118 L485 95 L535 88 L575 105 L585 130 L565 155 L525 162 L490 150 Z",
-      labelX: 530,
-      labelY: 108,
     },
     {
-      id: "mena",
       t: "MENA",
-      tag: "Cross-Border",
-      coords: "Gulf · Levant",
       b: "Selective cross-border coverage across selected Gulf and MENA relationships where European private-market opportunities, family-office engagement, strategic transactions, or institutional partnership opportunities may be relevant.",
-      path: "M530 165 L590 165 L615 195 L600 235 L565 245 L535 225 Z",
-      labelX: 575,
-      labelY: 200,
     },
     {
-      id: "namerica",
       t: "North America",
-      tag: "Cross-Border",
-      coords: "US · Canada",
       b: "Selective cross-border engagement where European execution capability, private-market opportunities, and North American capital or strategic interest may intersect.",
-      path: "M75 80 L160 70 L250 82 L330 105 L350 140 L330 175 L290 200 L220 208 L150 205 L95 185 L65 145 L55 110 Z",
-      labelX: 200,
-      labelY: 140,
     },
     {
-      id: "global",
       t: "Select Global Markets",
-      tag: "Relationship-Led",
-      coords: "APAC · LATAM",
       b: "Relationship-led engagement in select global markets where Ravencourt's relationship network, advisory capability, and mandate relevance justify involvement.",
-      path: "M680 155 L790 145 L855 175 L875 220 L840 270 L760 280 L695 255 L670 210 Z",
-      labelX: 780,
-      labelY: 215,
     },
   ];
-
-  const activeRegion = regions.find((r) => r.id === active) ?? null;
-
   return (
-    <section id="footprint" className="py-20 lg:py-28 bg-[#0F0E0D] text-[oklch(0.92_0.01_85)] border-b border-[oklch(0.25_0.01_85)]">
+    <section id="footprint" className="py-20 lg:py-28 border-b border-[var(--rule)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        {/* Institutional header strip */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between border-b border-[oklch(0.30_0.01_85)] pb-6 mb-10 gap-4">
-          <div>
-            <p className="text-[0.7rem] tracking-[0.28em] uppercase text-[var(--gold)] font-medium mb-3">
-              Operating Footprint
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[oklch(0.96_0.01_85)] leading-[1.05]">
-              Where We Operate
-            </h2>
-          </div>
-          <div className="md:text-right font-mono text-[0.7rem] tracking-[0.18em] uppercase text-[oklch(0.60_0.01_85)]">
-            <div>HQ · Milan, Italy</div>
-            <div className="text-[var(--gold)] mt-1">45.4642° N · 9.1900° E</div>
-          </div>
-        </div>
-
-        <p className="text-base md:text-lg text-[oklch(0.78_0.01_85)] font-light leading-relaxed max-w-4xl mb-12">
+        <SectionHeader eyebrow="Operating Footprint" title="Where We Operate" />
+        <p className="text-lg md:text-xl text-[var(--ink)] font-light leading-relaxed max-w-4xl mb-16">
           Ravencourt is Milan-based, with cross-border coverage across Europe, MENA, North America,
           and select global markets. Our operating model is selective by design.
         </p>
-
-        <div className="grid lg:grid-cols-[1.35fr_1fr] gap-10 lg:gap-14 items-start">
-          {/* Map panel */}
-          <div className="relative bg-[#0A0908] border border-[oklch(0.28_0.01_85)] p-5 lg:p-7">
-            {/* corner ticks */}
-            <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-[var(--gold)]/60" />
-            <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-[var(--gold)]/60" />
-            <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-[var(--gold)]/60" />
-            <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-[var(--gold)]/60" />
-
-            <div className="flex items-center justify-between mb-4 font-mono text-[0.65rem] tracking-[0.22em] uppercase text-[oklch(0.55_0.01_85)]">
-              <span>Fig. 01 · Global Coverage Map</span>
-              <span className="flex items-center gap-2 text-[var(--gold)]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--gold)] animate-pulse" />
-                Live
-              </span>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
+          {regions.map((r) => (
+            <div key={r.t}>
+              <div className="h-px w-12 bg-[var(--bronze)] mb-6" />
+              <h3 className="font-serif text-3xl text-[var(--ink)] mb-4">{r.t}</h3>
+              <p className="text-[var(--ink-soft)] leading-relaxed text-sm">{r.b}</p>
             </div>
-
-            <svg
-              viewBox="0 0 1000 520"
-              className="w-full h-auto"
-              role="img"
-              aria-label="World map showing Ravencourt Capital operating regions"
-            >
-              <defs>
-                <radialGradient id="milan-glow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.55" />
-                  <stop offset="100%" stopColor="var(--gold)" stopOpacity="0" />
-                </radialGradient>
-                <pattern id="dotgrid" width="14" height="14" patternUnits="userSpaceOnUse">
-                  <circle cx="1" cy="1" r="0.8" fill="oklch(0.45 0.01 85)" opacity="0.4" />
-                </pattern>
-              </defs>
-
-              <rect width="1000" height="520" fill="url(#dotgrid)" />
-
-              <g stroke="oklch(0.30 0.01 85)" strokeWidth="0.6" strokeDasharray="2 4">
-                <line x1="0" y1="130" x2="1000" y2="130" />
-                <line x1="0" y1="260" x2="1000" y2="260" />
-                <line x1="0" y1="390" x2="1000" y2="390" />
-                <line x1="250" y1="0" x2="250" y2="520" />
-                <line x1="500" y1="0" x2="500" y2="520" />
-                <line x1="750" y1="0" x2="750" y2="520" />
-              </g>
-
-              <g fill="oklch(0.22 0.008 85)" stroke="oklch(0.40 0.01 85)" strokeWidth="0.75">
-                <path d="M55 85 L125 75 L195 80 L265 92 L310 110 L335 135 L325 165 L305 190 L270 208 L215 215 L160 215 L115 205 L80 185 L55 150 L45 115 Z" />
-                <path d="M245 245 L295 240 L325 260 L335 300 L320 345 L295 380 L270 375 L250 340 L235 295 Z" />
-                <path d="M340 60 L390 55 L410 75 L395 95 L355 90 Z" />
-                <path d="M455 95 L480 75 L535 70 L580 85 L595 115 L575 145 L540 158 L500 150 L465 130 Z" />
-                <path d="M470 155 L535 155 L570 175 L590 220 L585 275 L565 330 L535 365 L505 360 L485 320 L470 270 L460 215 Z" />
-                <path d="M540 160 L600 165 L630 190 L620 225 L585 235 L555 215 Z" />
-                <path d="M610 75 L720 65 L830 80 L895 115 L925 170 L910 225 L870 260 L815 275 L760 270 L710 250 L675 220 L650 180 L630 135 Z" />
-                <path d="M775 315 L845 310 L880 330 L875 365 L845 385 L800 380 L775 355 Z" />
-                <path d="M910 135 L935 125 L945 150 L930 180 L915 170 Z" />
-              </g>
-
-              {regions.map((r) => {
-                const isActive = active === r.id;
-                return (
-                  <g
-                    key={r.id}
-                    className="cursor-pointer"
-                    onMouseEnter={() => setActive(r.id)}
-                    onMouseLeave={() => setActive(null)}
-                    onClick={() => setActive(isActive ? null : r.id)}
-                    tabIndex={0}
-                    role="button"
-                    aria-label={r.t}
-                    onFocus={() => setActive(r.id)}
-                    onBlur={() => setActive(null)}
-                  >
-                    <path
-                      d={r.path}
-                      style={{
-                        fill: "var(--gold)",
-                        opacity: isActive ? 0.55 : 0.28,
-                        stroke: "var(--gold)",
-                        strokeWidth: isActive ? 1.6 : 1,
-                        transition: "all 300ms ease",
-                      }}
-                    />
-                    <text
-                      x={r.labelX}
-                      y={r.labelY}
-                      textAnchor="middle"
-                      style={{
-                        fill: isActive ? "var(--gold)" : "oklch(0.85 0.01 85)",
-                        fontFamily: "var(--font-sans)",
-                        fontSize: 11,
-                        fontWeight: 600,
-                        letterSpacing: "0.18em",
-                        textTransform: "uppercase",
-                        transition: "all 300ms ease",
-                        pointerEvents: "none",
-                      }}
-                    >
-                      {r.t}
-                    </text>
-                  </g>
-                );
-              })}
-
-              {/* Milan HQ marker */}
-              <g>
-                <circle cx="525" cy="130" r="42" fill="url(#milan-glow)" />
-                <circle cx="525" cy="130" r="14" fill="none" stroke="var(--gold)" strokeWidth="1" opacity="0.7" />
-                <circle cx="525" cy="130" r="4" fill="var(--gold)" />
-                <line x1="525" y1="130" x2="560" y2="105" stroke="var(--gold)" strokeWidth="0.8" opacity="0.7" />
-                <text x="565" y="100" style={{ fill: "var(--gold)", fontFamily: "var(--font-sans)", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 700 }}>
-                  Milan · HQ
-                </text>
-                <text x="565" y="113" style={{ fill: "oklch(0.65 0.01 85)", fontFamily: "var(--font-sans)", fontSize: 8, letterSpacing: "0.14em", textTransform: "uppercase" }}>
-                  45.46N · 9.19E
-                </text>
-              </g>
-            </svg>
-
-            <div className="flex items-center justify-between mt-4 font-mono text-[0.6rem] tracking-[0.2em] uppercase text-[oklch(0.50_0.01_85)]">
-              <span>Source · Ravencourt Capital</span>
-              <span>4 Coverage Zones</span>
-            </div>
-          </div>
-
-          {/* Region legend / detail panel */}
-          <div>
-            <div className="border-t border-[oklch(0.30_0.01_85)]">
-              {regions.map((r, i) => {
-                const isActive = active === r.id;
-                return (
-                  <button
-                    key={r.id}
-                    type="button"
-                    onMouseEnter={() => setActive(r.id)}
-                    onMouseLeave={() => setActive(null)}
-                    onClick={() => setActive(isActive ? null : r.id)}
-                    onFocus={() => setActive(r.id)}
-                    onBlur={() => setActive(null)}
-                    className={`w-full text-left grid grid-cols-[auto_1fr_auto] items-center gap-4 px-1 py-5 border-b border-[oklch(0.30_0.01_85)] transition-colors duration-300 ${
-                      isActive ? "bg-[oklch(0.14_0.01_85)]" : "hover:bg-[oklch(0.13_0.01_85)]"
-                    }`}
-                  >
-                    <span className={`font-mono text-xs tracking-[0.2em] ${isActive ? "text-[var(--gold)]" : "text-[oklch(0.55_0.01_85)]"}`}>
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span>
-                      <span className={`block font-serif text-xl md:text-2xl ${isActive ? "text-[var(--gold)]" : "text-[oklch(0.95_0.01_85)]"}`}>
-                        {r.t}
-                      </span>
-                      <span className="block font-mono text-[0.65rem] tracking-[0.18em] uppercase text-[oklch(0.55_0.01_85)] mt-1">
-                        {r.tag} · {r.coords}
-                      </span>
-                    </span>
-                    <span className={`text-lg transition-transform duration-300 ${isActive ? "text-[var(--gold)] rotate-45" : "text-[oklch(0.50_0.01_85)]"}`}>
-                      +
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Detail panel */}
-            <div className="mt-6 p-6 border border-[oklch(0.28_0.01_85)] bg-[oklch(0.10_0.008_85)] min-h-[180px]">
-              {activeRegion ? (
-                <>
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="w-2 h-2 bg-[var(--gold)]" />
-                    <p className="font-mono text-[0.65rem] tracking-[0.22em] uppercase text-[var(--gold)]">
-                      {activeRegion.tag}
-                    </p>
-                  </div>
-                  <h4 className="font-serif text-2xl text-[oklch(0.96_0.01_85)] mb-3">{activeRegion.t}</h4>
-                  <p className="text-[oklch(0.78_0.01_85)] leading-relaxed text-sm font-light">
-                    {activeRegion.b}
-                  </p>
-                </>
-              ) : (
-                <p className="font-mono text-xs tracking-[0.18em] uppercase text-[oklch(0.55_0.01_85)]">
-                  Select a region to view coverage parameters
-                </p>
-              )}
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
