@@ -6,7 +6,6 @@ import logo from "@/assets/ravencourt-logo.png";
 import { submitEnquiry } from "@/lib/airtable.functions";
 
 const lucianoImg = { url: "/images/luciano.jpg" };
-const konstantinosImg = { url: "/images/konstantinos.jpeg" };
 const joeyImg = { url: "/images/joey.jpg" };
 const saaniaImg = { url: "/images/saania.jpg" };
 const rohanImg = { url: "/images/rohan.jpg" };
