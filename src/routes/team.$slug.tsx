@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
+import saaniaAsset from "@/assets/saania.png.asset.json";
 
 type Profile = {
   name: string;
@@ -44,7 +45,7 @@ const PROFILES: Record<string, Profile> = {
     name: "Saania Shaikh",
     role: "Partnerships & Operations Director",
     location: "Dubai, UAE",
-    image: "/images/saania.jpg",
+    image: saaniaAsset.url,
     objectPosition: "50% 26%",
     paragraphs: [
       "Saania Shaikh supports Ravencourt Capital's partnerships, business development, and operating infrastructure, with a particular focus on relationship-led engagement across the Middle East.",
