@@ -3,12 +3,11 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, ArrowLeft, ArrowRight, Globe } from "lucide-react";
 import logo from "@/assets/ravencourt-logo.png";
-import saaniaAsset from "@/assets/saania.png.asset.json";
 import { submitEnquiry } from "@/lib/airtable.functions";
 
 const lucianoImg = { url: "/images/luciano.jpg" };
 const joeyImg = { url: "/images/joey.jpg" };
-const saaniaImg = { url: saaniaAsset.url };
+const saaniaImg = { url: "/images/saania.jpg" };
 const rohanImg = { url: "/images/rohan.jpg" };
 const milanHero = { url: "/images/milan-hero.jpg" };
 const corridorImg = { url: "/images/corridor.jpg" };
