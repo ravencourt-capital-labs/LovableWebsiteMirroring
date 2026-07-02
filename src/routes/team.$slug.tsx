@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
+import saaniaAsset from "@/assets/saania.png.asset.json";
 
 type Profile = {
   name: string;
