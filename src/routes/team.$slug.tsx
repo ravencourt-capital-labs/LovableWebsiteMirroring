@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
+import rohanAsset from "@/assets/rohan-new.png.asset.json";
 
 type Profile = {
   name: string;
@@ -16,7 +17,7 @@ const PROFILES: Record<string, Profile> = {
     name: "Rohan Kapoor",
     role: "Founder & Principal",
     location: "Milan, Italy",
-    image: "/images/rohan.jpg",
+    image: rohanAsset.url,
     objectPosition: "50% 25%",
     paragraphs: [
       "Rohan Kapoor brings an operator-led perspective to private markets advisory, shaped by more than 16 years spanning engineering, semiconductor operations, manufacturing and supply-chain transformation, commercial leadership, strategic partnerships, and capital formation.",
