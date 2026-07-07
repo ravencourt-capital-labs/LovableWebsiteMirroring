@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Menu, ArrowLeft, ArrowRight, Globe } from "lucide-react";
 import logo from "@/assets/ravencourt-logo.png";
 import { submitEnquiry } from "@/lib/airtable.functions";
+import rohanAsset from "@/assets/rohan-new.png.asset.json";
 
 const lucianoImg = { url: "/images/luciano.jpg" };
 const joeyImg = { url: "/images/joey.jpg" };
