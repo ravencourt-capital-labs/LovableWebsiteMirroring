@@ -9,7 +9,7 @@ import rohanAsset from "@/assets/rohan-new.png.asset.json";
 const lucianoImg = { url: "/images/luciano.jpg" };
 const joeyImg = { url: "/images/joey.jpg" };
 const saaniaImg = { url: "/images/saania.jpg" };
-const rohanImg = { url: "/images/rohan.jpg" };
+const rohanImg = { url: rohanAsset.url };
 const milanHero = { url: "/images/milan-hero.jpg" };
 const corridorImg = { url: "/images/corridor.jpg" };
 const deltaImg = { url: "/images/delta.jpg" };
