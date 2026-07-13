@@ -84,6 +84,15 @@ const TEAM = [
     objectPosition: "50% 28%",
     slug: "joey-zhu",
   },
+  {
+    initials: "IX",
+    name: "Isabella Xu",
+    role: "Private Markets Analyst",
+    location: "Hong Kong SAR",
+    image: "/images/isabella-xu.svg",
+    objectPosition: "50% 20%",
+    slug: "isabella-xu",
+  },
 ];
 
 function Header() {
