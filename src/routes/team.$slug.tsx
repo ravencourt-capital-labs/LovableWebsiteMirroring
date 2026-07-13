@@ -69,6 +69,20 @@ const PROFILES: Record<string, Profile> = {
     coreRelevance:
       "finance, data infrastructure, investor mapping, research workflows, automation support, and execution discipline.",
   },
+  "isabella-xu": {
+    name: "Isabella Xu",
+    role: "Private Markets Analyst",
+    location: "Hong Kong SAR",
+    image: "/images/isabella-xu.svg",
+    objectPosition: "50% 20%",
+    paragraphs: [
+      "Isabella Xu supports Ravencourt Capital's private-markets research, origination, and analytical execution, bringing an Applied Mathematics foundation from Columbia University together with early experience across equity research, finance operations, real assets investing, and business analysis.",
+      "Her role sits at the intersection of quantitative analysis, market intelligence, and cross-border private-market coverage. At Ravencourt Capital, Isabella contributes to counterparty research, market mapping, opportunity qualification, CRM and Airtable discipline, and selected valuation, memo, and transaction-readiness work, with a particular focus on Hong Kong and Greater China.",
+      "By combining analytical discipline with on-the-ground market coverage, Isabella supports Ravencourt's ability to assess selected cross-border opportunities, strengthen regional intelligence, and develop relevant institutional relationships across Asian and global private markets.",
+    ],
+    coreRelevance:
+      "private-markets research, cross-border origination, quantitative analysis, market mapping, opportunity qualification, and Hong Kong and Greater China coverage.",
+  },
 };
 
 export const Route = createFileRoute("/team/$slug")({

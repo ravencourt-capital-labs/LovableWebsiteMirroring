@@ -84,6 +84,15 @@ const TEAM = [
     objectPosition: "50% 28%",
     slug: "joey-zhu",
   },
+  {
+    initials: "IX",
+    name: "Isabella Xu",
+    role: "Private Markets Analyst",
+    location: "Hong Kong SAR",
+    image: "/images/isabella-xu.svg",
+    objectPosition: "50% 20%",
+    slug: "isabella-xu",
+  },
 ];
 
 function Header() {
@@ -646,9 +655,14 @@ function Team() {
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <SectionHeader eyebrow="Team" title="Senior-led, by design." />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-16 lg:gap-x-16 lg:gap-y-20">
-          {TEAM.map((m) => (
-            <TeamCard key={m.name} m={m} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-12 gap-y-16 lg:gap-x-16 lg:gap-y-20">
+          {TEAM.map((m, i) => (
+            <div
+              key={m.name}
+              className={`lg:col-span-2 ${i === 3 ? "lg:col-start-2" : ""}`}
+            >
+              <TeamCard m={m} />
+            </div>
           ))}
         </div>
         <p className="mt-16 text-center text-sm text-[var(--ink-soft)] italic">
