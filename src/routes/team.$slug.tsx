@@ -73,7 +73,7 @@ const PROFILES: Record<string, Profile> = {
     name: "Isabella Xu",
     role: "Private Markets Analyst",
     location: "Hong Kong SAR",
-    image: "/images/isabella-xu.svg",
+    image: "/images/isabella-xu.jpg",
     objectPosition: "50% 20%",
     paragraphs: [
       "Isabella Xu supports Ravencourt Capital's private-markets research, origination, and analytical execution, bringing an Applied Mathematics foundation from Columbia University together with early experience across equity research, finance operations, real assets investing, and business analysis.",

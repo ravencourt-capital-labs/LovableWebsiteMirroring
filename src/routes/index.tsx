@@ -89,7 +89,7 @@ const TEAM = [
     name: "Isabella Xu",
     role: "Private Markets Analyst",
     location: "Hong Kong SAR",
-    image: "/images/isabella-xu.svg",
+    image: "/images/isabella-xu.jpg",
     objectPosition: "50% 20%",
     slug: "isabella-xu",
   },
