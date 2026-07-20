@@ -2,9 +2,12 @@ name: Deploy Website Production
 
 on:
   workflow_dispatch:
+  issue_comment:
+    types: [created]
 
 permissions:
   contents: read
+  issues: write
 
 env:
   CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -23,11 +26,30 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.ref_name == 'main'
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref_name == 'main') ||
+      (github.event_name == 'issue_comment' &&
+       github.event.action == 'created' &&
+       github.event.issue.number == 5 &&
+       github.event.comment.body == '/deploy-ravencourt-website-production')
     environment: website-production
     runs-on: ubuntu-latest
     steps:
+      - name: Verify founder authority for issue command
+        if: github.event_name == 'issue_comment'
+        env:
+          COMMENT_ACTOR: ${{ github.event.comment.user.login }}
+          AUTHOR_ASSOCIATION: ${{ github.event.comment.author_association }}
+        run: |
+          set -euo pipefail
+          test "$COMMENT_ACTOR" = "rohakapo"
+          case "$AUTHOR_ASSOCIATION" in
+            OWNER|MEMBER|COLLABORATOR) ;;
+            *) echo "Comment author is not authorised." >&2; exit 1 ;;
+          esac
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -93,3 +115,17 @@ jobs:
       - name: Remove temporary secrets file
         if: always()
         run: rm -f .wrangler-secrets.json
+      - name: Post verified deployment receipt
+        if: success() && github.event_name == 'issue_comment'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh issue comment 5 --repo "${{ github.repository }}"
+          --body "Production website deployment completed successfully from main at commit ${{ github.sha }}. Release audit, separation scan, production configuration, build and Cloudflare deployment all passed. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      - name: Post fail-closed deployment receipt
+        if: failure() && github.event_name == 'issue_comment'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh issue comment 5 --repo "${{ github.repository }}"
+          --body "Production website deployment failed closed. Review the run before any retry: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
