@@ -1,4 +1,4 @@
-name: Export Validated Website VNext RC 0.1.0
+name: Prepare Website VNext RC 0.1.0 Commit
 
 on:
   pull_request:
@@ -8,14 +8,14 @@ on:
       - synchronize
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
-  group: export-website-vnext-rc-0.1.0
+  group: prepare-website-vnext-rc-0.1.0
   cancel-in-progress: false
 
 jobs:
-  validate-and-export:
+  validate-and-prepare:
     if: github.head_ref == 'website-vnext-1.0'
     runs-on: ubuntu-latest
     steps:
@@ -117,18 +117,93 @@ jobs:
       - name: TypeScript check
         run: bunx tsc --noEmit
 
-      - name: Prepare validated source archive
+      - name: Create validated release commit object
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
           rm -rf node_modules dist .output .wrangler .vite
           rm -rf .github/rc-payload
           rm -f .github/workflows/export-source.yml
-          tar --exclude=.git -czf /tmp/website-vnext-validated.tgz .
+          git add -A
+          git diff --cached --check
+          python3 <<'PY'
+          import base64
+          import json
+          import os
+          import subprocess
+          import urllib.request
+          from pathlib import Path
 
-      - name: Upload validated source
+          repo = os.environ['GH_REPOSITORY']
+          token = os.environ['GH_TOKEN']
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          api_root = f'https://api.github.com/repos/{repo}'
+
+          def request(method, path, payload=None):
+              data = None if payload is None else json.dumps(payload).encode()
+              req = urllib.request.Request(
+                  api_root + path,
+                  data=data,
+                  method=method,
+                  headers={
+                      'Accept': 'application/vnd.github+json',
+                      'Authorization': f'Bearer {token}',
+                      'X-GitHub-Api-Version': '2022-11-28',
+                      'User-Agent': 'ravencourt-release-preparer',
+                  },
+              )
+              with urllib.request.urlopen(req) as response:
+                  return json.load(response)
+
+          base_commit = request('GET', f'/git/commits/{head}')
+          base_tree = base_commit['tree']['sha']
+          raw = subprocess.check_output(
+              ['git', 'diff', '--cached', '--name-status', '--no-renames', '-z']
+          )
+          parts = raw.decode().split('\0')
+          if parts and parts[-1] == '':
+              parts.pop()
+          if len(parts) % 2:
+              raise SystemExit('Unexpected staged diff record format.')
+
+          entries = []
+          for index in range(0, len(parts), 2):
+              status, path = parts[index], parts[index + 1]
+              if status == 'D':
+                  entries.append({'path': path, 'mode': '100644', 'type': 'blob', 'sha': None})
+                  continue
+              content = Path(path).read_bytes()
+              blob = request(
+                  'POST',
+                  '/git/blobs',
+                  {'content': base64.b64encode(content).decode(), 'encoding': 'base64'},
+              )
+              stage = subprocess.check_output(
+                  ['git', 'ls-files', '--stage', '--', path], text=True
+              ).strip()
+              mode = stage.split()[0] if stage else '100644'
+              entries.append({'path': path, 'mode': mode, 'type': 'blob', 'sha': blob['sha']})
+
+          tree = request('POST', '/git/trees', {'base_tree': base_tree, 'tree': entries})
+          commit = request(
+              'POST',
+              '/git/commits',
+              {
+                  'message': 'Apply Website VNext 1.0 RC 0.1.0',
+                  'tree': tree['sha'],
+                  'parents': [head],
+              },
+          )
+          Path('/tmp/release-commit-sha.txt').write_text(commit['sha'] + '\n')
+          print(f"Prepared commit {commit['sha']} with {len(entries)} changed paths.")
+          PY
+
+      - name: Upload prepared commit SHA
         uses: actions/upload-artifact@v4
         with:
-          name: website-vnext-validated-${{ github.event.pull_request.head.sha }}
-          path: /tmp/website-vnext-validated.tgz
+          name: website-vnext-prepared-commit-${{ github.event.pull_request.head.sha }}
+          path: /tmp/release-commit-sha.txt
           retention-days: 1
