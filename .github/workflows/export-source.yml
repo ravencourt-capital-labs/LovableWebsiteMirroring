@@ -75,12 +75,32 @@ jobs:
           bun-version: latest
 
       - name: Regenerate lockfile
+        id: install
+        continue-on-error: true
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
           rm -f bun.lock bun.lockb package-lock.json
-          bun install
-          test -f bun.lock
+          set +e
+          bun install 2>&1 | tee /tmp/bun-install.log
+          status=${PIPESTATUS[0]}
+          if [[ $status -eq 0 && ! -f bun.lock ]]; then
+            echo 'bun install completed but bun.lock was not generated.' | tee -a /tmp/bun-install.log
+            status=1
+          fi
+          exit "$status"
+
+      - name: Upload Bun install diagnostics
+        if: steps.install.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bun-install-diagnostics-${{ github.event.pull_request.head.sha }}
+          path: /tmp/bun-install.log
+          retention-days: 1
+
+      - name: Stop after lockfile failure
+        if: steps.install.outcome == 'failure'
+        run: exit 1
 
       - name: Release audit
         run: bun run audit:release
