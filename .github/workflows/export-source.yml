@@ -1,0 +1,23 @@
+name: Temporary source export
+
+on:
+  push:
+    branches:
+      - website-vnext-1.0
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Archive repository source
+        run: |
+          tar --exclude=.git -czf website-vnext-source.tgz .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: website-vnext-source-${{ github.sha }}
+          path: website-vnext-source.tgz
+          retention-days: 1
