@@ -1,4 +1,4 @@
-name: Apply Website VNext RC 0.1.0
+name: Export Validated Website VNext RC 0.1.0
 
 on:
   pull_request:
@@ -8,14 +8,14 @@ on:
       - synchronize
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: apply-website-vnext-rc-0.1.0
+  group: export-website-vnext-rc-0.1.0
   cancel-in-progress: false
 
 jobs:
-  apply-and-validate:
+  validate-and-export:
     if: github.head_ref == 'website-vnext-1.0'
     runs-on: ubuntu-latest
     steps:
@@ -91,36 +91,16 @@ jobs:
           bun-version: latest
 
       - name: Regenerate text lockfile
-        id: install
-        continue-on-error: true
         shell: bash
         run: |
-          set -uo pipefail
+          set -euo pipefail
           cat > bunfig.toml <<'EOF'
           [install]
           saveTextLockfile = true
           EOF
           rm -f bun.lock bun.lockb package-lock.json
-          set +e
-          bun install 2>&1 | tee /tmp/bun-install.log
-          status=${PIPESTATUS[0]}
-          if [[ $status -eq 0 && ! -f bun.lock ]]; then
-            echo 'bun install completed but bun.lock was not generated.' | tee -a /tmp/bun-install.log
-            status=1
-          fi
-          exit "$status"
-
-      - name: Upload Bun install diagnostics
-        if: steps.install.outcome == 'failure'
-        uses: actions/upload-artifact@v4
-        with:
-          name: bun-install-diagnostics-${{ github.event.pull_request.head.sha }}
-          path: /tmp/bun-install.log
-          retention-days: 1
-
-      - name: Stop after lockfile failure
-        if: steps.install.outcome == 'failure'
-        run: exit 1
+          bun install
+          test -f bun.lock
 
       - name: Release audit
         run: bun run audit:release
@@ -129,24 +109,7 @@ jobs:
         run: bun run audit:separation
 
       - name: Standard build
-        id: standard_build
-        continue-on-error: true
-        shell: bash
-        run: |
-          set -o pipefail
-          bun run build 2>&1 | tee /tmp/standard-build.log
-
-      - name: Upload standard build diagnostics
-        if: steps.standard_build.outcome == 'failure'
-        uses: actions/upload-artifact@v4
-        with:
-          name: standard-build-diagnostics-${{ github.event.pull_request.head.sha }}
-          path: /tmp/standard-build.log
-          retention-days: 1
-
-      - name: Stop after standard build failure
-        if: steps.standard_build.outcome == 'failure'
-        run: exit 1
+        run: bun run build
 
       - name: Cloudflare build
         run: bun run build:cloudflare
@@ -154,16 +117,18 @@ jobs:
       - name: TypeScript check
         run: bunx tsc --noEmit
 
-      - name: Commit validated RC to target branch
+      - name: Prepare validated source archive
         shell: bash
         run: |
           set -euo pipefail
           rm -rf node_modules dist .output .wrangler .vite
           rm -rf .github/rc-payload
           rm -f .github/workflows/export-source.yml
-          git config user.name 'Ravencourt Release Bot'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A
-          git diff --cached --check
-          git commit -m 'Apply Website VNext 1.0 RC 0.1.0'
-          git push origin HEAD:website-vnext-1.0
+          tar --exclude=.git -czf /tmp/website-vnext-validated.tgz .
+
+      - name: Upload validated source
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-vnext-validated-${{ github.event.pull_request.head.sha }}
+          path: /tmp/website-vnext-validated.tgz
+          retention-days: 1
