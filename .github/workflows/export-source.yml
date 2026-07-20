@@ -74,15 +74,15 @@ jobs:
         run: |
           set -euo pipefail
           python3 <<'PY'
-          import json
           from pathlib import Path
 
           path = Path('tsconfig.json')
-          config = json.loads(path.read_text())
-          include = config.setdefault('include', [])
-          if 'worker-configuration.d.ts' not in include:
-              include.append('worker-configuration.d.ts')
-          path.write_text(json.dumps(config, indent=2) + '\n')
+          text = path.read_text()
+          needle = '"include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "eslint.config.js"],'
+          replacement = '"include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "eslint.config.js", "worker-configuration.d.ts"],'
+          if needle not in text:
+              raise SystemExit('Expected tsconfig include line was not found.')
+          path.write_text(text.replace(needle, replacement, 1))
           PY
 
       - name: Set up Bun
