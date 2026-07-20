@@ -9,4 +9,9 @@ export type { ProcessStep } from "./ProcessSteps";
 export { BoundaryCallout } from "./BoundaryCallout";
 export { SiteLayout } from "./SiteLayout";
 export { SkipLink } from "./SkipLink";
-export { EditorialImage, EvidenceFlowVisual, ProofStrip } from "./InstitutionalMedia";
+export {
+  EditorialImage,
+  InstitutionalMotionField,
+  EvidenceFlowVisual,
+  ProofStrip,
+} from "./InstitutionalMedia";
