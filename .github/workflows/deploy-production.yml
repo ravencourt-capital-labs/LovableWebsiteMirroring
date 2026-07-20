@@ -14,6 +14,8 @@ env:
   VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
   AIRTABLE_BASE_ID: ${{ vars.AIRTABLE_BASE_ID }}
   AIRTABLE_TABLE_NAME: ${{ vars.AIRTABLE_TABLE_NAME }}
+  AIRTABLE_API_TOKEN: ${{ secrets.AIRTABLE_API_TOKEN }}
+  TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
 
 concurrency:
   group: ravencourt-website-production
@@ -54,11 +56,40 @@ jobs:
             echo "Missing AIRTABLE_TABLE_NAME." >&2
             exit 1
           }
+          test -n "$AIRTABLE_API_TOKEN" || {
+            echo "Missing AIRTABLE_API_TOKEN." >&2
+            exit 1
+          }
+          test -n "$TURNSTILE_SECRET_KEY" || {
+            echo "Missing TURNSTILE_SECRET_KEY." >&2
+            exit 1
+          }
       - name: Build production candidate
         run: bun run build:cloudflare
+      - name: Prepare encrypted first-deploy secrets
+        shell: bash
+        run: |
+          umask 077
+          python - <<'PY'
+          import json
+          import os
+
+          with open('.wrangler-secrets.json', 'w', encoding='utf-8') as handle:
+              json.dump(
+                  {
+                      'AIRTABLE_API_TOKEN': os.environ['AIRTABLE_API_TOKEN'],
+                      'TURNSTILE_SECRET_KEY': os.environ['TURNSTILE_SECRET_KEY'],
+                  },
+                  handle,
+              )
+          PY
       - name: Deploy production Worker
         run: |
           bunx wrangler deploy --env production \
+            --secrets-file .wrangler-secrets.json \
             --var "ENQUIRY_MODE:production" \
             --var "AIRTABLE_BASE_ID:${AIRTABLE_BASE_ID}" \
             --var "AIRTABLE_TABLE_NAME:${AIRTABLE_TABLE_NAME}"
+      - name: Remove temporary secrets file
+        if: always()
+        run: rm -f .wrangler-secrets.json
