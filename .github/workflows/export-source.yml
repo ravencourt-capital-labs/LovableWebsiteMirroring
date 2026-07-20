@@ -73,16 +73,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node <<'NODE'
-          const fs = require('node:fs');
-          const path = 'tsconfig.json';
-          const config = JSON.parse(fs.readFileSync(path, 'utf8'));
-          config.include ??= [];
-          if (!config.include.includes('worker-configuration.d.ts')) {
-            config.include.push('worker-configuration.d.ts');
-          }
-          fs.writeFileSync(path, `${JSON.stringify(config, null, 2)}\n`);
-          NODE
+          python3 <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('tsconfig.json')
+          config = json.loads(path.read_text())
+          include = config.setdefault('include', [])
+          if 'worker-configuration.d.ts' not in include:
+              include.append('worker-configuration.d.ts')
+          path.write_text(json.dumps(config, indent=2) + '\n')
+          PY
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
