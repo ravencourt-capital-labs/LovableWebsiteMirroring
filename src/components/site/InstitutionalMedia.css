@@ -1,0 +1,114 @@
+@keyframes rc-editorial-drift {
+  0% {
+    transform: scale(1.02) translate3d(-0.35%, 0, 0);
+  }
+  50% {
+    transform: scale(1.055) translate3d(0.45%, -0.35%, 0);
+  }
+  100% {
+    transform: scale(1.03) translate3d(0, 0.25%, 0);
+  }
+}
+
+@keyframes rc-motion-trace {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -420;
+  }
+}
+
+@keyframes rc-motion-trace-reverse {
+  from {
+    stroke-dashoffset: -420;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rc-motion-wash {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: translate3d(10%, 0, 0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate3d(-5%, 0, 0);
+  }
+}
+
+@keyframes rc-stage-signal {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translateX(-140%);
+  }
+  28%,
+  52% {
+    opacity: 0.85;
+  }
+  72%,
+  100% {
+    opacity: 0;
+    transform: translateX(340%);
+  }
+}
+
+.rc-editorial-drift {
+  animation: rc-editorial-drift 22s ease-in-out infinite alternate;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.rc-motion-path {
+  fill: none;
+  stroke-dasharray: 14 22;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  animation: rc-motion-trace 24s linear infinite;
+}
+
+.rc-motion-path-muted {
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 1;
+}
+
+.rc-motion-path-accent {
+  stroke: rgba(214, 177, 85, 0.72);
+  stroke-width: 1.15;
+  animation-duration: 18s;
+}
+
+.rc-motion-path-reverse {
+  animation-name: rc-motion-trace-reverse;
+  animation-duration: 29s;
+}
+
+.rc-motion-wash {
+  animation: rc-motion-wash 16s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.rc-stage-signal {
+  opacity: 0;
+  transform: translateX(-140%);
+  animation: rc-stage-signal 9.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rc-editorial-drift,
+  .rc-motion-path,
+  .rc-motion-wash,
+  .rc-stage-signal {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .rc-stage-signal {
+    display: none;
+  }
+}
