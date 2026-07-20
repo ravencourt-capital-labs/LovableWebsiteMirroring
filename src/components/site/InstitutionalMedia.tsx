@@ -7,6 +7,7 @@ export function EditorialImage({
   caption,
   objectPosition = "center",
   overlay,
+  motion = false,
   className = "",
 }: {
   src: string;
@@ -15,6 +16,7 @@ export function EditorialImage({
   caption?: string;
   objectPosition?: string;
   overlay?: ReactNode;
+  motion?: boolean;
   className?: string;
 }) {
   return (
@@ -24,13 +26,16 @@ export function EditorialImage({
       <img
         src={src}
         alt={alt}
-        className="absolute inset-0 h-full w-full object-cover saturate-[.72] contrast-[1.04]"
+        className={`absolute inset-0 h-full w-full object-cover saturate-[.72] contrast-[1.04] ${
+          motion ? "rc-editorial-drift" : ""
+        }`}
         style={{ objectPosition }}
-        loading="lazy"
+        loading={motion ? "eager" : "lazy"}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/5" />
-      <div className="absolute inset-y-0 left-0 w-px bg-[var(--gold)]/70" />
-      <div className="absolute inset-x-0 bottom-0 z-10 p-6 text-white lg:p-8">
+      <div className="absolute inset-0 z-[5] bg-gradient-to-t from-black/90 via-black/20 to-black/5" />
+      <div className="absolute inset-y-0 left-0 z-20 w-px bg-[var(--gold)]/70" />
+      {overlay && <div className="pointer-events-none absolute inset-0 z-10">{overlay}</div>}
+      <div className="absolute inset-x-0 bottom-0 z-20 p-6 text-white lg:p-8">
         {eyebrow && (
           <p className="mb-3 text-[10px] uppercase tracking-[0.24em] text-white/65">
             {eyebrow}
@@ -42,8 +47,33 @@ export function EditorialImage({
           </figcaption>
         )}
       </div>
-      {overlay && <div className="absolute inset-0 z-20">{overlay}</div>}
     </figure>
+  );
+}
+
+export function InstitutionalMotionField() {
+  return (
+    <div className="relative h-full w-full overflow-hidden" aria-hidden="true">
+      <svg
+        viewBox="0 0 1200 800"
+        preserveAspectRatio="xMidYMid slice"
+        className="absolute inset-0 h-full w-full"
+      >
+        <path
+          className="rc-motion-path rc-motion-path-muted"
+          d="M-120 690 C170 470 370 430 620 500 C850 565 1010 475 1320 165"
+        />
+        <path
+          className="rc-motion-path rc-motion-path-accent"
+          d="M-180 545 C120 320 390 265 640 350 C875 430 1030 325 1350 40"
+        />
+        <path
+          className="rc-motion-path rc-motion-path-muted rc-motion-path-reverse"
+          d="M-80 770 C250 590 425 565 680 625 C925 685 1090 595 1370 310"
+        />
+      </svg>
+      <div className="rc-motion-wash absolute -right-1/4 top-0 h-full w-3/4 bg-gradient-to-l from-[var(--gold)]/10 via-white/[.03] to-transparent" />
+    </div>
   );
 }
 
@@ -81,12 +111,17 @@ export function EvidenceFlowVisual({ compact = false }: { compact?: boolean }) {
           compact ? "grid-cols-2" : "md:grid-cols-2 xl:grid-cols-4"
         }`}
       >
-        {OPERATING_STAGES.map((stage) => (
+        {OPERATING_STAGES.map((stage, index) => (
           <li
             key={stage.number}
             className={`relative bg-[var(--ink)] text-white ${compact ? "p-4" : "min-h-48 p-6 lg:p-7"}`}
           >
-            <span className="absolute inset-x-0 top-0 h-px bg-[var(--gold)]" />
+            <span className="absolute inset-x-0 top-0 h-px overflow-hidden bg-white/10">
+              <span
+                className="rc-stage-signal block h-full w-1/3 bg-[var(--gold)]"
+                style={{ animationDelay: `${index * 1.4}s` }}
+              />
+            </span>
             <p className="text-[10px] uppercase tracking-[0.28em] text-[var(--gold-soft)]">
               {stage.number}
             </p>
