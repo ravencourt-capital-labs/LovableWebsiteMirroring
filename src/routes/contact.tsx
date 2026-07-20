@@ -51,6 +51,8 @@ const PATHWAYS = [
   },
 ] as const;
 
+const REGIONS = ["North America", "Europe", "Middle East", "East Asia"] as const;
+
 const PREVIEW_MODE = import.meta.env.VITE_ENQUIRY_MODE !== "production";
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || "";
 
@@ -306,16 +308,57 @@ function ContactPage() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-20">
-        <div className="mx-auto max-w-4xl px-6 lg:px-12">
-          <p className="eyebrow mb-4">Direct contact</p>
-          <a
-            href="mailto:contact@ravencourtcapital.com"
-            className="font-serif text-2xl text-[var(--ink)] underline-offset-4 hover:underline md:text-3xl"
-          >
-            contact@ravencourtcapital.com
-          </a>
-          <p className="mt-3 text-[var(--ink-soft)]">Milan, Italy</p>
+      <section className="border-b border-white/10 bg-[var(--ink)] py-20 text-white lg:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-12">
+          <div className="grid gap-12 lg:grid-cols-[.78fr_1.22fr] lg:items-start">
+            <div>
+              <p className="eyebrow mb-5">Institutional contact</p>
+              <h2 className="font-serif text-4xl leading-tight lg:text-5xl">
+                A clear legal identity and direct point of contact.
+              </h2>
+              <p className="mt-6 max-w-xl leading-relaxed text-white/70">
+                Ravencourt is headquartered in Milan and undertakes mandate work across North America, Europe, the Middle East and East Asia.
+              </p>
+            </div>
+            <div className="grid gap-px border border-white/15 bg-white/15 md:grid-cols-3">
+              <div className="bg-[var(--ink)] p-6 lg:p-7">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-[var(--gold-soft)]">Registered entity</p>
+                <p className="mt-5 font-serif text-2xl leading-tight">Ravencourt Capital di Rohan Kapoor</p>
+                <p className="mt-4 text-sm text-white/65">P. IVA IT11381320966</p>
+              </div>
+              <div className="bg-[var(--ink)] p-6 lg:p-7">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-[var(--gold-soft)]">Registered office</p>
+                <address className="mt-5 not-italic leading-relaxed text-white/80">
+                  Via Carlo Imbonati, 62/2<br />
+                  20159 Milano, Italy
+                </address>
+              </div>
+              <div className="bg-[var(--ink)] p-6 lg:p-7">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-[var(--gold-soft)]">Direct enquiries</p>
+                <div className="mt-5 space-y-3">
+                  <a
+                    href="mailto:contact@ravencourtcapital.com"
+                    className="block break-words font-serif text-xl text-white underline-offset-4 hover:underline"
+                  >
+                    contact@ravencourtcapital.com
+                  </a>
+                  <a
+                    href="tel:+393780118145"
+                    className="block text-sm text-white/75 underline-offset-4 hover:text-white hover:underline"
+                  >
+                    +39 378 011 8145
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-10 grid gap-px border border-white/15 bg-white/15 sm:grid-cols-2 lg:grid-cols-4">
+            {REGIONS.map((region) => (
+              <div key={region} className="bg-[var(--ink)] px-6 py-5 text-xs uppercase tracking-[0.18em] text-white/75">
+                {region}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </SiteLayout>
