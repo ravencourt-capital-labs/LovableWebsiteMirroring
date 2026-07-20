@@ -10,11 +10,47 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CommercialExpansionRouteImport } from './routes/commercial-expansion'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as OperatingIntelligenceRouteImport } from './routes/operating-intelligence'
+import { Route as RaavenRouteImport } from './routes/raaven'
+import { Route as StrategicAdvisoryRouteImport } from './routes/strategic-advisory'
 import { Route as TeamSlugRouteImport } from './routes/team.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommercialExpansionRoute = CommercialExpansionRouteImport.update({
+  id: '/commercial-expansion',
+  path: '/commercial-expansion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OperatingIntelligenceRoute = OperatingIntelligenceRouteImport.update({
+  id: '/operating-intelligence',
+  path: '/operating-intelligence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RaavenRoute = RaavenRouteImport.update({
+  id: '/raaven',
+  path: '/raaven',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StrategicAdvisoryRoute = StrategicAdvisoryRouteImport.update({
+  id: '/strategic-advisory',
+  path: '/strategic-advisory',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeamSlugRoute = TeamSlugRouteImport.update({
@@ -25,27 +61,76 @@ const TeamSlugRoute = TeamSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/commercial-expansion': typeof CommercialExpansionRoute
+  '/contact': typeof ContactRoute
+  '/operating-intelligence': typeof OperatingIntelligenceRoute
+  '/raaven': typeof RaavenRoute
+  '/strategic-advisory': typeof StrategicAdvisoryRoute
   '/team/$slug': typeof TeamSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/commercial-expansion': typeof CommercialExpansionRoute
+  '/contact': typeof ContactRoute
+  '/operating-intelligence': typeof OperatingIntelligenceRoute
+  '/raaven': typeof RaavenRoute
+  '/strategic-advisory': typeof StrategicAdvisoryRoute
   '/team/$slug': typeof TeamSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/commercial-expansion': typeof CommercialExpansionRoute
+  '/contact': typeof ContactRoute
+  '/operating-intelligence': typeof OperatingIntelligenceRoute
+  '/raaven': typeof RaavenRoute
+  '/strategic-advisory': typeof StrategicAdvisoryRoute
   '/team/$slug': typeof TeamSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/team/$slug'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/commercial-expansion'
+    | '/contact'
+    | '/operating-intelligence'
+    | '/raaven'
+    | '/strategic-advisory'
+    | '/team/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/team/$slug'
-  id: '__root__' | '/' | '/team/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/commercial-expansion'
+    | '/contact'
+    | '/operating-intelligence'
+    | '/raaven'
+    | '/strategic-advisory'
+    | '/team/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/commercial-expansion'
+    | '/contact'
+    | '/operating-intelligence'
+    | '/raaven'
+    | '/strategic-advisory'
+    | '/team/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  CommercialExpansionRoute: typeof CommercialExpansionRoute
+  ContactRoute: typeof ContactRoute
+  OperatingIntelligenceRoute: typeof OperatingIntelligenceRoute
+  RaavenRoute: typeof RaavenRoute
+  StrategicAdvisoryRoute: typeof StrategicAdvisoryRoute
   TeamSlugRoute: typeof TeamSlugRoute
 }
 
@@ -56,6 +141,48 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/commercial-expansion': {
+      id: '/commercial-expansion'
+      path: '/commercial-expansion'
+      fullPath: '/commercial-expansion'
+      preLoaderRoute: typeof CommercialExpansionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operating-intelligence': {
+      id: '/operating-intelligence'
+      path: '/operating-intelligence'
+      fullPath: '/operating-intelligence'
+      preLoaderRoute: typeof OperatingIntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/raaven': {
+      id: '/raaven'
+      path: '/raaven'
+      fullPath: '/raaven'
+      preLoaderRoute: typeof RaavenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/strategic-advisory': {
+      id: '/strategic-advisory'
+      path: '/strategic-advisory'
+      fullPath: '/strategic-advisory'
+      preLoaderRoute: typeof StrategicAdvisoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/team/$slug': {
@@ -70,6 +197,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  CommercialExpansionRoute: CommercialExpansionRoute,
+  ContactRoute: ContactRoute,
+  OperatingIntelligenceRoute: OperatingIntelligenceRoute,
+  RaavenRoute: RaavenRoute,
+  StrategicAdvisoryRoute: StrategicAdvisoryRoute,
   TeamSlugRoute: TeamSlugRoute,
 }
 export const routeTree = rootRouteImport

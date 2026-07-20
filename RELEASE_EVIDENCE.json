@@ -1,0 +1,35 @@
+{
+  "validation": {
+    "typescript_tsx_syntax": {
+      "status": "passed",
+      "files_checked": 26,
+      "diagnostics": 0
+    },
+    "separation_scan": {
+      "status": "passed"
+    },
+    "content_assertions": {
+      "status": "passed"
+    },
+    "json_jsonc_xml_yaml": {
+      "status": "passed"
+    },
+    "full_dependency_install_and_build": {
+      "status": "not_run",
+      "reason": "GitHub/network connector unavailable in current runtime; apply script and CI run it fail-closed when access returns."
+    }
+  },
+  "writes": {
+    "github": false,
+    "cloudflare": false,
+    "dns": false,
+    "vercel": false,
+    "lovable": false,
+    "raaven": false
+  },
+  "morning_user_approvals": [
+    "staging visual/content approval",
+    "nameserver migration approval",
+    "final live-site confirmation"
+  ]
+}
