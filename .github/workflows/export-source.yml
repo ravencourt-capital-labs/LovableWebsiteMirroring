@@ -1,26 +1,115 @@
-name: Temporary source export
+name: Apply Website VNext RC 0.1.0
 
 on:
-  push:
-    branches:
-      - website-vnext-1.0
   pull_request:
     branches:
       - main
+    types:
+      - synchronize
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: apply-website-vnext-rc-0.1.0
+  cancel-in-progress: false
 
 jobs:
-  export:
+  apply-and-validate:
+    if: github.head_ref == 'website-vnext-1.0'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Archive repository source
-        run: |
-          tar --exclude=.git -czf /tmp/website-vnext-source.tgz .
-      - uses: actions/upload-artifact@v4
+      - name: Check out target branch
+        uses: actions/checkout@v4
         with:
-          name: website-vnext-source-${{ github.sha }}
-          path: /tmp/website-vnext-source.tgz
-          retention-days: 1
+          ref: website-vnext-1.0
+          fetch-depth: 0
+
+      - name: Verify branch base has not drifted
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main website-vnext-1.0
+          expected_main='deb2b387ea40e7607c3f29dff9740a74026d8235'
+          actual_main="$(git rev-parse origin/main)"
+          if [[ "$actual_main" != "$expected_main" ]]; then
+            echo "::error::main drifted from $expected_main to $actual_main; refusing to apply the RC."
+            exit 1
+          fi
+
+      - name: Reconstruct and verify RC package
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .github/rc-payload/part-*.b64 > /tmp/website-vnext-rc.b64
+          for chunk in .github/rc-payload/remainder-*.hex; do
+            xxd -r -p "$chunk"
+          done >> /tmp/website-vnext-rc.b64
+          base64 --decode /tmp/website-vnext-rc.b64 > /tmp/website-vnext-rc.zip
+          echo 'ac66a545315836e028ec6857503cd259c58757a389920d35ecfe1ca3787bacfd  /tmp/website-vnext-rc.zip' | sha256sum -c -
+          rm -rf /tmp/website-vnext-rc
+          mkdir -p /tmp/website-vnext-rc
+          unzip -q /tmp/website-vnext-rc.zip -d /tmp/website-vnext-rc
+
+      - name: Apply consolidated RC 0.1.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r source_file; do
+            relative_path="${source_file#/tmp/website-vnext-rc/}"
+            case "$relative_path" in
+              README.md|APPLY_INSTITUTIONAL_VISUAL_PASS.sh|MANIFEST.json)
+                continue
+                ;;
+            esac
+            mkdir -p "$(dirname "$relative_path")"
+            cp "$source_file" "$relative_path"
+          done < <(find /tmp/website-vnext-rc -type f | sort)
+          rm -f src/components/CookieBanner.tsx
+          rm -f src/lib/airtable.functions.ts
+          chmod +x scripts/*.sh
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Regenerate lockfile
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f bun.lock bun.lockb package-lock.json
+          bun install
+          test -f bun.lock
+
+      - name: Release audit
+        run: bun run audit:release
+
+      - name: Separation scan
+        run: bun run audit:separation
+
+      - name: Standard build
+        run: bun run build
+
+      - name: Cloudflare build
+        run: bun run build:cloudflare
+
+      - name: TypeScript check
+        run: bunx tsc --noEmit
+
+      - name: Prepare one clean release commit
+        shell: bash
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          rm -rf node_modules dist .output .wrangler .vite
+          rm -rf .github/rc-payload
+          rm -f .github/workflows/export-source.yml
+          git config user.name 'Ravencourt Release Bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git reset --soft origin/main
+          git add -A
+          git diff --cached --check
+          git commit -m 'Apply Website VNext 1.0 RC 0.1.0'
+          git push --force-with-lease="refs/heads/website-vnext-1.0:${EXPECTED_HEAD}" origin HEAD:website-vnext-1.0
