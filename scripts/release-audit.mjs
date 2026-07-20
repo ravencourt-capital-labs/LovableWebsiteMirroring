@@ -44,7 +44,7 @@ const sourceFiles = [
 const source = sourceFiles.map((file) => readFileSync(file, "utf8")).join("\n");
 
 const requiredText = [
-  "Operating Intelligence for Private Markets",
+  "Allocator-Aligned Private Markets Advisory",
   "Cross-Border Commercial Intelligence",
   "Private Markets Analyst",
   "Isabella Xu",
