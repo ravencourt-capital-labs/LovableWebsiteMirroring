@@ -10,6 +10,7 @@ import {
   ProcessSteps,
   BoundaryCallout,
   EditorialImage,
+  InstitutionalMotionField,
   EvidenceFlowVisual,
   ProofStrip,
   type ProcessStep,
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Milan-based, allocator-aligned private-markets advisory boutique supporting capital readiness, M&A, secondaries, buy-side diligence, counterparty intelligence and disciplined execution.",
+          "Milan-based, allocator-aligned private-markets advisory boutique supporting capital readiness, M&A, secondaries, buy-side diligence, counterparty intelligence and disciplined execution across North America, Europe, the Middle East and East Asia.",
       },
       { property: "og:title", content: "Ravencourt Capital | Allocator-Aligned Private Markets Advisory" },
       {
@@ -74,6 +75,8 @@ const CAPABILITIES = [
   },
 ] as const;
 
+const REGIONS = ["North America", "Europe", "Middle East", "East Asia"] as const;
+
 function HomePage() {
   return (
     <SiteLayout>
@@ -90,6 +93,8 @@ function HomePage() {
             caption="Senior judgement for consequential private-market decisions."
             className="min-h-[31rem] lg:min-h-[37rem]"
             objectPosition="center"
+            motion
+            overlay={<InstitutionalMotionField />}
           />
         }
       >
@@ -105,6 +110,16 @@ function HomePage() {
           <div className="space-y-5 text-[1.0625rem] leading-[1.8] text-[var(--ink)]/85">
             <p>Ravencourt replicates the discipline institutional counterparties apply before committing time, capital or credibility.</p>
             <p>We challenge mandate logic, structure evidence, assess allocator and counterparty fit, prepare organisations for diligence and maintain accountability through execution.</p>
+          </div>
+        </div>
+        <div className="mx-auto mt-12 max-w-7xl px-6 lg:px-12">
+          <p className="eyebrow mb-4">Mandate coverage</p>
+          <div className="grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 lg:grid-cols-4">
+            {REGIONS.map((region) => (
+              <div key={region} className="bg-background px-6 py-5 text-sm uppercase tracking-[0.16em] text-[var(--ink)]">
+                {region}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -150,7 +165,11 @@ function HomePage() {
 
       <section className="border-b border-[var(--rule)] py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
-          <SectionHeading eyebrow="Ravencourt team" title="Founder-led, with cross-border operating coverage." body="Senior judgement is supported by legal, operational and analytical coverage across Milan, Dubai and Hong Kong." />
+          <SectionHeading
+            eyebrow="Ravencourt team"
+            title="Founder-led, with cross-border operating coverage."
+            body="Mandate work spans North America, Europe, the Middle East and East Asia, supported by legal, operational and analytical coverage."
+          />
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
             {TEAM.map((member) => (
               <Link key={member.slug} to="/team/$slug" params={{ slug: member.slug }} className="group border border-[var(--rule)] bg-background">
