@@ -1,0 +1,36 @@
+name: Deploy Website Production
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_WEBSITE_DEPLOY_TOKEN }}
+
+concurrency:
+  group: ravencourt-website-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref_name == 'main'
+    environment: website-production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run audit:release
+      - run: bun run audit:separation
+      - name: Confirm production enquiry mode
+        run: |
+          test "${{ vars.ENQUIRY_MODE }}" = "production" || {
+            echo "Production environment is not authorised for live enquiry transmission." >&2
+            exit 1
+          }
+      - run: bun run deploy:production

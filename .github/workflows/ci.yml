@@ -1,0 +1,39 @@
+name: Website VNext CI
+
+on:
+  push:
+    branches:
+      - main
+      - website-vnext-1.0
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+      - name: Release content audit
+        run: bun run audit:release
+      - name: Separation audit
+        run: bun run audit:separation
+      - name: Cloudflare production build and typecheck
+        run: bun run build
+      - name: Archive build evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-vnext-build-${{ github.sha }}
+          path: |
+            .output
+            dist
+          if-no-files-found: warn
+          retention-days: 14
+
+  # Validation only. Deployment is manual and separately governed.
