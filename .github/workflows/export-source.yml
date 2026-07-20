@@ -69,6 +69,21 @@ jobs:
           rm -f src/lib/airtable.functions.ts
           chmod +x scripts/*.sh
 
+      - name: Include Cloudflare worker declarations in TypeScript
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = 'tsconfig.json';
+          const config = JSON.parse(fs.readFileSync(path, 'utf8'));
+          config.include ??= [];
+          if (!config.include.includes('worker-configuration.d.ts')) {
+            config.include.push('worker-configuration.d.ts');
+          }
+          fs.writeFileSync(path, `${JSON.stringify(config, null, 2)}\n`);
+          NODE
+
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
         with:
