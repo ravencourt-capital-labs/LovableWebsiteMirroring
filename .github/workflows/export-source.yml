@@ -117,7 +117,7 @@ jobs:
       - name: TypeScript check
         run: bunx tsc --noEmit
 
-      - name: Create validated release commit object
+      - name: Create validated non-workflow commit object
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -126,7 +126,6 @@ jobs:
           set -euo pipefail
           rm -rf node_modules dist .output .wrangler .vite
           rm -rf .github/rc-payload
-          rm -f .github/workflows/export-source.yml
           git add -A
           git diff --cached --check
           python3 <<'PY'
@@ -134,6 +133,7 @@ jobs:
           import json
           import os
           import subprocess
+          import urllib.error
           import urllib.request
           from pathlib import Path
 
@@ -155,8 +155,12 @@ jobs:
                       'User-Agent': 'ravencourt-release-preparer',
                   },
               )
-              with urllib.request.urlopen(req) as response:
-                  return json.load(response)
+              try:
+                  with urllib.request.urlopen(req) as response:
+                      return json.load(response)
+              except urllib.error.HTTPError as exc:
+                  print(exc.read().decode(), flush=True)
+                  raise
 
           base_commit = request('GET', f'/git/commits/{head}')
           base_tree = base_commit['tree']['sha']
@@ -170,8 +174,12 @@ jobs:
               raise SystemExit('Unexpected staged diff record format.')
 
           entries = []
+          skipped = []
           for index in range(0, len(parts), 2):
               status, path = parts[index], parts[index + 1]
+              if path.startswith('.github/workflows/'):
+                  skipped.append(path)
+                  continue
               if status == 'D':
                   entries.append({'path': path, 'mode': '100644', 'type': 'blob', 'sha': None})
                   continue
@@ -198,7 +206,8 @@ jobs:
               },
           )
           Path('/tmp/release-commit-sha.txt').write_text(commit['sha'] + '\n')
-          print(f"Prepared commit {commit['sha']} with {len(entries)} changed paths.")
+          print(f"Prepared commit {commit['sha']} with {len(entries)} non-workflow paths.")
+          print(f"Deferred workflow paths: {', '.join(sorted(set(skipped)))}")
           PY
 
       - name: Upload prepared commit SHA
