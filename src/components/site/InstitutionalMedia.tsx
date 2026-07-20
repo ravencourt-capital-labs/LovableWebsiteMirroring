@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "./InstitutionalMedia.css";
 
 export function EditorialImage({
   src,
