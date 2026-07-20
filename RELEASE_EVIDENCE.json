@@ -1,0 +1,57 @@
+{
+  "release_candidate": "RC 0.1.0",
+  "validation": {
+    "typescript_tsx_syntax": {
+      "status": "passed",
+      "files_checked": 26,
+      "diagnostics": 0
+    },
+    "separation_scan": {
+      "status": "passed"
+    },
+    "content_assertions": {
+      "status": "passed"
+    },
+    "json_jsonc_xml_yaml": {
+      "status": "passed"
+    },
+    "locked_dependency_install": {
+      "status": "passed"
+    },
+    "standard_build": {
+      "status": "passed"
+    },
+    "cloudflare_build": {
+      "status": "passed"
+    },
+    "typescript_check": {
+      "status": "passed"
+    }
+  },
+  "github_actions": {
+    "workflow": "Website VNext CI",
+    "run_id": 29737187121,
+    "run_number": 4,
+    "conclusion": "success"
+  },
+  "staging_build_trigger": {
+    "status": "requested",
+    "source": "Cloudflare Git integration",
+    "branch": "website-vnext-1.0"
+  },
+  "writes": {
+    "github_branch": "website-vnext-1.0",
+    "github_pull_request": 2,
+    "main": false,
+    "cloudflare": false,
+    "dns": false,
+    "vercel": false,
+    "lovable": false,
+    "raaven": false
+  },
+  "remaining_user_approvals": [
+    "staging visual/content approval",
+    "nameserver migration approval",
+    "final live-site confirmation"
+  ]
+}

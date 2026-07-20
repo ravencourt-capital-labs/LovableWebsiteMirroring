@@ -1,7 +1,32 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tanstack-start-app",
-  "compatibility_date": "2025-09-24",
-  "compatibility_flags": ["nodejs_compat"],
+  "name": "ravencourt-website-vnext",
   "main": "@tanstack/react-start/server-entry",
+  "compatibility_date": "2026-07-20",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ENQUIRY_MODE": "preview"
+  },
+  "env": {
+    "staging": {
+      "name": "ravencourt-website-vnext-staging",
+      "workers_dev": true,
+      "vars": {
+        "ENQUIRY_MODE": "preview"
+      }
+    },
+    "production": {
+      "name": "ravencourt-website",
+      "workers_dev": false,
+      "vars": {
+        "ENQUIRY_MODE": "production"
+      },
+      "secrets": {
+        "required": ["AIRTABLE_API_TOKEN", "TURNSTILE_SECRET_KEY"]
+      }
+    }
+  }
 }
