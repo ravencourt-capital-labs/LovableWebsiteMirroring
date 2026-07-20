@@ -113,7 +113,24 @@ jobs:
         run: bun run audit:separation
 
       - name: Standard build
-        run: bun run build
+        id: standard_build
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          bun run build 2>&1 | tee /tmp/standard-build.log
+
+      - name: Upload standard build diagnostics
+        if: steps.standard_build.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: standard-build-diagnostics-${{ github.event.pull_request.head.sha }}
+          path: /tmp/standard-build.log
+          retention-days: 1
+
+      - name: Stop after standard build failure
+        if: steps.standard_build.outcome == 'failure'
+        run: exit 1
 
       - name: Cloudflare build
         run: bun run build:cloudflare
