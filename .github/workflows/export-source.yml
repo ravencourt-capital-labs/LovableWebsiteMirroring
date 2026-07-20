@@ -154,10 +154,8 @@ jobs:
       - name: TypeScript check
         run: bunx tsc --noEmit
 
-      - name: Prepare one clean release commit
+      - name: Commit validated RC to target branch
         shell: bash
-        env:
-          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
           rm -rf node_modules dist .output .wrangler .vite
@@ -165,8 +163,7 @@ jobs:
           rm -f .github/workflows/export-source.yml
           git config user.name 'Ravencourt Release Bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git reset --soft origin/main
           git add -A
           git diff --cached --check
           git commit -m 'Apply Website VNext 1.0 RC 0.1.0'
-          git push --force-with-lease="refs/heads/website-vnext-1.0:${EXPECTED_HEAD}" origin HEAD:website-vnext-1.0
+          git push origin HEAD:website-vnext-1.0
