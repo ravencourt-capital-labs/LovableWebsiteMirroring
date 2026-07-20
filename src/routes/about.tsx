@@ -11,7 +11,7 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "Milan-based, allocator-aligned private-markets advisory boutique combining senior judgement, governed intelligence and disciplined execution.",
+          "Milan-based, allocator-aligned private-markets advisory boutique combining senior judgement, governed intelligence and disciplined execution across North America, Europe, the Middle East and East Asia.",
       },
       { property: "og:url", content: absoluteUrl("/about") },
     ],
@@ -32,7 +32,7 @@ function AboutPage() {
       <PageHero
         eyebrow="About Ravencourt"
         headline="Milan-based. Allocator-aligned. Mandate-driven."
-        body="Ravencourt Capital is a senior-led private-markets advisory boutique supporting founder-led companies, fund managers, allocators, family offices, searchers and strategic counterparties across Europe, MENA, North America and select global markets."
+        body="Ravencourt Capital is a senior-led private-markets advisory boutique supporting founder-led companies, fund managers, allocators, family offices, searchers and strategic counterparties across North America, Europe, the Middle East and East Asia."
       />
       <section className="border-b border-[var(--rule)] py-20 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[.8fr_1.2fr] lg:px-12">
@@ -54,8 +54,8 @@ function AboutPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <SectionHeading
             eyebrow="Ravencourt team"
-            title="Founder-led, with cross-border operating coverage."
-            body="Ravencourt combines senior operating and legal judgement with analytical and relationship coverage across Milan, Dubai and Hong Kong."
+            title="Founder-led, with cross-border mandate coverage."
+            body="Mandate work spans North America, Europe, the Middle East and East Asia, supported by senior operating, legal, analytical and relationship coverage."
           />
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
             {TEAM.map((member) => (
