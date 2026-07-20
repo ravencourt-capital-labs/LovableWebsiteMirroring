@@ -16,30 +16,30 @@ export function PageHero({
   dark?: boolean;
 }) {
   const text = dark ? "text-white" : "text-[var(--ink)]";
-  const soft = dark ? "text-white/70" : "text-[var(--ink-soft)]";
+  const soft = dark ? "text-white/68" : "text-[var(--ink-soft)]";
 
   return (
     <section
       className={`border-b border-[var(--rule)] ${dark ? "bg-[var(--ink)]" : "bg-background"}`}
     >
       <div
-        className={`mx-auto grid max-w-7xl gap-12 px-6 pt-32 pb-20 lg:px-12 lg:pt-40 lg:pb-28 ${
-          media ? "lg:grid-cols-[1.02fr_.98fr] lg:items-center" : ""
+        className={`mx-auto grid max-w-7xl gap-14 px-6 pb-24 pt-36 lg:px-12 lg:pb-32 lg:pt-44 ${
+          media ? "lg:grid-cols-[1.08fr_.92fr] lg:items-center" : ""
         }`}
       >
         <div className="max-w-4xl">
-          {eyebrow && <p className="eyebrow mb-6">{eyebrow}</p>}
+          {eyebrow && <p className="eyebrow mb-7">{eyebrow}</p>}
           <h1
-            className={`font-serif text-4xl leading-[1.02] tracking-tight md:text-5xl lg:text-6xl ${text}`}
+            className={`max-w-5xl font-serif text-[2.85rem] leading-[.98] tracking-[-0.025em] sm:text-5xl lg:text-[4.5rem] ${text}`}
           >
             {headline}
           </h1>
           {body && (
-            <p className={`mt-8 max-w-3xl text-lg font-light leading-relaxed ${soft}`}>
+            <p className={`mt-8 max-w-3xl text-lg font-light leading-[1.75] ${soft}`}>
               {body}
             </p>
           )}
-          {children && <div className="mt-10">{children}</div>}
+          {children && <div className="mt-11">{children}</div>}
         </div>
         {media && <div className="min-w-0">{media}</div>}
       </div>
