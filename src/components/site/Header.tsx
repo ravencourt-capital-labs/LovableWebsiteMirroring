@@ -32,14 +32,14 @@ export function Header() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--rule)] bg-background/92 backdrop-blur-md">
-        <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-6 lg:px-12">
-          <Link to="/" className="flex items-center gap-3 text-[var(--ink)]">
+        <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-10 px-6 lg:px-12">
+          <Link to="/" className="flex shrink-0 items-center gap-3 text-[var(--ink)]">
             <img src={logo} alt="Ravencourt Capital" className="h-9 w-9 object-contain" />
             <span className="hidden font-serif text-lg tracking-wide sm:inline">Ravencourt Capital</span>
           </Link>
-          <div className="flex items-center gap-4 lg:gap-7">
+          <div className="flex min-w-0 items-center gap-4 lg:gap-7">
             <nav aria-label="Primary" className="hidden xl:block">
-              <ul className="flex items-center gap-5">
+              <ul className="flex items-center gap-4 2xl:gap-5">
                 {NAV.map((item) => (
                   <li key={item.to}>
                     <Link
