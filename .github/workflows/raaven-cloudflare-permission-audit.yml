@@ -32,7 +32,8 @@ jobs:
               'Post permission audit receipt',
           ):
               assert required in workflow, required
-          for forbidden in ('--request POST', '--request PUT', '--request PATCH', '--request DELETE'):
+          for verb in ('POST', 'PUT', 'PATCH', 'DELETE'):
+              forbidden = '--request ' + verb
               assert forbidden not in workflow, forbidden
           PY
 
