@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate read-only audit boundary
+      - name: Validate zero-mutation audit boundary
         run: |
           set -euo pipefail
           python <<'PY'
@@ -30,13 +30,12 @@ jobs:
               '/dns_records',
               '/workers/routes',
               '/workers/domains',
-              'safe_read',
+              'jq -n',
               'Post permission audit receipt',
           ):
               assert required in workflow, required
           for verb in ('POST', 'PUT', 'PATCH', 'DELETE'):
-              forbidden = '--request ' + verb
-              assert forbidden not in workflow, forbidden
+              assert ('--request ' + verb) not in workflow
           PY
 
   audit:
@@ -69,106 +68,96 @@ jobs:
           : "${CLOUDFLARE_API_TOKEN:?Website Cloudflare token is required}"
           : "${CLOUDFLARE_ACCOUNT_ID:?Cloudflare account ID is required}"
 
-          curl --silent --show-error --get \
-            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+          call_get() {
+            local outfile="$1"
+            local codefile="$2"
+            shift 2
+            curl --silent --show-error "$@" \
+              --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              --write-out '%{http_code}' \
+              --output "$outfile" > "$codefile" || true
+            test -s "$outfile" || printf '{}' > "$outfile"
+            test -s "$codefile" || printf '000' > "$codefile"
+          }
+
+          call_get zones.json zones.code \
+            --get \
             --data-urlencode "name=$ZONE_NAME" \
             --data-urlencode "account.id=$CLOUDFLARE_ACCOUNT_ID" \
             --data-urlencode "status=active" \
             --data-urlencode "per_page=5" \
-            --write-out '%{http_code}' \
-            "$CLOUDFLARE_API_BASE/zones" --output zones.json > zones-http-code.txt || true
+            "$CLOUDFLARE_API_BASE/zones"
 
-          ZONE_ID="$(python <<'PY'
-          import json, os
-          from pathlib import Path
-          try:
-              payload = json.loads(Path('zones.json').read_text())
-          except Exception:
-              print('')
-              raise SystemExit(0)
-          if not isinstance(payload, dict):
-              print('')
-              raise SystemExit(0)
-          rows = payload.get('result', [])
-          matches = [row for row in rows if isinstance(row, dict) and row.get('name') == os.environ['ZONE_NAME']]
-          print(matches[0]['id'] if payload.get('success') is True and len(matches) == 1 else '')
-          PY
-          )"
-          export ZONE_ID
+          ZONE_ID="$(jq -r --arg name "$ZONE_NAME" '
+            if (type == "object" and .success == true) then
+              ([.result[]? | select(.name == $name and .status == "active")][0].id // "")
+            else "" end
+          ' zones.json 2>/dev/null || true)"
 
           if [[ -n "$ZONE_ID" ]]; then
-            curl --silent --show-error --get \
-              --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            call_get dns.json dns.code \
+              --get \
               --data-urlencode "name.exact=$PUBLIC_HOSTNAME" \
               --data-urlencode "match=all" \
               --data-urlencode "per_page=100" \
-              --write-out '%{http_code}' \
-              "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records" --output dns.json > dns-http-code.txt || true
+              "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records"
 
-            curl --silent --show-error \
-              --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-              --write-out '%{http_code}' \
-              "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes" --output routes.json > routes-http-code.txt || true
+            call_get routes.json routes.code \
+              "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes"
           else
-            printf '000' > dns-http-code.txt
-            printf '000' > routes-http-code.txt
             printf '{"success":false,"errors":[{"code":"zone-unavailable"}]}' > dns.json
             printf '{"success":false,"errors":[{"code":"zone-unavailable"}]}' > routes.json
+            printf '000' > dns.code
+            printf '000' > routes.code
           fi
 
-          curl --silent --show-error \
-            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-            --write-out '%{http_code}' \
-            "$CLOUDFLARE_API_BASE/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" --output domains.json > domains-http-code.txt || true
+          call_get domains.json domains.code \
+            "$CLOUDFLARE_API_BASE/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains"
 
-          python <<'PY' > permission-audit.json
-          import json
-          from pathlib import Path
-
-          def safe_read(name):
-              path = Path(name)
-              if not path.exists():
-                  return {'success': False, 'errors': [{'code': 'missing-response'}], '_parseable': False}
-              try:
-                  payload = json.loads(path.read_text())
-              except Exception:
-                  return {'success': False, 'errors': [{'code': 'non-json-response'}], '_parseable': False}
-              if not isinstance(payload, dict):
-                  return {'success': False, 'errors': [{'code': 'non-object-json-response'}], '_parseable': True}
-              payload = dict(payload)
-              payload['_parseable'] = True
-              return payload
-
-          def code(name):
-              path = Path(name)
-              return path.read_text().strip() if path.exists() else '000'
-
-          zones = safe_read('zones.json')
-          dns = safe_read('dns.json')
-          routes = safe_read('routes.json')
-          domains = safe_read('domains.json')
-          result = {
-              'contractVersion': 'raaven-cloudflare-permission-audit-v1.2',
-              'zoneRead': zones.get('success') is True,
-              'dnsRead': dns.get('success') is True,
-              'routesRead': routes.get('success') is True,
-              'workerDomainsRead': domains.get('success') is True,
-              'zoneParseable': zones.get('_parseable') is True,
-              'dnsParseable': dns.get('_parseable') is True,
-              'routesParseable': routes.get('_parseable') is True,
-              'workerDomainsParseable': domains.get('_parseable') is True,
-              'zoneHttpCode': code('zones-http-code.txt'),
-              'dnsHttpCode': code('dns-http-code.txt'),
-              'routesHttpCode': code('routes-http-code.txt'),
-              'workerDomainsHttpCode': code('domains-http-code.txt'),
-              'zoneErrorCodes': [x.get('code') for x in zones.get('errors', []) if isinstance(x, dict)],
-              'dnsErrorCodes': [x.get('code') for x in dns.get('errors', []) if isinstance(x, dict)],
-              'routeErrorCodes': [x.get('code') for x in routes.get('errors', []) if isinstance(x, dict)],
-              'domainErrorCodes': [x.get('code') for x in domains.get('errors', []) if isinstance(x, dict)],
-              'mutationsAttempted': False,
+          success_of() {
+            jq -r 'if (type == "object" and .success == true) then "true" else "false" end' "$1" 2>/dev/null || printf 'false'
           }
-          print(json.dumps(result, indent=2))
-          PY
+          errors_of() {
+            jq -c 'if type == "object" then [.errors[]?.code] else ["non-object-json-response"] end' "$1" 2>/dev/null || printf '["non-json-response"]'
+          }
+
+          ZONE_READ="$(success_of zones.json)"
+          DNS_READ="$(success_of dns.json)"
+          ROUTES_READ="$(success_of routes.json)"
+          DOMAINS_READ="$(success_of domains.json)"
+
+          jq -n \
+            --arg contractVersion "raaven-cloudflare-permission-audit-v2.0" \
+            --argjson zoneRead "$ZONE_READ" \
+            --argjson dnsRead "$DNS_READ" \
+            --argjson routesRead "$ROUTES_READ" \
+            --argjson workerDomainsRead "$DOMAINS_READ" \
+            --arg zoneHttpCode "$(cat zones.code)" \
+            --arg dnsHttpCode "$(cat dns.code)" \
+            --arg routesHttpCode "$(cat routes.code)" \
+            --arg workerDomainsHttpCode "$(cat domains.code)" \
+            --argjson zoneErrorCodes "$(errors_of zones.json)" \
+            --argjson dnsErrorCodes "$(errors_of dns.json)" \
+            --argjson routeErrorCodes "$(errors_of routes.json)" \
+            --argjson domainErrorCodes "$(errors_of domains.json)" \
+            '{
+              contractVersion: $contractVersion,
+              zoneRead: $zoneRead,
+              dnsRead: $dnsRead,
+              routesRead: $routesRead,
+              workerDomainsRead: $workerDomainsRead,
+              zoneHttpCode: $zoneHttpCode,
+              dnsHttpCode: $dnsHttpCode,
+              routesHttpCode: $routesHttpCode,
+              workerDomainsHttpCode: $workerDomainsHttpCode,
+              zoneErrorCodes: $zoneErrorCodes,
+              dnsErrorCodes: $dnsErrorCodes,
+              routeErrorCodes: $routeErrorCodes,
+              domainErrorCodes: $domainErrorCodes,
+              mutationsAttempted: false
+            }' > permission-audit.json
+
+          jq -e '.mutationsAttempted == false' permission-audit.json >/dev/null
 
       - name: Post permission audit receipt
         if: always()
@@ -176,14 +165,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          if [[ -s permission-audit.json ]]; then
-            summary="$(python <<'PY'
-          import json
-          from pathlib import Path
-          x = json.loads(Path('permission-audit.json').read_text())
-          print(f"zone-read={str(x['zoneRead']).lower()}({x['zoneHttpCode']}); dns-read={str(x['dnsRead']).lower()}({x['dnsHttpCode']}); routes-read={str(x['routesRead']).lower()}({x['routesHttpCode']}); worker-domains-read={str(x['workerDomainsRead']).lower()}({x['workerDomainsHttpCode']}); mutations=false")
-          PY
-            )"
+          if jq -e . permission-audit.json >/dev/null 2>&1; then
+            summary="$(jq -r '
+              "zone-read=\(.zoneRead)(\(.zoneHttpCode)); " +
+              "dns-read=\(.dnsRead)(\(.dnsHttpCode)); " +
+              "routes-read=\(.routesRead)(\(.routesHttpCode)); " +
+              "worker-domains-read=\(.workerDomainsRead)(\(.workerDomainsHttpCode)); mutations=false"
+            ' permission-audit.json)"
           else
             summary="audit failed before a complete permission matrix was produced; mutations=false"
           fi
