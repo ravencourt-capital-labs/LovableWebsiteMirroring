@@ -7,15 +7,15 @@ const PRIMARY_NAV = [
   { to: "/strategic-advisory", label: "Strategic Advisory" },
   { to: "/operating-intelligence", label: "Operating Intelligence" },
   { to: "/commercial-expansion", label: "Commercial Intelligence" },
-  { to: "/raaven", label: "RAAVEN Framework" },
 ] as const;
 
-const UTILITY_NAV = [
+const TRAILING_NAV = [
+  { to: "/raaven", label: "RAAVEN Framework" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
-const NAV = [...PRIMARY_NAV, ...UTILITY_NAV] as const;
+const NAV = [...PRIMARY_NAV, ...TRAILING_NAV] as const;
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ export function Header() {
           </Link>
           <div className="flex min-w-0 items-center gap-4 lg:gap-7">
             <nav aria-label="Primary" className="hidden xl:block">
-              <div className="flex items-center gap-5 2xl:gap-6">
+              <div className="flex items-center gap-4 2xl:gap-5">
                 <ul className="flex items-center gap-4 2xl:gap-5">
                   {PRIMARY_NAV.map((item) => (
                     <li key={item.to}>
@@ -58,12 +58,14 @@ export function Header() {
                     </li>
                   ))}
                 </ul>
-                <ul className="flex shrink-0 items-center gap-5 2xl:gap-6">
-                  {UTILITY_NAV.map((item) => (
-                    <li key={item.to}>
+                <ul className="grid w-[18rem] shrink-0 grid-cols-3 items-center 2xl:w-[19.5rem]">
+                  {TRAILING_NAV.map((item) => (
+                    <li key={item.to} className="flex min-w-0 justify-center">
                       <Link
                         to={item.to}
-                        className="whitespace-nowrap text-[10px] uppercase tracking-[0.13em] text-[var(--ink-soft)] transition-colors hover:text-[var(--ink)]"
+                        className={`flex min-h-8 items-center justify-center text-center text-[10px] uppercase leading-[1.35] tracking-[0.13em] text-[var(--ink-soft)] transition-colors hover:text-[var(--ink)] ${
+                          item.to === "/raaven" ? "max-w-[5.5rem] whitespace-normal" : "whitespace-nowrap"
+                        }`}
                         activeProps={{ className: "text-[var(--ink)]" }}
                       >
                         {item.label}
