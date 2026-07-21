@@ -3,14 +3,19 @@ import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 import logo from "@/assets/ravencourt-logo.png";
 
-const NAV = [
+const PRIMARY_NAV = [
   { to: "/strategic-advisory", label: "Strategic Advisory" },
   { to: "/operating-intelligence", label: "Operating Intelligence" },
   { to: "/commercial-expansion", label: "Commercial Intelligence" },
   { to: "/raaven", label: "RAAVEN Framework" },
+] as const;
+
+const UTILITY_NAV = [
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ] as const;
+
+const NAV = [...PRIMARY_NAV, ...UTILITY_NAV] as const;
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -39,19 +44,34 @@ export function Header() {
           </Link>
           <div className="flex min-w-0 items-center gap-4 lg:gap-7">
             <nav aria-label="Primary" className="hidden xl:block">
-              <ul className="flex items-center gap-4 2xl:gap-5">
-                {NAV.map((item) => (
-                  <li key={item.to} className={item.to === "/about" ? "xl:-ml-1.5" : undefined}>
-                    <Link
-                      to={item.to}
-                      className="text-[10px] uppercase tracking-[0.13em] text-[var(--ink-soft)] transition-colors hover:text-[var(--ink)]"
-                      activeProps={{ className: "text-[var(--ink)]" }}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <div className="flex items-center gap-5 2xl:gap-6">
+                <ul className="flex items-center gap-4 2xl:gap-5">
+                  {PRIMARY_NAV.map((item) => (
+                    <li key={item.to}>
+                      <Link
+                        to={item.to}
+                        className="text-[10px] uppercase tracking-[0.13em] text-[var(--ink-soft)] transition-colors hover:text-[var(--ink)]"
+                        activeProps={{ className: "text-[var(--ink)]" }}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <ul className="flex shrink-0 items-center gap-5 2xl:gap-6">
+                  {UTILITY_NAV.map((item) => (
+                    <li key={item.to}>
+                      <Link
+                        to={item.to}
+                        className="whitespace-nowrap text-[10px] uppercase tracking-[0.13em] text-[var(--ink-soft)] transition-colors hover:text-[var(--ink)]"
+                        activeProps={{ className: "text-[var(--ink)]" }}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </nav>
             <Link
               to="/contact"
