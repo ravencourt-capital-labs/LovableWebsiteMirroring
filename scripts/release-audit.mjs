@@ -35,6 +35,9 @@ const sourceFiles = [
   "src/routes/index.tsx",
   "src/routes/about.tsx",
   "src/routes/commercial-expansion.tsx",
+  "src/routes/strategic-advisory.tsx",
+  "src/routes/operating-intelligence.tsx",
+  "src/routes/contact.tsx",
   "src/routes/team.$slug.tsx",
   "src/lib/calendars.ts",
   "src/lib/enquiry.functions.ts",
@@ -49,7 +52,9 @@ const requiredText = [
   "Private Markets Analyst",
   "Isabella Xu",
   "Hong Kong SAR",
-  "https://cal.com/team/ravencourt-capital",
+  "https://cal.com/team/ravencourt-capital/private-markets-strategic-advisory-assessment",
+  "https://cal.com/team/ravencourt-capital/operating-intelligence-diagnostic",
+  "https://cal.com/team/ravencourt-capital/cross-border-commercial-intelligence-diagnostic",
   "ENQUIRY_MODE",
   "TURNSTILE_SECRET_KEY",
   "@cloudflare/vite-plugin",
@@ -58,6 +63,18 @@ const requiredText = [
 const absent = requiredText.filter((text) => !source.includes(text));
 if (absent.length) {
   console.error("Release assertions missing:", absent.join(", "));
+  process.exit(1);
+}
+
+const prohibitedLegacyCalendarSlugs = [
+  "introductory-discussion",
+  "m-a-advisory-founder-led-sme-sale-strategic-transaction",
+  "strategic-capital-investor-readiness-founders-gps",
+  "buy-side-advisory-institutional-acquisitions-capital-deployment",
+];
+const legacyCalendarViolations = prohibitedLegacyCalendarSlugs.filter((slug) => source.includes(slug));
+if (legacyCalendarViolations.length) {
+  console.error("Legacy public calendar links detected:", legacyCalendarViolations.join(", "));
   process.exit(1);
 }
 
