@@ -25,6 +25,7 @@ jobs:
           workflow = Path('.github/workflows/raaven-cloudflare-permission-audit.yml').read_text()
           for required in (
               '/audit-raaven-cloudflare-permissions',
+              'github.event.issue.number == 14',
               'CLOUDFLARE_WEBSITE_DEPLOY_TOKEN',
               '/dns_records',
               '/workers/routes',
@@ -40,7 +41,7 @@ jobs:
   audit:
     if: >-
       github.event_name == 'issue_comment' &&
-      github.event.issue.number == 5 &&
+      github.event.issue.number == 14 &&
       github.event.comment.body == '/audit-raaven-cloudflare-permissions' &&
       github.actor == 'rohakapo'
     environment: website-production
@@ -145,7 +146,7 @@ jobs:
           else
             summary="audit failed before a complete permission matrix was produced; mutations=false"
           fi
-          gh issue comment 5 --repo "$GITHUB_REPOSITORY" --body \
+          gh issue comment 14 --repo "$GITHUB_REPOSITORY" --body \
             "RAAVEN Cloudflare permission audit: ${summary}. Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
       - name: Retain non-secret audit evidence
