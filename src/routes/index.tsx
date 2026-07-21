@@ -16,6 +16,7 @@ import {
   type ProcessStep,
 } from "@/components/site";
 import rohanPhoto from "@/assets/rohan-kapoor-team-photo-july-2026.png";
+import { saaniaPhoto } from "@/assets/saania-shaikh-website-photo";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -49,7 +50,7 @@ const ENGAGEMENT: ProcessStep[] = [
 
 const TEAM = [
   { slug: "rohan-kapoor", name: "Rohan Kapoor", role: "Founder & Principal", location: "Milan, Italy", image: rohanPhoto, objectPosition: "50% 25%" },
-  { slug: "saania-shaikh", name: "Saania Shaikh", role: "Partnerships & Operations Director", location: "Dubai, UAE", image: "/images/saania.jpg", objectPosition: "50% 26%" },
+  { slug: "saania-shaikh", name: "Saania Shaikh", role: "Partnerships & Operations Director", location: "Dubai, UAE", image: saaniaPhoto, objectPosition: "50% 22%" },
   { slug: "luciano-mazzola", name: "Dr. Luciano Mazzola", role: "Legal & Cross-Border Structuring Advisor", location: "Milan, Italy", image: "/images/luciano.jpg", objectPosition: "50% 5%" },
   { slug: "isabella-xu", name: "Isabella Xu", role: "Private Markets Analyst", location: "Hong Kong SAR", image: "/images/isabella-xu.jpg", objectPosition: "50% 20%" },
 ] as const;
