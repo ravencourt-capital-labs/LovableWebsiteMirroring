@@ -1,0 +1,157 @@
+name: RAAVEN Cloudflare Permission Audit
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/raaven-cloudflare-permission-audit.yml"
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate read-only audit boundary
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from pathlib import Path
+          workflow = Path('.github/workflows/raaven-cloudflare-permission-audit.yml').read_text()
+          for required in (
+              '/audit-raaven-cloudflare-permissions',
+              'CLOUDFLARE_WEBSITE_DEPLOY_TOKEN',
+              '/dns_records',
+              '/workers/routes',
+              '/workers/domains',
+              'Post permission audit receipt',
+          ):
+              assert required in workflow, required
+          for forbidden in ('--request POST', '--request PUT', '--request PATCH', '--request DELETE'):
+              assert forbidden not in workflow, forbidden
+          PY
+
+  audit:
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.issue.number == 5 &&
+      github.event.comment.body == '/audit-raaven-cloudflare-permissions' &&
+      github.actor == 'rohakapo'
+    environment: website-production
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_WEBSITE_DEPLOY_TOKEN }}
+      CLOUDFLARE_API_BASE: https://api.cloudflare.com/client/v4
+      ZONE_NAME: ravencourtcapital.com
+      PUBLIC_HOSTNAME: raaven.ravencourtcapital.com
+    steps:
+      - name: Verify founder authority
+        run: |
+          set -euo pipefail
+          test "${{ github.event.comment.user.login }}" = "rohakapo"
+          case "${{ github.event.comment.author_association }}" in
+            OWNER|MEMBER|COLLABORATOR) ;;
+            *) exit 1 ;;
+          esac
+
+      - name: Audit Cloudflare permissions without mutation
+        run: |
+          set -euo pipefail
+          : "${CLOUDFLARE_API_TOKEN:?Website Cloudflare token is required}"
+          : "${CLOUDFLARE_ACCOUNT_ID:?Cloudflare account ID is required}"
+
+          curl --silent --show-error --get \
+            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            --data-urlencode "name=$ZONE_NAME" \
+            --data-urlencode "account.id=$CLOUDFLARE_ACCOUNT_ID" \
+            --data-urlencode "status=active" \
+            --data-urlencode "per_page=5" \
+            "$CLOUDFLARE_API_BASE/zones" --output zones.json
+
+          ZONE_ID="$(python <<'PY'
+          import json, os
+          from pathlib import Path
+          payload = json.loads(Path('zones.json').read_text())
+          rows = payload.get('result', [])
+          matches = [row for row in rows if row.get('name') == os.environ['ZONE_NAME']]
+          if payload.get('success') is not True or len(matches) != 1:
+              raise SystemExit('Zone inventory unavailable')
+          print(matches[0]['id'])
+          PY
+          )"
+          export ZONE_ID
+
+          curl --silent --show-error --get \
+            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            --data-urlencode "name.exact=$PUBLIC_HOSTNAME" \
+            --data-urlencode "match=all" \
+            --data-urlencode "per_page=100" \
+            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records" --output dns.json
+
+          curl --silent --show-error \
+            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes" --output routes.json
+
+          curl --silent --show-error \
+            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "$CLOUDFLARE_API_BASE/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" --output domains.json
+
+          python <<'PY' > permission-audit.json
+          import json
+          from pathlib import Path
+
+          def read(name):
+              return json.loads(Path(name).read_text())
+
+          zones = read('zones.json')
+          dns = read('dns.json')
+          routes = read('routes.json')
+          domains = read('domains.json')
+          result = {
+              'contractVersion': 'raaven-cloudflare-permission-audit-v1.0',
+              'zoneRead': zones.get('success') is True,
+              'dnsRead': dns.get('success') is True,
+              'routesRead': routes.get('success') is True,
+              'workerDomainsRead': domains.get('success') is True,
+              'dnsErrorCodes': [x.get('code') for x in dns.get('errors', [])],
+              'routeErrorCodes': [x.get('code') for x in routes.get('errors', [])],
+              'domainErrorCodes': [x.get('code') for x in domains.get('errors', [])],
+              'mutationsAttempted': False,
+          }
+          print(json.dumps(result, indent=2))
+          PY
+
+      - name: Post permission audit receipt
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [[ -s permission-audit.json ]]; then
+            summary="$(python <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(Path('permission-audit.json').read_text())
+          print(f"zone-read={str(x['zoneRead']).lower()}; dns-read={str(x['dnsRead']).lower()}; routes-read={str(x['routesRead']).lower()}; worker-domains-read={str(x['workerDomainsRead']).lower()}; mutations=false")
+          PY
+            )"
+          else
+            summary="audit failed before a complete permission matrix was produced; mutations=false"
+          fi
+          gh issue comment 5 --repo "$GITHUB_REPOSITORY" --body \
+            "RAAVEN Cloudflare permission audit: ${summary}. Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+      - name: Retain non-secret audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: raaven-cloudflare-permission-audit-${{ github.run_id }}
+          path: permission-audit.json
+          retention-days: 3
+          if-no-files-found: warn
