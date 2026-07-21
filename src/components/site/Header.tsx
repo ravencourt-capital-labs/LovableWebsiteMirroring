@@ -41,7 +41,7 @@ export function Header() {
             <nav aria-label="Primary" className="hidden xl:block">
               <ul className="flex items-center gap-4 2xl:gap-5">
                 {NAV.map((item) => (
-                  <li key={item.to}>
+                  <li key={item.to} className={item.to === "/about" ? "xl:-ml-1.5" : undefined}>
                     <Link
                       to={item.to}
                       className="text-[10px] uppercase tracking-[0.13em] text-[var(--ink-soft)] transition-colors hover:text-[var(--ink)]"
