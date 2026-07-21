@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import rohanPhoto from "@/assets/rohan-kapoor-team-photo-july-2026.png";
+import { saaniaPhoto } from "@/assets/saania-shaikh-website-photo";
 import { SiteLayout } from "@/components/site";
 import { absoluteUrl } from "@/lib/site";
 
@@ -31,8 +32,8 @@ const PROFILES: Record<string, Profile> = {
     name: "Saania Shaikh",
     role: "Partnerships & Operations Director",
     location: "Dubai, UAE",
-    image: "/images/saania.jpg",
-    objectPosition: "50% 26%",
+    image: saaniaPhoto,
+    objectPosition: "50% 22%",
     paragraphs: [
       "Saania Shaikh supports Ravencourt Capital’s partnerships, business development and operating infrastructure, with a particular focus on relationship-led engagement across the Middle East.",
       "Her role covers partnership development, meeting coordination, follow-up discipline, fulfilment operations and internal workflow alignment.",
