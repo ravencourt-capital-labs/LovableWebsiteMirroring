@@ -86,8 +86,11 @@ jobs:
           except Exception:
               print('')
               raise SystemExit(0)
+          if not isinstance(payload, dict):
+              print('')
+              raise SystemExit(0)
           rows = payload.get('result', [])
-          matches = [row for row in rows if row.get('name') == os.environ['ZONE_NAME']]
+          matches = [row for row in rows if isinstance(row, dict) and row.get('name') == os.environ['ZONE_NAME']]
           print(matches[0]['id'] if payload.get('success') is True and len(matches) == 1 else '')
           PY
           )"
@@ -130,6 +133,9 @@ jobs:
                   payload = json.loads(path.read_text())
               except Exception:
                   return {'success': False, 'errors': [{'code': 'non-json-response'}], '_parseable': False}
+              if not isinstance(payload, dict):
+                  return {'success': False, 'errors': [{'code': 'non-object-json-response'}], '_parseable': True}
+              payload = dict(payload)
               payload['_parseable'] = True
               return payload
 
@@ -142,7 +148,7 @@ jobs:
           routes = safe_read('routes.json')
           domains = safe_read('domains.json')
           result = {
-              'contractVersion': 'raaven-cloudflare-permission-audit-v1.1',
+              'contractVersion': 'raaven-cloudflare-permission-audit-v1.2',
               'zoneRead': zones.get('success') is True,
               'dnsRead': dns.get('success') is True,
               'routesRead': routes.get('success') is True,
@@ -155,10 +161,10 @@ jobs:
               'dnsHttpCode': code('dns-http-code.txt'),
               'routesHttpCode': code('routes-http-code.txt'),
               'workerDomainsHttpCode': code('domains-http-code.txt'),
-              'zoneErrorCodes': [x.get('code') for x in zones.get('errors', [])],
-              'dnsErrorCodes': [x.get('code') for x in dns.get('errors', [])],
-              'routeErrorCodes': [x.get('code') for x in routes.get('errors', [])],
-              'domainErrorCodes': [x.get('code') for x in domains.get('errors', [])],
+              'zoneErrorCodes': [x.get('code') for x in zones.get('errors', []) if isinstance(x, dict)],
+              'dnsErrorCodes': [x.get('code') for x in dns.get('errors', []) if isinstance(x, dict)],
+              'routeErrorCodes': [x.get('code') for x in routes.get('errors', []) if isinstance(x, dict)],
+              'domainErrorCodes': [x.get('code') for x in domains.get('errors', []) if isinstance(x, dict)],
               'mutationsAttempted': False,
           }
           print(json.dumps(result, indent=2))
