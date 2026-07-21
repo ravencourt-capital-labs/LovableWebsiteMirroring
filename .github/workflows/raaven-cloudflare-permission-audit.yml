@@ -30,6 +30,7 @@ jobs:
               '/dns_records',
               '/workers/routes',
               '/workers/domains',
+              'safe_read',
               'Post permission audit receipt',
           ):
               assert required in workflow, required
@@ -64,7 +65,7 @@ jobs:
 
       - name: Audit Cloudflare permissions without mutation
         run: |
-          set -euo pipefail
+          set -u
           : "${CLOUDFLARE_API_TOKEN:?Website Cloudflare token is required}"
           : "${CLOUDFLARE_ACCOUNT_ID:?Cloudflare account ID is required}"
 
@@ -74,53 +75,87 @@ jobs:
             --data-urlencode "account.id=$CLOUDFLARE_ACCOUNT_ID" \
             --data-urlencode "status=active" \
             --data-urlencode "per_page=5" \
-            "$CLOUDFLARE_API_BASE/zones" --output zones.json
+            --write-out '%{http_code}' \
+            "$CLOUDFLARE_API_BASE/zones" --output zones.json > zones-http-code.txt || true
 
           ZONE_ID="$(python <<'PY'
           import json, os
           from pathlib import Path
-          payload = json.loads(Path('zones.json').read_text())
+          try:
+              payload = json.loads(Path('zones.json').read_text())
+          except Exception:
+              print('')
+              raise SystemExit(0)
           rows = payload.get('result', [])
           matches = [row for row in rows if row.get('name') == os.environ['ZONE_NAME']]
-          if payload.get('success') is not True or len(matches) != 1:
-              raise SystemExit('Zone inventory unavailable')
-          print(matches[0]['id'])
+          print(matches[0]['id'] if payload.get('success') is True and len(matches) == 1 else '')
           PY
           )"
           export ZONE_ID
 
-          curl --silent --show-error --get \
-            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-            --data-urlencode "name.exact=$PUBLIC_HOSTNAME" \
-            --data-urlencode "match=all" \
-            --data-urlencode "per_page=100" \
-            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records" --output dns.json
+          if [[ -n "$ZONE_ID" ]]; then
+            curl --silent --show-error --get \
+              --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              --data-urlencode "name.exact=$PUBLIC_HOSTNAME" \
+              --data-urlencode "match=all" \
+              --data-urlencode "per_page=100" \
+              --write-out '%{http_code}' \
+              "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records" --output dns.json > dns-http-code.txt || true
+
+            curl --silent --show-error \
+              --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              --write-out '%{http_code}' \
+              "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes" --output routes.json > routes-http-code.txt || true
+          else
+            printf '000' > dns-http-code.txt
+            printf '000' > routes-http-code.txt
+            printf '{"success":false,"errors":[{"code":"zone-unavailable"}]}' > dns.json
+            printf '{"success":false,"errors":[{"code":"zone-unavailable"}]}' > routes.json
+          fi
 
           curl --silent --show-error \
             --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes" --output routes.json
-
-          curl --silent --show-error \
-            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-            "$CLOUDFLARE_API_BASE/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" --output domains.json
+            --write-out '%{http_code}' \
+            "$CLOUDFLARE_API_BASE/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" --output domains.json > domains-http-code.txt || true
 
           python <<'PY' > permission-audit.json
           import json
           from pathlib import Path
 
-          def read(name):
-              return json.loads(Path(name).read_text())
+          def safe_read(name):
+              path = Path(name)
+              if not path.exists():
+                  return {'success': False, 'errors': [{'code': 'missing-response'}], '_parseable': False}
+              try:
+                  payload = json.loads(path.read_text())
+              except Exception:
+                  return {'success': False, 'errors': [{'code': 'non-json-response'}], '_parseable': False}
+              payload['_parseable'] = True
+              return payload
 
-          zones = read('zones.json')
-          dns = read('dns.json')
-          routes = read('routes.json')
-          domains = read('domains.json')
+          def code(name):
+              path = Path(name)
+              return path.read_text().strip() if path.exists() else '000'
+
+          zones = safe_read('zones.json')
+          dns = safe_read('dns.json')
+          routes = safe_read('routes.json')
+          domains = safe_read('domains.json')
           result = {
-              'contractVersion': 'raaven-cloudflare-permission-audit-v1.0',
+              'contractVersion': 'raaven-cloudflare-permission-audit-v1.1',
               'zoneRead': zones.get('success') is True,
               'dnsRead': dns.get('success') is True,
               'routesRead': routes.get('success') is True,
               'workerDomainsRead': domains.get('success') is True,
+              'zoneParseable': zones.get('_parseable') is True,
+              'dnsParseable': dns.get('_parseable') is True,
+              'routesParseable': routes.get('_parseable') is True,
+              'workerDomainsParseable': domains.get('_parseable') is True,
+              'zoneHttpCode': code('zones-http-code.txt'),
+              'dnsHttpCode': code('dns-http-code.txt'),
+              'routesHttpCode': code('routes-http-code.txt'),
+              'workerDomainsHttpCode': code('domains-http-code.txt'),
+              'zoneErrorCodes': [x.get('code') for x in zones.get('errors', [])],
               'dnsErrorCodes': [x.get('code') for x in dns.get('errors', [])],
               'routeErrorCodes': [x.get('code') for x in routes.get('errors', [])],
               'domainErrorCodes': [x.get('code') for x in domains.get('errors', [])],
@@ -140,7 +175,7 @@ jobs:
           import json
           from pathlib import Path
           x = json.loads(Path('permission-audit.json').read_text())
-          print(f"zone-read={str(x['zoneRead']).lower()}; dns-read={str(x['dnsRead']).lower()}; routes-read={str(x['routesRead']).lower()}; worker-domains-read={str(x['workerDomainsRead']).lower()}; mutations=false")
+          print(f"zone-read={str(x['zoneRead']).lower()}({x['zoneHttpCode']}); dns-read={str(x['dnsRead']).lower()}({x['dnsHttpCode']}); routes-read={str(x['routesRead']).lower()}({x['routesHttpCode']}); worker-domains-read={str(x['workerDomainsRead']).lower()}({x['workerDomainsHttpCode']}); mutations=false")
           PY
             )"
           else
