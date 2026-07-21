@@ -59,9 +59,8 @@ const PROFILES: Record<string, Profile> = {
     image: "/images/isabella-xu.jpg",
     objectPosition: "50% 20%",
     paragraphs: [
-      "Originally from Colombia and based in Hong Kong SAR, Isabella Xu supports Ravencourt Capital’s private-markets research, origination and analytical execution. She is a second-year Applied Mathematics student at Columbia University, with early experience across equity research, finance operations, real-assets investing and business analysis.",
-      "Her role sits at the intersection of quantitative analysis, market intelligence and cross-border private-market coverage. At Ravencourt Capital, Isabella contributes to counterparty research, market mapping, opportunity qualification, CRM and Airtable discipline, and selected valuation, memo and transaction-readiness work, with a particular focus on Hong Kong and Greater China.",
-      "By combining analytical discipline with on-the-ground market coverage, Isabella strengthens Ravencourt’s regional intelligence and supports selected cross-border opportunities across Asian and global private markets.",
+      "Originally from and based in Hong Kong SAR, Isabella Xu supports Ravencourt Capital’s private-markets research, origination and analytical execution. She is studying Applied Mathematics at Columbia University and brings early experience across equity research, finance operations, real-assets investing and business analysis.",
+      "At Ravencourt Capital, Isabella contributes to counterparty research, market mapping, opportunity qualification, CRM and Airtable discipline, and selected valuation, memo and transaction-readiness work. Her role strengthens Ravencourt’s Hong Kong and Greater China coverage and supports selected cross-border opportunities across Asian and global private markets.",
     ],
     coreRelevance: "private-markets research, quantitative analysis, market mapping, opportunity qualification, and Hong Kong and Greater China coverage.",
   },
