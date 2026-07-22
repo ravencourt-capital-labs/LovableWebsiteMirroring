@@ -1,0 +1,215 @@
+name: Cut Over WWW to Canonical Apex
+
+on:
+  pull_request:
+    paths:
+      - "workers/www-redirect.ts"
+      - "wrangler.www-redirect.jsonc"
+      - ".github/workflows/cutover-www-canonical.yml"
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  ZONE_NAME: ravencourtcapital.com
+  WWW_HOSTNAME: www.ravencourtcapital.com
+  CANONICAL_ORIGIN: https://ravencourtcapital.com
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+      - name: Validate redirect behaviour
+        run: |
+          set -euo pipefail
+          bun -e '
+            import worker from "./workers/www-redirect.ts";
+            const response = await worker.fetch(new Request("https://www.ravencourtcapital.com/raaven?source=www"));
+            if (response.status !== 308) throw new Error(`Expected 308, received ${response.status}`);
+            const location = response.headers.get("location");
+            if (location !== "https://ravencourtcapital.com/raaven?source=www") {
+              throw new Error(`Unexpected location: ${location}`);
+            }
+          '
+      - name: Validate Wrangler configuration
+        run: bunx wrangler deploy --config wrangler.www-redirect.jsonc --dry-run
+
+  cutover:
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.action == 'created' &&
+      github.event.issue.number == 5 &&
+      github.event.comment.body == '/cutover-www-to-apex' &&
+      github.actor == 'rohakapo'
+    environment: website-production
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ravencourt-www-canonical-cutover
+      cancel-in-progress: false
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_WEBSITE_DEPLOY_TOKEN }}
+      CLOUDFLARE_API_BASE: https://api.cloudflare.com/client/v4
+    steps:
+      - name: Verify founder authority
+        run: |
+          set -euo pipefail
+          test "${{ github.event.comment.user.login }}" = "rohakapo"
+          case "${{ github.event.comment.author_association }}" in
+            OWNER|MEMBER|COLLABORATOR) ;;
+            *) echo "Comment author is not authorised." >&2; exit 1 ;;
+          esac
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Verify canonical apex before mutation
+        run: |
+          set -euo pipefail
+          body_file="$(mktemp)"
+          status="$(curl --silent --show-error --location \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            --connect-timeout 10 --max-time 30 \
+            --output "$body_file" --write-out '%{http_code}' \
+            "$CANONICAL_ORIGIN/")"
+          test "$status" = "200" || {
+            echo "Canonical apex is not healthy: HTTP $status" >&2
+            exit 1
+          }
+          grep -Fq "Intelligence infrastructure for complex commercial and investment decisions" "$body_file" || {
+            echo "Canonical apex does not contain the approved positioning." >&2
+            exit 1
+          }
+
+      - name: Inspect Cloudflare zone and WWW record
+        run: |
+          set -euo pipefail
+          : "${CLOUDFLARE_ACCOUNT_ID:?Cloudflare account ID is required}"
+          : "${CLOUDFLARE_API_TOKEN:?Cloudflare API token is required}"
+
+          auth=(-H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json")
+
+          curl --silent --show-error --fail-with-body "${auth[@]}" \
+            --get \
+            --data-urlencode "name=$ZONE_NAME" \
+            --data-urlencode "account.id=$CLOUDFLARE_ACCOUNT_ID" \
+            --data-urlencode "status=active" \
+            "$CLOUDFLARE_API_BASE/zones" > zones.json
+
+          ZONE_ID="$(jq -r --arg name "$ZONE_NAME" '[.result[] | select(.name == $name and .status == "active")][0].id // empty' zones.json)"
+          test -n "$ZONE_ID" || { echo "Active Cloudflare zone not found." >&2; exit 1; }
+          echo "ZONE_ID=$ZONE_ID" >> "$GITHUB_ENV"
+
+          curl --silent --show-error --fail-with-body "${auth[@]}" \
+            --get \
+            --data-urlencode "name.exact=$WWW_HOSTNAME" \
+            --data-urlencode "match=all" \
+            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records" > www-dns.json
+
+          record_count="$(jq '.result | length' www-dns.json)"
+          test "$record_count" = "1" || {
+            echo "Expected exactly one WWW DNS record; found $record_count." >&2
+            exit 1
+          }
+
+          DNS_RECORD_ID="$(jq -r '.result[0].id' www-dns.json)"
+          DNS_RECORD_TYPE="$(jq -r '.result[0].type' www-dns.json)"
+          DNS_PROXIED="$(jq -r '.result[0].proxied // false' www-dns.json)"
+          case "$DNS_RECORD_TYPE" in A|AAAA|CNAME) ;; *) echo "Unsupported WWW DNS record type: $DNS_RECORD_TYPE" >&2; exit 1 ;; esac
+          echo "DNS_RECORD_ID=$DNS_RECORD_ID" >> "$GITHUB_ENV"
+          echo "DNS_PROXIED_BEFORE=$DNS_PROXIED" >> "$GITHUB_ENV"
+
+          curl --silent --show-error --fail-with-body "${auth[@]}" \
+            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes" > routes.json
+          conflict="$(jq -r --arg pattern "$WWW_HOSTNAME/*" '[.result[] | select(.pattern == $pattern and .script != "ravencourt-www-redirect")][0].script // empty' routes.json)"
+          test -z "$conflict" || {
+            echo "WWW route is already assigned to another Worker: $conflict" >&2
+            exit 1
+          }
+
+      - name: Enable Cloudflare proxy for WWW when required
+        if: env.DNS_PROXIED_BEFORE != 'true'
+        run: |
+          set -euo pipefail
+          curl --silent --show-error --fail-with-body \
+            --request PATCH \
+            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data '{"proxied":true}' \
+            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records/$DNS_RECORD_ID" > dns-patch.json
+          jq -e '.success == true and .result.proxied == true' dns-patch.json >/dev/null
+
+      - name: Deploy dedicated WWW redirect Worker
+        run: bunx wrangler deploy --config wrangler.www-redirect.jsonc
+
+      - name: Verify permanent redirect and canonical site
+        run: |
+          set -euo pipefail
+          test_url="https://$WWW_HOSTNAME/raaven?canonical=1"
+          expected="https://ravencourtcapital.com/raaven?canonical=1"
+          headers="$(mktemp)"
+          verified=false
+
+          for attempt in $(seq 1 12); do
+            : > "$headers"
+            curl --silent --show-error --max-redirs 0 \
+              --connect-timeout 10 --max-time 20 \
+              --dump-header "$headers" --output /dev/null \
+              "$test_url" || true
+            status="$(awk 'toupper($1) ~ /^HTTP\// {code=$2} END {print code}' "$headers")"
+            location="$(awk 'BEGIN{IGNORECASE=1} /^location:/ {sub(/^[^:]+:[[:space:]]*/, ""); sub(/\r$/, ""); value=$0} END{print value}' "$headers")"
+            marker="$(awk 'BEGIN{IGNORECASE=1} /^x-ravencourt-redirect:/ {sub(/^[^:]+:[[:space:]]*/, ""); sub(/\r$/, ""); value=$0} END{print value}' "$headers")"
+            if [[ "$status" == "308" && "$location" == "$expected" && "$marker" == "www-to-apex" ]]; then
+              verified=true
+              break
+            fi
+            sleep 5
+          done
+
+          test "$verified" = true || {
+            echo "WWW redirect verification failed closed." >&2
+            cat "$headers" >&2
+            exit 1
+          }
+
+          final_status="$(curl --silent --show-error --location \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            --connect-timeout 10 --max-time 30 \
+            --output /dev/null --write-out '%{http_code}' \
+            "$test_url")"
+          test "$final_status" = "200" || {
+            echo "Redirect target did not resolve successfully: HTTP $final_status" >&2
+            exit 1
+          }
+
+      - name: Post verified cutover receipt
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh issue comment 5 --repo "${{ github.repository }}"
+          --body "WWW canonical cutover completed successfully. https://www.ravencourtcapital.com now returns a permanent 308 redirect to https://ravencourtcapital.com while preserving paths and query strings. The existing WWW DNS target was retained for rollback; only Cloudflare proxying and the dedicated redirect route were applied. Apex health and approved positioning were verified. Commit: ${{ github.sha }}. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      - name: Post fail-closed receipt
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh issue comment 5 --repo "${{ github.repository }}"
+          --body "WWW canonical cutover failed closed. The legacy hostname has not been declared fixed. Review the workflow before retrying: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
