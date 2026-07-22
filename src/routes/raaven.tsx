@@ -15,11 +15,11 @@ export const Route = createFileRoute("/raaven")({
   component: RaavenPage,
   head: () => ({
     meta: [
-      { title: "RAAVEN Framework | Ravencourt Capital" },
+      { title: "RAAVEN Intelligence Infrastructure | Ravencourt Capital" },
       {
         name: "description",
         content:
-          "RAAVEN is Ravencourt Capital's governed operating and intelligence infrastructure for evidence capture, mandate discipline, decision support and execution oversight.",
+          "RAAVEN is Ravencourt Capital's proprietary intelligence and decision infrastructure for complex commercial and investment environments.",
       },
       { property: "og:url", content: absoluteUrl("/raaven") },
     ],
@@ -28,39 +28,24 @@ export const Route = createFileRoute("/raaven")({
 });
 
 const PRINCIPLES = [
-  "Accuracy before speed",
-  "Source provenance retained",
-  "Ambiguous evidence escalated",
-  "No autonomous investment or transaction authority",
-  "Human approval for consequential decisions",
-  "Least-privilege integration by default",
-  "Rollback, audit trail and recovery protection",
+  "Evidence before assertion",
+  "Human authority for consequential decisions",
+  "Accountable ownership",
+  "Security and governance by design",
 ];
 
 const APPLICATIONS = [
   {
-    title: "Evidence provenance",
-    body: "Material conclusions remain connected to identifiable source evidence and an attributable review history.",
+    title: "Structured intelligence",
+    body: "Bring relevant information and operating context into a coherent, governed environment.",
   },
   {
-    title: "Lifecycle discipline",
-    body: "Mandate status changes are tied to explicit evidence thresholds, decision rights and accountable ownership.",
+    title: "Decision infrastructure",
+    body: "Support more disciplined prioritisation, review and human decision-making across complex workflows.",
   },
   {
-    title: "Allocator & counterparty intelligence",
-    body: "Fit, prior activity, relationship context and decision process are assessed against the mandate rather than treated as generic contact data.",
-  },
-  {
-    title: "Decision gates",
-    body: "Consequential actions require named authority; ambiguous or incomplete evidence is routed for review rather than silently accepted.",
-  },
-  {
-    title: "Mandate monitoring",
-    body: "Material events, unresolved decisions, next actions and execution risks remain visible throughout the engagement lifecycle.",
-  },
-  {
-    title: "Execution accountability",
-    body: "Ownership and follow-through are recorded so that the advisory process does not depend on fragmented individual memory.",
+    title: "Institutional continuity",
+    body: "Preserve accountability, operating context and organisational knowledge across changing teams and workflows.",
   },
 ];
 
@@ -70,14 +55,14 @@ function RaavenPage() {
       <PageHero
         dark
         eyebrow="RAAVEN framework"
-        headline="Governed operating infrastructure for private-market advisory work."
-        body="RAAVEN is Ravencourt's governed operating and intelligence infrastructure for evidence capture, mandate discipline, decision support and execution oversight. It strengthens—not replaces—senior judgement, accountable ownership and human governance."
+        headline="Proprietary intelligence infrastructure for complex commercial and investment decisions."
+        body="RAAVEN is Ravencourt's proprietary intelligence and decision infrastructure. It brings fragmented information, operating context and decision workflows into a governed environment designed to improve clarity, accountability and execution. Human authority remains central throughout."
         media={
           <EditorialImage
             src="/images/corridor.jpg"
             alt="Institutional corridor representing governed operating discipline"
-            eyebrow="Ravencourt operating infrastructure"
-            caption="A controlled framework for evidence, decisions and execution oversight."
+            eyebrow="Ravencourt intelligence infrastructure"
+            caption="A governed environment for clearer decisions and accountable execution."
             className="min-h-[31rem]"
           />
         }
@@ -89,13 +74,13 @@ function RaavenPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <div className="grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
             <div>
-              <p className="eyebrow mb-5">Operating model</p>
+              <p className="eyebrow mb-5">Public operating model</p>
               <h2 className="font-serif text-4xl leading-tight lg:text-5xl">
-                From evidence inputs to accountable execution.
+                From fragmented information to accountable decisions.
               </h2>
             </div>
             <p className="max-w-3xl leading-relaxed text-white/68">
-              The public model is intentionally simple: evidence is captured, governed intelligence is formed, decision support is produced and mandate execution remains subject to oversight. Internal architecture, credentials, data structures and confidential workflows are not exposed.
+              The public model is intentionally high-level: information is organised, intelligence is formed, decision support is produced and execution remains accountable. Internal architecture, data structures, credentials, controls and confidential workflows are not exposed.
             </p>
           </div>
           <div className="mt-12 border border-white/15 bg-black/20">
@@ -110,11 +95,11 @@ function RaavenPage() {
       <section className="border-b border-[var(--rule)] py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <SectionHeading
-            eyebrow="Advisory applications"
-            title="How RAAVEN strengthens Ravencourt's work."
-            body="RAAVEN is applied as governed infrastructure within Ravencourt engagements, with senior interpretation and explicit human authority retained throughout."
+            eyebrow="Public applications"
+            title="What RAAVEN enables."
+            body="RAAVEN supports more structured, evidence-led and accountable operating processes without publishing the proprietary methods through which those outcomes are produced."
           />
-          <div className="grid gap-x-12 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-x-12 gap-y-10 md:grid-cols-3">
             {APPLICATIONS.map((application, index) => (
               <article key={application.title} className="relative border-t border-[var(--rule)] pt-8">
                 <span className="absolute left-0 top-0 h-px w-12 bg-[var(--gold)]" />
@@ -146,7 +131,7 @@ function RaavenPage() {
       </section>
 
       <BoundaryCallout>
-        RAAVEN is not offered as standalone or off-the-shelf software. Client engagements use Ravencourt's governed architecture, methods and controls without exposing internal data, credentials, confidential workflows or proprietary operating history.
+        RAAVEN is proprietary Ravencourt infrastructure. Access, deployment and use are selectively structured around the requirements, governance standards and operating context of each engagement.
       </BoundaryCallout>
     </SiteLayout>
   );
