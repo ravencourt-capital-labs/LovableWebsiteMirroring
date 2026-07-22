@@ -1,0 +1,162 @@
+name: Diagnose WWW Canonical Cutover
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/diagnose-www-canonical.yml"
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate read-only boundary
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from pathlib import Path
+          workflow = Path('.github/workflows/diagnose-www-canonical.yml').read_text()
+          for verb in ('POST', 'PUT', 'PATCH', 'DELETE'):
+              assert f'--request {verb}' not in workflow, verb
+          assert ('wrangler' + ' deploy') not in workflow
+          for required in ('/diagnose-www-to-apex', 'www.ravencourtcapital.com', 'ravencourtcapital.com', 'mutations=false'):
+              assert required in workflow, required
+          PY
+
+  diagnose:
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.action == 'created' &&
+      github.event.issue.number == 5 &&
+      github.event.comment.body == '/diagnose-www-to-apex' &&
+      github.actor == 'rohakapo'
+    environment: website-production
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_WEBSITE_DEPLOY_TOKEN }}
+      CLOUDFLARE_API_BASE: https://api.cloudflare.com/client/v4
+      ZONE_NAME: ravencourtcapital.com
+      WWW_HOSTNAME: www.ravencourtcapital.com
+      CANONICAL_ORIGIN: https://ravencourtcapital.com
+    steps:
+      - name: Verify founder authority
+        run: |
+          set -euo pipefail
+          test "${{ github.event.comment.user.login }}" = "rohakapo"
+          case "${{ github.event.comment.author_association }}" in
+            OWNER|MEMBER|COLLABORATOR) ;;
+            *) exit 1 ;;
+          esac
+
+      - name: Run read-only diagnostic
+        run: |
+          set -u
+          body_file="$(mktemp)"
+          apex_status="$(curl --silent --show-error --location \
+            --retry 3 --retry-delay 2 --retry-all-errors \
+            --connect-timeout 10 --max-time 30 \
+            --output "$body_file" --write-out '%{http_code}' \
+            "$CANONICAL_ORIGIN/" 2>/dev/null || printf '000')"
+          if grep -Fq "Intelligence infrastructure for complex commercial and investment decisions" "$body_file" 2>/dev/null; then
+            apex_positioning=true
+          else
+            apex_positioning=false
+          fi
+
+          auth=(-H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json")
+          zones_http="$(curl --silent --show-error "${auth[@]}" \
+            --get \
+            --data-urlencode "name=$ZONE_NAME" \
+            --data-urlencode "account.id=$CLOUDFLARE_ACCOUNT_ID" \
+            --data-urlencode "status=active" \
+            --output zones.json --write-out '%{http_code}' \
+            "$CLOUDFLARE_API_BASE/zones" 2>/dev/null || printf '000')"
+          test -s zones.json || printf '{}' > zones.json
+          zone_id="$(jq -r --arg name "$ZONE_NAME" 'if .success == true then ([.result[]? | select(.name == $name and .status == "active")][0].id // "") else "" end' zones.json 2>/dev/null || true)"
+
+          dns_http=000
+          routes_http=000
+          domains_http=000
+          dns_count=-1
+          dns_types="unavailable"
+          dns_proxied="unavailable"
+          www_route="unavailable"
+          www_domain="unavailable"
+
+          if [[ -n "$zone_id" ]]; then
+            dns_http="$(curl --silent --show-error "${auth[@]}" \
+              --get \
+              --data-urlencode "name.exact=$WWW_HOSTNAME" \
+              --data-urlencode "match=all" \
+              --output dns.json --write-out '%{http_code}' \
+              "$CLOUDFLARE_API_BASE/zones/$zone_id/dns_records" 2>/dev/null || printf '000')"
+            test -s dns.json || printf '{}' > dns.json
+            dns_count="$(jq -r 'if .success == true then (.result | length) else -1 end' dns.json 2>/dev/null || printf -- '-1')"
+            dns_types="$(jq -r 'if .success == true then ([.result[]?.type] | unique | join(",")) else "unavailable" end' dns.json 2>/dev/null || printf 'unavailable')"
+            dns_proxied="$(jq -r 'if .success == true then ([.result[]? | (.proxied // false | tostring)] | unique | join(",")) else "unavailable" end' dns.json 2>/dev/null || printf 'unavailable')"
+
+            routes_http="$(curl --silent --show-error "${auth[@]}" \
+              --output routes.json --write-out '%{http_code}' \
+              "$CLOUDFLARE_API_BASE/zones/$zone_id/workers/routes" 2>/dev/null || printf '000')"
+            test -s routes.json || printf '{}' > routes.json
+            www_route="$(jq -r --arg pattern "$WWW_HOSTNAME/*" 'if .success == true then ([.result[]? | select(.pattern == $pattern) | .script] | unique | join(",")) else "unavailable" end' routes.json 2>/dev/null || printf 'unavailable')"
+            [[ -n "$www_route" ]] || www_route="none"
+          fi
+
+          domains_http="$(curl --silent --show-error "${auth[@]}" \
+            --output domains.json --write-out '%{http_code}' \
+            "$CLOUDFLARE_API_BASE/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" 2>/dev/null || printf '000')"
+          test -s domains.json || printf '{}' > domains.json
+          www_domain="$(jq -r --arg hostname "$WWW_HOSTNAME" 'if .success == true then ([.result[]? | select(.hostname == $hostname) | .service] | unique | join(",")) else "unavailable" end' domains.json 2>/dev/null || printf 'unavailable')"
+          [[ -n "$www_domain" ]] || www_domain="none"
+
+          jq -n \
+            --arg apexStatus "$apex_status" \
+            --argjson apexPositioning "$apex_positioning" \
+            --arg zonesHttp "$zones_http" \
+            --arg zoneFound "$([[ -n "$zone_id" ]] && echo true || echo false)" \
+            --arg dnsHttp "$dns_http" \
+            --arg dnsCount "$dns_count" \
+            --arg dnsTypes "$dns_types" \
+            --arg dnsProxied "$dns_proxied" \
+            --arg routesHttp "$routes_http" \
+            --arg wwwRoute "$www_route" \
+            --arg domainsHttp "$domains_http" \
+            --arg wwwDomain "$www_domain" \
+            '{
+              apexStatus: $apexStatus,
+              apexPositioning: $apexPositioning,
+              zonesHttp: $zonesHttp,
+              zoneFound: ($zoneFound == "true"),
+              dnsHttp: $dnsHttp,
+              dnsCount: ($dnsCount | tonumber),
+              dnsTypes: $dnsTypes,
+              dnsProxied: $dnsProxied,
+              routesHttp: $routesHttp,
+              wwwRoute: $wwwRoute,
+              domainsHttp: $domainsHttp,
+              wwwDomain: $wwwDomain,
+              mutations: false
+            }' > diagnostic.json
+
+      - name: Post diagnostic receipt
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if jq -e . diagnostic.json >/dev/null 2>&1; then
+            summary="$(jq -r '"apex=" + .apexStatus + ", positioning=" + (.apexPositioning|tostring) + "; zone=" + (.zoneFound|tostring) + "(" + .zonesHttp + "); www-dns-count=" + (.dnsCount|tostring) + ", types=" + .dnsTypes + ", proxied=" + .dnsProxied + "(" + .dnsHttp + "); route=" + .wwwRoute + "(" + .routesHttp + "); custom-domain=" + .wwwDomain + "(" + .domainsHttp + "); mutations=false"' diagnostic.json)"
+          else
+            summary="diagnostic failed before a complete matrix was produced; mutations=false"
+          fi
+          gh issue comment 5 --repo "$GITHUB_REPOSITORY" --body \
+            "WWW canonical diagnostic: ${summary}. Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
