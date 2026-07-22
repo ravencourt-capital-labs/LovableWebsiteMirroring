@@ -9,6 +9,7 @@ const requiredFiles = [
   "src/routes/about.tsx",
   "src/routes/contact.tsx",
   "src/routes/team.$slug.tsx",
+  "src/routes/__root.tsx",
   "src/components/site/InstitutionalMedia.tsx",
   "src/lib/calendars.ts",
   "src/lib/enquiry.functions.ts",
@@ -22,6 +23,7 @@ const requiredFiles = [
   "src/assets/rohan-kapoor-team-photo-july-2026.png",
   "public/robots.txt",
   "public/sitemap.xml",
+  "public/site.webmanifest",
   "wrangler.jsonc",
 ];
 
@@ -32,6 +34,7 @@ if (missing.length) {
 }
 
 const sourceFiles = [
+  "src/routes/__root.tsx",
   "src/routes/index.tsx",
   "src/routes/about.tsx",
   "src/routes/commercial-expansion.tsx",
@@ -41,6 +44,9 @@ const sourceFiles = [
   "src/routes/team.$slug.tsx",
   "src/lib/calendars.ts",
   "src/lib/enquiry.functions.ts",
+  "public/robots.txt",
+  "public/sitemap.xml",
+  "public/site.webmanifest",
   "package.json",
   "vite.config.ts",
 ];
@@ -48,10 +54,15 @@ const source = sourceFiles.map((file) => readFileSync(file, "utf8")).join("\n");
 
 const requiredText = [
   "Data Intelligence & Decision Infrastructure",
+  "Intelligence & Decision Infrastructure",
   "Cross-Border Commercial Intelligence",
   "Private Markets Analyst",
   "Isabella Xu",
   "Hong Kong & United States",
+  '"@type": "Organization"',
+  '"@type": "WebSite"',
+  "max-image-preview:large",
+  "2026-07-22",
   "https://cal.com/team/ravencourt-capital/private-markets-strategic-advisory-assessment",
   "https://cal.com/team/ravencourt-capital/operating-intelligence-diagnostic",
   "https://cal.com/team/ravencourt-capital/cross-border-commercial-intelligence-diagnostic",
@@ -75,6 +86,17 @@ const prohibitedLegacyCalendarSlugs = [
 const legacyCalendarViolations = prohibitedLegacyCalendarSlugs.filter((slug) => source.includes(slug));
 if (legacyCalendarViolations.length) {
   console.error("Legacy public calendar links detected:", legacyCalendarViolations.join(", "));
+  process.exit(1);
+}
+
+const prohibitedLegacyPositioning = [
+  "Private Markets Boutique",
+  "Allocator-Aligned Private Markets Advisory",
+  "advisory boutique",
+];
+const legacyPositioningViolations = prohibitedLegacyPositioning.filter((text) => source.includes(text));
+if (legacyPositioningViolations.length) {
+  console.error("Legacy public positioning detected:", legacyPositioningViolations.join(", "));
   process.exit(1);
 }
 

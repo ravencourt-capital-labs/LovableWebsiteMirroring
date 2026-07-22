@@ -1,6 +1,9 @@
 {
-  "name": "Ravencourt Capital",
+  "name": "Ravencourt Capital — Intelligence & Decision Infrastructure",
   "short_name": "Ravencourt",
+  "description": "Data intelligence and decision infrastructure for complex commercial and investment environments.",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
     {
       "src": "/__l5e/assets-v1/573de366-e31f-42dc-ac0e-8944dc7c020e/icon-192x192.png",

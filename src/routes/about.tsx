@@ -46,7 +46,7 @@ function AboutPage() {
               That experience exposed a recurring structural problem: consequential decisions are still managed through fragmented information, disconnected workflows and limited institutional memory.
             </p>
             <p>
-              Ravencourt is converting that operating experience into proprietary intelligence and decision infrastructure designed to improve clarity, accountability and execution. Selected advisory engagements remain part of the model and provide live operating context without defining the firm’s future solely as an advisory boutique.
+              Ravencourt is converting that operating experience into proprietary intelligence and decision infrastructure designed to improve clarity, accountability and execution. Selected advisory engagements remain part of the model and provide live operating context without defining the firm’s future solely through advisory services.
             </p>
           </div>
         </div>
