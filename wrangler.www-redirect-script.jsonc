@@ -1,0 +1,7 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ravencourt-www-redirect",
+  "main": "workers/www-redirect.ts",
+  "compatibility_date": "2026-07-22",
+  "workers_dev": false
+}
