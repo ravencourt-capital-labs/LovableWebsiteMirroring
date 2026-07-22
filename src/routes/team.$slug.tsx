@@ -23,10 +23,10 @@ const PROFILES: Record<string, Profile> = {
     image: rohanPhoto,
     objectPosition: "50% 25%",
     paragraphs: [
-      "Rohan Kapoor brings an operator-led perspective to private-markets advisory, shaped by more than 16 years across engineering, semiconductor operations, manufacturing, commercial leadership, strategic partnerships and capital formation.",
-      "At Ravencourt Capital, Rohan leads mandate assessment, operating-intelligence design, investor readiness, capital positioning, strategic transaction preparation and allocator-aligned engagement.",
+      "Rohan Kapoor brings an operator-led perspective to data intelligence, decision infrastructure and private-market execution, shaped by more than 16 years across engineering, semiconductor operations, manufacturing, commercial leadership, strategic partnerships and capital formation.",
+      "At Ravencourt Capital, Rohan leads the firm’s transition from advisory-led execution toward proprietary intelligence and decision infrastructure, while retaining senior responsibility for selected private-market and strategic engagements.",
     ],
-    coreRelevance: "operating intelligence, investor readiness, capital formation, mandate structuring and allocator-grade execution.",
+    coreRelevance: "data intelligence, decision infrastructure, private-market execution, institutional operating discipline and cross-border strategy.",
   },
   "saania-shaikh": {
     name: "Saania Shaikh",
