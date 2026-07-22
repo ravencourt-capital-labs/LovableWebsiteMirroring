@@ -9,6 +9,56 @@ import favicon16 from "../assets/favicons/favicon-16x16.png.asset.json";
 import favicon32 from "../assets/favicons/favicon-32x32.png.asset.json";
 import appleTouch from "../assets/favicons/apple-touch-icon.png.asset.json";
 
+const SITE_DESCRIPTION =
+  "Ravencourt Capital is a Milan-based data intelligence and technology infrastructure firm building proprietary decision infrastructure for complex commercial and investment environments.";
+
+const STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": absoluteUrl("/#organization"),
+      name: "Ravencourt Capital",
+      url: absoluteUrl("/"),
+      description: SITE_DESCRIPTION,
+      slogan: "Intelligence infrastructure for complex commercial and investment decisions.",
+      founder: {
+        "@type": "Person",
+        name: "Rohan Kapoor",
+      },
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Via Carlo Imbonati, 62/2",
+        postalCode: "20159",
+        addressLocality: "Milan",
+        addressCountry: "IT",
+      },
+      email: "contact@ravencourtcapital.com",
+      telephone: "+39 378 011 8145",
+      areaServed: ["Europe", "North America", "Middle East", "East Asia"],
+      knowsAbout: [
+        "Data intelligence",
+        "Decision infrastructure",
+        "Operating intelligence",
+        "Commercial intelligence",
+        "Private markets",
+        "Strategic advisory",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": absoluteUrl("/#website"),
+      url: absoluteUrl("/"),
+      name: "Ravencourt Capital",
+      description: SITE_DESCRIPTION,
+      publisher: {
+        "@id": absoluteUrl("/#organization"),
+      },
+      inLanguage: "en",
+    },
+  ],
+};
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -32,11 +82,21 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Ravencourt Capital" },
+      { name: "application-name", content: "Ravencourt Capital" },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Ravencourt Capital" },
+      { property: "og:title", content: "Ravencourt Capital | Intelligence & Decision Infrastructure" },
+      { property: "og:description", content: SITE_DESCRIPTION },
+      { property: "og:url", content: absoluteUrl("/") },
       { property: "og:image", content: absoluteUrl("/images/milan-hero.jpg") },
       { property: "og:image:alt", content: "Milan institutional architecture representing Ravencourt Capital" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Ravencourt Capital | Intelligence & Decision Infrastructure" },
+      { name: "twitter:description", content: SITE_DESCRIPTION },
       { name: "twitter:image", content: absoluteUrl("/images/milan-hero.jpg") },
     ],
     links: [
@@ -62,7 +122,13 @@ export const Route = createRootRoute({
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head><HeadContent /></head>
+      <head>
+        <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
+        />
+      </head>
       <body>
         <SkipLink />
         {children}
