@@ -5,6 +5,7 @@ on:
     paths:
       - "workers/www-redirect.ts"
       - "wrangler.www-redirect.jsonc"
+      - "wrangler.www-redirect-script.jsonc"
       - ".github/workflows/cutover-www-canonical.yml"
   issue_comment:
     types: [created]
@@ -17,6 +18,8 @@ env:
   ZONE_NAME: ravencourtcapital.com
   WWW_HOSTNAME: www.ravencourtcapital.com
   CANONICAL_ORIGIN: https://ravencourtcapital.com
+  ROUTE_PATTERN: www.ravencourtcapital.com/*
+  REDIRECT_SERVICE: ravencourt-www-redirect
 
 jobs:
   validate:
@@ -40,9 +43,32 @@ jobs:
             if (location !== "https://ravencourtcapital.com/raaven?source=www") {
               throw new Error(`Unexpected location: ${location}`);
             }
+            if (response.headers.get("x-ravencourt-redirect") !== "www-to-apex") {
+              throw new Error("Missing redirect verification marker");
+            }
           '
-      - name: Validate Wrangler configuration
-        run: bunx wrangler deploy --config wrangler.www-redirect.jsonc --dry-run
+      - name: Validate route-free Worker configuration
+        run: bunx wrangler deploy --config wrangler.www-redirect-script.jsonc --dry-run
+      - name: Validate bounded cutover contract
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from pathlib import Path
+          workflow = Path('.github/workflows/cutover-www-canonical.yml').read_text()
+          for required in (
+              '/cutover-www-to-apex',
+              'CLOUDFLARE_WEBSITE_DEPLOY_TOKEN',
+              'CLOUDFLARE_VNEXT_PRODUCTION_SHADOW_API_TOKEN',
+              'rollback_cutover',
+              'PROXY_CHANGED',
+              'ROUTE_CREATED',
+              'www.ravencourtcapital.com/*',
+              'ravencourt-www-redirect',
+              'X-Ravencourt-Redirect',
+              'Post verified cutover receipt',
+          ):
+              assert required in workflow, required
+          PY
 
   cutover:
     if: >-
@@ -53,12 +79,14 @@ jobs:
       github.actor == 'rohakapo'
     environment: website-production
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     concurrency:
       group: ravencourt-www-canonical-cutover
       cancel-in-progress: false
     env:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_WEBSITE_DEPLOY_TOKEN }}
+      CLOUDFLARE_WEBSITE_API_TOKEN: ${{ secrets.CLOUDFLARE_WEBSITE_DEPLOY_TOKEN }}
+      CLOUDFLARE_DNS_ROUTE_API_TOKEN: ${{ secrets.CLOUDFLARE_VNEXT_PRODUCTION_SHADOW_API_TOKEN }}
       CLOUDFLARE_API_BASE: https://api.cloudflare.com/client/v4
     steps:
       - name: Verify founder authority
@@ -79,9 +107,13 @@ jobs:
       - name: Install locked dependencies
         run: bun install --frozen-lockfile
 
-      - name: Verify canonical apex before mutation
+      - name: Verify canonical apex and scoped credentials before mutation
         run: |
           set -euo pipefail
+          : "${CLOUDFLARE_ACCOUNT_ID:?Cloudflare account ID is required}"
+          : "${CLOUDFLARE_WEBSITE_API_TOKEN:?Website deployment token is required}"
+          : "${CLOUDFLARE_DNS_ROUTE_API_TOKEN:?Scoped DNS and route token is required}"
+
           body_file="$(mktemp)"
           status="$(curl --silent --show-error --location \
             --retry 5 --retry-delay 2 --retry-all-errors \
@@ -97,19 +129,17 @@ jobs:
             exit 1
           }
 
-      - name: Inspect Cloudflare zone and WWW record
+      - name: Inspect exact Cloudflare WWW state before mutation
         run: |
           set -euo pipefail
-          : "${CLOUDFLARE_ACCOUNT_ID:?Cloudflare account ID is required}"
-          : "${CLOUDFLARE_API_TOKEN:?Cloudflare API token is required}"
-
-          auth=(-H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json")
+          auth=(-H "Authorization: Bearer $CLOUDFLARE_DNS_ROUTE_API_TOKEN" -H "Content-Type: application/json")
 
           curl --silent --show-error --fail-with-body "${auth[@]}" \
             --get \
             --data-urlencode "name=$ZONE_NAME" \
             --data-urlencode "account.id=$CLOUDFLARE_ACCOUNT_ID" \
             --data-urlencode "status=active" \
+            --data-urlencode "per_page=5" \
             "$CLOUDFLARE_API_BASE/zones" > zones.json
 
           ZONE_ID="$(jq -r --arg name "$ZONE_NAME" '[.result[] | select(.name == $name and .status == "active")][0].id // empty' zones.json)"
@@ -120,6 +150,7 @@ jobs:
             --get \
             --data-urlencode "name.exact=$WWW_HOSTNAME" \
             --data-urlencode "match=all" \
+            --data-urlencode "per_page=100" \
             "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records" > www-dns.json
 
           record_count="$(jq '.result | length' www-dns.json)"
@@ -132,44 +163,102 @@ jobs:
           DNS_RECORD_TYPE="$(jq -r '.result[0].type' www-dns.json)"
           DNS_PROXIED="$(jq -r '.result[0].proxied // false' www-dns.json)"
           case "$DNS_RECORD_TYPE" in A|AAAA|CNAME) ;; *) echo "Unsupported WWW DNS record type: $DNS_RECORD_TYPE" >&2; exit 1 ;; esac
+          test -n "$DNS_RECORD_ID"
           echo "DNS_RECORD_ID=$DNS_RECORD_ID" >> "$GITHUB_ENV"
           echo "DNS_PROXIED_BEFORE=$DNS_PROXIED" >> "$GITHUB_ENV"
 
           curl --silent --show-error --fail-with-body "${auth[@]}" \
-            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes" > routes.json
-          conflict="$(jq -r --arg pattern "$WWW_HOSTNAME/*" '[.result[] | select(.pattern == $pattern and .script != "ravencourt-www-redirect")][0].script // empty' routes.json)"
-          test -z "$conflict" || {
-            echo "WWW route is already assigned to another Worker: $conflict" >&2
-            exit 1
+            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes" > routes-before.json
+
+          eval "$(python <<'PY'
+          import json, os, shlex
+          from pathlib import Path
+          payload = json.loads(Path('routes-before.json').read_text())
+          rows = payload.get('result', [])
+          if payload.get('success') is not True or not isinstance(rows, list):
+              raise SystemExit('Cloudflare route inventory failed')
+          matches = [row for row in rows if str(row.get('pattern', '')).lower() == os.environ['ROUTE_PATTERN'].lower()]
+          if len(matches) > 1:
+              raise SystemExit('Refusing to modify multiple matching WWW routes')
+          if matches and matches[0].get('script') != os.environ['REDIRECT_SERVICE']:
+              raise SystemExit(f"WWW route belongs to another Worker: {matches[0].get('script')}")
+          print(f"ROUTE_EXISTS={'true' if matches else 'false'}")
+          print(f"EXISTING_ROUTE_ID={shlex.quote(str(matches[0].get('id', '') if matches else ''))}")
+          PY
+          )"
+          echo "ROUTE_EXISTS=$ROUTE_EXISTS" >> "$GITHUB_ENV"
+          echo "EXISTING_ROUTE_ID=$EXISTING_ROUTE_ID" >> "$GITHUB_ENV"
+
+      - name: Upload dedicated redirect Worker without attaching a route
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ env.CLOUDFLARE_WEBSITE_API_TOKEN }}
+        run: bunx wrangler deploy --config wrangler.www-redirect-script.jsonc
+
+      - name: Apply exact proxy and route cutover with rollback
+        run: |
+          set -Eeuo pipefail
+          PROXY_CHANGED=false
+          ROUTE_CREATED=false
+          CREATED_ROUTE_ID=""
+
+          rollback_cutover() {
+            local exit_code=$?
+            trap - ERR
+            if [[ "$ROUTE_CREATED" == "true" && -n "$CREATED_ROUTE_ID" ]]; then
+              curl --silent --show-error \
+                --request DELETE \
+                --header "Authorization: Bearer $CLOUDFLARE_DNS_ROUTE_API_TOKEN" \
+                "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes/$CREATED_ROUTE_ID" \
+                --output rollback-route.json || true
+            fi
+            if [[ "$PROXY_CHANGED" == "true" ]]; then
+              curl --silent --show-error \
+                --request PATCH \
+                --header "Authorization: Bearer $CLOUDFLARE_DNS_ROUTE_API_TOKEN" \
+                --header "Content-Type: application/json" \
+                --data '{"proxied":false}' \
+                "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records/$DNS_RECORD_ID" \
+                --output rollback-dns-proxy.json || true
+            fi
+            exit "$exit_code"
           }
+          trap rollback_cutover ERR
 
-      - name: Enable Cloudflare proxy for WWW when required
-        if: env.DNS_PROXIED_BEFORE != 'true'
-        run: |
-          set -euo pipefail
-          curl --silent --show-error --fail-with-body \
-            --request PATCH \
-            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-            --header "Content-Type: application/json" \
-            --data '{"proxied":true}' \
-            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records/$DNS_RECORD_ID" > dns-patch.json
-          jq -e '.success == true and .result.proxied == true' dns-patch.json >/dev/null
+          if [[ "$DNS_PROXIED_BEFORE" != "true" ]]; then
+            curl --silent --show-error --fail-with-body \
+              --request PATCH \
+              --header "Authorization: Bearer $CLOUDFLARE_DNS_ROUTE_API_TOKEN" \
+              --header "Content-Type: application/json" \
+              --data '{"proxied":true}' \
+              "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records/$DNS_RECORD_ID" > dns-proxy-response.json
+            jq -e '.success == true and .result.proxied == true' dns-proxy-response.json >/dev/null
+            PROXY_CHANGED=true
+          fi
 
-      - name: Deploy dedicated WWW redirect Worker
-        run: bunx wrangler deploy --config wrangler.www-redirect.jsonc
+          if [[ "$ROUTE_EXISTS" != "true" ]]; then
+            jq -n --arg pattern "$ROUTE_PATTERN" --arg script "$REDIRECT_SERVICE" \
+              '{pattern:$pattern, script:$script}' > route-request.json
+            curl --silent --show-error --fail-with-body \
+              --request POST \
+              --header "Authorization: Bearer $CLOUDFLARE_DNS_ROUTE_API_TOKEN" \
+              --header "Content-Type: application/json" \
+              --data-binary @route-request.json \
+              "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes" > route-response.json
+            CREATED_ROUTE_ID="$(jq -r --arg pattern "$ROUTE_PATTERN" --arg script "$REDIRECT_SERVICE" 'if .success == true and .result.pattern == $pattern and .result.script == $script then .result.id // empty else empty end' route-response.json)"
+            test -n "$CREATED_ROUTE_ID" || { echo "Cloudflare did not create the exact WWW redirect route." >&2; exit 1; }
+            ROUTE_CREATED=true
+          fi
 
-      - name: Verify permanent redirect and canonical site
-        run: |
-          set -euo pipefail
           test_url="https://$WWW_HOSTNAME/raaven?canonical=1"
           expected="https://ravencourtcapital.com/raaven?canonical=1"
           headers="$(mktemp)"
           verified=false
 
-          for attempt in $(seq 1 12); do
+          for attempt in $(seq 1 24); do
             : > "$headers"
             curl --silent --show-error --max-redirs 0 \
               --connect-timeout 10 --max-time 20 \
+              --header 'Cache-Control: no-cache' \
               --dump-header "$headers" --output /dev/null \
               "$test_url" || true
             status="$(awk 'toupper($1) ~ /^HTTP\// {code=$2} END {print code}' "$headers")"
@@ -198,13 +287,29 @@ jobs:
             exit 1
           }
 
+          curl --silent --show-error --fail-with-body \
+            --header "Authorization: Bearer $CLOUDFLARE_DNS_ROUTE_API_TOKEN" \
+            --get \
+            --data-urlencode "name.exact=$WWW_HOSTNAME" \
+            --data-urlencode "match=all" \
+            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/dns_records" > dns-after.json
+          jq -e '.success == true and (.result | length) == 1 and .result[0].proxied == true' dns-after.json >/dev/null
+
+          curl --silent --show-error --fail-with-body \
+            --header "Authorization: Bearer $CLOUDFLARE_DNS_ROUTE_API_TOKEN" \
+            "$CLOUDFLARE_API_BASE/zones/$ZONE_ID/workers/routes" > routes-after.json
+          jq -e --arg pattern "$ROUTE_PATTERN" --arg script "$REDIRECT_SERVICE" \
+            '.success == true and ([.result[] | select(.pattern == $pattern and .script == $script)] | length) == 1' routes-after.json >/dev/null
+
+          trap - ERR
+
       - name: Post verified cutover receipt
         if: success()
         env:
           GH_TOKEN: ${{ github.token }}
         run: >-
           gh issue comment 5 --repo "${{ github.repository }}"
-          --body "WWW canonical cutover completed successfully. https://www.ravencourtcapital.com now returns a permanent 308 redirect to https://ravencourtcapital.com while preserving paths and query strings. The existing WWW DNS target was retained for rollback; only Cloudflare proxying and the dedicated redirect route were applied. Apex health and approved positioning were verified. Commit: ${{ github.sha }}. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          --body "WWW canonical cutover completed successfully. https://www.ravencourtcapital.com now returns a permanent 308 redirect to https://ravencourtcapital.com while preserving paths and query strings. The original WWW DNS content was retained for rollback; the exact record is proxied and bound only to the dedicated ravencourt-www-redirect Worker. Apex health and approved positioning were verified. Commit: ${{ github.sha }}. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
       - name: Post fail-closed receipt
         if: failure()
@@ -212,4 +317,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: >-
           gh issue comment 5 --repo "${{ github.repository }}"
-          --body "WWW canonical cutover failed closed. The legacy hostname has not been declared fixed. Review the workflow before retrying: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          --body "WWW canonical cutover failed closed. Any route created by this attempt and any proxy-state change were rolled back automatically. The legacy hostname has not been declared fixed. Review the run before retrying: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
