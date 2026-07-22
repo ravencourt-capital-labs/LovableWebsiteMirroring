@@ -152,8 +152,8 @@ function HomePage() {
       >
         <div className="flex flex-wrap gap-4">
           <CTA to="/contact" variant="light">Discuss a Use Case</CTA>
-          <ExternalCTA href={CALENDAR_URLS.strategicAdvisory} variant="light">
-            Schedule an Assessment
+          <ExternalCTA href={CALENDAR_URLS.operatingIntelligence} variant="light">
+            Schedule a Baseline Assessment
           </ExternalCTA>
         </div>
       </PageHero>
