@@ -1,0 +1,91 @@
+name: Deploy WWW Redirect Worker
+
+on:
+  pull_request:
+    paths:
+      - "workers/www-redirect.ts"
+      - "wrangler.www-redirect-script.jsonc"
+      - ".github/workflows/deploy-www-redirect-worker.yml"
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+      - name: Validate redirect Worker
+        run: |
+          set -euo pipefail
+          bun -e '
+            import worker from "./workers/www-redirect.ts";
+            const response = await worker.fetch(new Request("https://www.ravencourtcapital.com/path?a=1"));
+            if (response.status !== 308) throw new Error("Expected 308");
+            if (response.headers.get("location") !== "https://ravencourtcapital.com/path?a=1") throw new Error("Unexpected Location");
+          '
+      - name: Validate route-free upload configuration
+        run: bunx wrangler deploy --config wrangler.www-redirect-script.jsonc --dry-run
+
+  deploy:
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.action == 'created' &&
+      github.event.issue.number == 5 &&
+      github.event.comment.body == '/deploy-www-redirect-worker' &&
+      github.actor == 'rohakapo'
+    environment: website-production
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_WEBSITE_DEPLOY_TOKEN }}
+    steps:
+      - name: Verify founder authority
+        run: |
+          set -euo pipefail
+          test "${{ github.event.comment.user.login }}" = "rohakapo"
+          case "${{ github.event.comment.author_association }}" in
+            OWNER|MEMBER|COLLABORATOR) ;;
+            *) exit 1 ;;
+          esac
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+      - name: Verify canonical apex before upload
+        run: |
+          set -euo pipefail
+          body="$(mktemp)"
+          status="$(curl --silent --show-error --location --retry 5 --retry-delay 2 --retry-all-errors --output "$body" --write-out '%{http_code}' https://ravencourtcapital.com/)"
+          test "$status" = "200"
+          grep -Fq "Intelligence infrastructure for complex commercial and investment decisions" "$body"
+      - name: Upload unbound WWW redirect Worker
+        run: bunx wrangler deploy --config wrangler.www-redirect-script.jsonc
+      - name: Post upload receipt
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh issue comment 5 --repo "${{ github.repository }}"
+          --body "The dedicated ravencourt-www-redirect Worker was uploaded successfully without a route or DNS mutation. It remains unbound until the exact WWW route is separately authorised. Commit: ${{ github.sha }}. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      - name: Post fail-closed receipt
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh issue comment 5 --repo "${{ github.repository }}"
+          --body "WWW redirect Worker upload failed closed. No DNS or route mutation was attempted. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
