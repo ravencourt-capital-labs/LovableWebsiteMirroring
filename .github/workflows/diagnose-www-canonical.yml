@@ -23,8 +23,9 @@ jobs:
           python <<'PY'
           from pathlib import Path
           workflow = Path('.github/workflows/diagnose-www-canonical.yml').read_text()
-          for forbidden in ('--request POST', '--request PUT', '--request PATCH', '--request DELETE', 'wrangler deploy'):
-              assert forbidden not in workflow, forbidden
+          for verb in ('POST', 'PUT', 'PATCH', 'DELETE'):
+              assert f'--request {verb}' not in workflow, verb
+          assert ('wrangler' + ' deploy') not in workflow
           for required in ('/diagnose-www-to-apex', 'www.ravencourtcapital.com', 'ravencourtcapital.com', 'mutations=false'):
               assert required in workflow, required
           PY
