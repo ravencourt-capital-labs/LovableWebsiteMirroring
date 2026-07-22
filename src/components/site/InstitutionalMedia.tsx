@@ -81,23 +81,23 @@ export function InstitutionalMotionField() {
 const OPERATING_STAGES = [
   {
     number: "01",
-    title: "Evidence inputs",
-    body: "Mandate materials, meetings, communications, diligence records and verified market evidence.",
+    title: "Information",
+    body: "Relevant information and operating context are brought into a coherent environment.",
   },
   {
     number: "02",
-    title: "Governed intelligence",
-    body: "Source provenance, lifecycle discipline, counterparty context and structured interpretation.",
+    title: "Intelligence",
+    body: "Structured interpretation supports a clearer view of the decision environment.",
   },
   {
     number: "03",
     title: "Decision support",
-    body: "Explicit gates, prioritisation, escalation and named human authority for consequential decisions.",
+    body: "Priorities, choices and review requirements are made more explicit for human decision-makers.",
   },
   {
     number: "04",
-    title: "Execution & oversight",
-    body: "Mandate monitoring, accountable next actions, review trails and disciplined follow-through.",
+    title: "Accountable execution",
+    body: "Ownership, follow-through and operating continuity remain visible as decisions move into action.",
   },
 ] as const;
 
@@ -105,7 +105,7 @@ export function EvidenceFlowVisual({ compact = false }: { compact?: boolean }) {
   return (
     <div
       className={`flex h-full w-full items-center ${compact ? "p-3" : "p-5 lg:p-7"}`}
-      aria-label="RAAVEN operating model: evidence inputs, governed intelligence, decision support, and mandate execution and oversight"
+      aria-label="RAAVEN public model: information, intelligence, decision support, and accountable execution"
     >
       <ol
         className={`grid w-full gap-px overflow-hidden border border-white/15 bg-white/15 ${
@@ -145,9 +145,9 @@ export function EvidenceFlowVisual({ compact = false }: { compact?: boolean }) {
 
 export function ProofStrip() {
   const items = [
-    ["Provenance", "Every material conclusion remains connected to its evidence."],
-    ["Decision gates", "Consequential changes require explicit review and authority."],
-    ["Accountability", "Ownership, next actions and mandate status remain visible."],
+    ["Clarity", "Complex information is organised around the decision that needs to be made."],
+    ["Accountability", "Human authority and ownership remain explicit throughout the operating process."],
+    ["Continuity", "Relevant context is preserved as teams, workflows and priorities change."],
   ];
 
   return (
