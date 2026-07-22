@@ -82,7 +82,7 @@ const TEAM = [
   },
   {
     slug: "saania-shaikh",
-    name: "Saania Shaikh",
+    name: "Sania Shaikh",
     role: "Partnerships & Operations Director",
     location: "Dubai, UAE",
     image: saaniaPhoto,
@@ -100,7 +100,7 @@ const TEAM = [
     slug: "isabella-xu",
     name: "Isabella Xu",
     role: "Private Markets Analyst",
-    location: "Hong Kong SAR",
+    location: "Hong Kong & United States",
     image: "/images/isabella-xu.jpg",
     objectPosition: "50% 20%",
   },

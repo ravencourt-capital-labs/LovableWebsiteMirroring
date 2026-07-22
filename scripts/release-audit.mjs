@@ -51,7 +51,7 @@ const requiredText = [
   "Cross-Border Commercial Intelligence",
   "Private Markets Analyst",
   "Isabella Xu",
-  "Hong Kong SAR",
+  "Hong Kong & United States",
   "https://cal.com/team/ravencourt-capital/private-markets-strategic-advisory-assessment",
   "https://cal.com/team/ravencourt-capital/operating-intelligence-diagnostic",
   "https://cal.com/team/ravencourt-capital/cross-border-commercial-intelligence-diagnostic",

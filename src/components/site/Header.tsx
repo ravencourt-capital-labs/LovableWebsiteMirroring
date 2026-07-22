@@ -4,9 +4,9 @@ import { Menu } from "lucide-react";
 import logo from "@/assets/ravencourt-logo.png";
 
 const PRIMARY_NAV = [
-  { to: "/strategic-advisory", label: "Strategic Advisory" },
   { to: "/operating-intelligence", label: "Operating Intelligence" },
   { to: "/commercial-expansion", label: "Commercial Intelligence" },
+  { to: "/strategic-advisory", label: "Strategic Advisory" },
 ] as const;
 
 const TRAILING_NAV = [
@@ -79,7 +79,7 @@ export function Header() {
               to="/contact"
               className="hidden border border-[var(--ink)] bg-[var(--ink)] px-4 py-2.5 text-[10px] uppercase tracking-[0.18em] text-white transition-colors hover:bg-transparent hover:text-[var(--ink)] sm:inline-flex"
             >
-              Discuss a Mandate
+              Discuss a Use Case
             </Link>
             <button
               onClick={() => setOpen(true)}
