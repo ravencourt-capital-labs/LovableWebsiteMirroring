@@ -29,16 +29,16 @@ const PROFILES: Record<string, Profile> = {
     coreRelevance: "data intelligence, decision infrastructure, private-market execution, institutional operating discipline and cross-border strategy.",
   },
   "saania-shaikh": {
-    name: "Saania Shaikh",
+    name: "Sania Shaikh",
     role: "Partnerships & Operations Director",
     location: "Dubai, UAE",
     image: saaniaPhoto,
     objectPosition: "50% 22%",
     paragraphs: [
-      "Saania Shaikh supports Ravencourt Capital’s partnerships, business development and operating infrastructure, with a particular focus on relationship-led engagement across the Middle East.",
-      "Her role covers partnership development, meeting coordination, follow-up discipline, fulfilment operations and internal workflow alignment.",
+      "Sania Shaikh leads partnership development and operating coordination across Ravencourt Capital’s intelligence, commercial and selected advisory work, with a particular focus on relationship-led engagement across the UAE, Saudi Arabia, Qatar and the wider Middle East.",
+      "Her role translates external conversations into disciplined follow-up, structured stakeholder context and accountable execution across business development, fulfilment operations, internal workflows and people coordination.",
     ],
-    coreRelevance: "Middle East partnerships, stakeholder coordination, fulfilment operations and relationship management.",
+    coreRelevance: "Middle East partnerships, business development, stakeholder intelligence, fulfilment operations and cross-border execution.",
   },
   "luciano-mazzola": {
     name: "Dr. Luciano Mazzola",
@@ -47,22 +47,22 @@ const PROFILES: Record<string, Profile> = {
     image: "/images/luciano.jpg",
     objectPosition: "50% 5%",
     paragraphs: [
-      "Dr. Luciano Mazzola brings legal, tax, corporate, audit and governance expertise to Ravencourt Capital’s mandate review and structuring process.",
-      "At Ravencourt Capital, Luciano supports legal-process alignment, cross-border structuring, corporate readiness, mandate documentation and transaction-related governance considerations.",
+      "Dr. Luciano Mazzola brings legal, tax, corporate, audit and governance expertise to Ravencourt Capital’s decision infrastructure and selected mandate work.",
+      "He supports legal-process alignment, cross-border structuring, corporate readiness, documentation controls and governance standards that strengthen evidence quality and execution discipline across complex commercial and investment contexts.",
     ],
-    coreRelevance: "legal structuring, tax and audit discipline, corporate governance, cross-border execution and documentation readiness.",
+    coreRelevance: "legal structuring, tax and audit discipline, corporate governance, evidence quality, cross-border execution and documentation readiness.",
   },
   "isabella-xu": {
     name: "Isabella Xu",
     role: "Private Markets Analyst",
-    location: "Hong Kong SAR",
+    location: "Hong Kong & United States",
     image: "/images/isabella-xu.jpg",
     objectPosition: "50% 20%",
     paragraphs: [
-      "Originally from and based in Hong Kong SAR, Isabella Xu supports Ravencourt Capital’s private-markets research, origination and analytical execution. She is studying Applied Mathematics at Columbia University and brings early experience across equity research, finance operations, real-assets investing and business analysis.",
-      "At Ravencourt Capital, Isabella contributes to counterparty research, market mapping, opportunity qualification, CRM and Airtable discipline, and selected valuation, memo and transaction-readiness work. Her role strengthens Ravencourt’s Hong Kong and Greater China coverage and supports selected cross-border opportunities across Asian and global private markets.",
+      "From Hong Kong and studying Applied Mathematics at Columbia University in New York, Isabella Xu spends her time between Hong Kong and the United States. She supports Ravencourt Capital’s private-markets and commercial intelligence work and brings early experience across equity research, finance operations, real-assets investing and business analysis.",
+      "At Ravencourt Capital, Isabella contributes to counterparty research, market mapping, opportunity qualification, CRM and Airtable discipline, and selected valuation, memo and transaction-readiness work. Her role strengthens Ravencourt’s Hong Kong and Greater China coverage while supporting selected cross-border opportunities across Asian and US private markets.",
     ],
-    coreRelevance: "private-markets research, quantitative analysis, market mapping, opportunity qualification, and Hong Kong and Greater China coverage.",
+    coreRelevance: "private-markets research, quantitative analysis, market mapping, opportunity qualification, and Hong Kong, Greater China and US coverage.",
   },
 };
 
