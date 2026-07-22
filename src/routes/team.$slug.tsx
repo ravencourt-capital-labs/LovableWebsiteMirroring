@@ -29,13 +29,13 @@ const PROFILES: Record<string, Profile> = {
     coreRelevance: "data intelligence, decision infrastructure, private-market execution, institutional operating discipline and cross-border strategy.",
   },
   "saania-shaikh": {
-    name: "Sania Shaikh",
+    name: "Saania Shaikh",
     role: "Partnerships & Operations Director",
     location: "Dubai, UAE",
     image: saaniaPhoto,
     objectPosition: "50% 22%",
     paragraphs: [
-      "Sania Shaikh leads partnership development and operating coordination across Ravencourt Capital’s intelligence, commercial and selected advisory work, with a particular focus on relationship-led engagement across the UAE, Saudi Arabia, Qatar and the wider Middle East.",
+      "Saania Shaikh leads partnership development and operating coordination across Ravencourt Capital’s intelligence, commercial and selected advisory work, with a particular focus on relationship-led engagement across the UAE, Saudi Arabia, Qatar and the wider Middle East.",
       "Her role translates external conversations into disciplined follow-up, structured stakeholder context and accountable execution across business development, fulfilment operations, internal workflows and people coordination.",
     ],
     coreRelevance: "Middle East partnerships, business development, stakeholder intelligence, fulfilment operations and cross-border execution.",
