@@ -82,7 +82,7 @@ const TEAM = [
   },
   {
     slug: "saania-shaikh",
-    name: "Sania Shaikh",
+    name: "Saania Shaikh",
     role: "Partnerships & Operations Director",
     location: "Dubai, UAE",
     image: saaniaPhoto,
