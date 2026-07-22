@@ -8,11 +8,11 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
   head: () => ({
     meta: [
-      { title: "About Ravencourt Capital | Milan-Based Private Markets Advisory" },
+      { title: "About Ravencourt Capital | Data Intelligence & Decision Infrastructure" },
       {
         name: "description",
         content:
-          "Milan-based, allocator-aligned private-markets advisory boutique combining senior judgement, governed intelligence and disciplined execution across North America, Europe, the Middle East and East Asia.",
+          "Milan-based data intelligence and technology infrastructure firm shaped by private-markets execution and focused on complex commercial and investment decisions.",
       },
       { property: "og:url", content: absoluteUrl("/about") },
     ],
@@ -32,21 +32,21 @@ function AboutPage() {
     <SiteLayout>
       <PageHero
         eyebrow="About Ravencourt"
-        headline="Milan-based. Allocator-aligned. Mandate-driven."
-        body="Ravencourt Capital is a senior-led private-markets advisory boutique supporting founder-led companies, fund managers, allocators, family offices, searchers and strategic counterparties across North America, Europe, the Middle East and East Asia."
+        headline="Milan-based. Intelligence-led. Built from execution."
+        body="Ravencourt Capital is a data intelligence and technology infrastructure firm shaped by direct private-markets execution. We build proprietary decision infrastructure for complex commercial and investment environments while undertaking selected advisory engagements where senior judgement and execution discipline remain essential."
       />
       <section className="border-b border-[var(--rule)] py-20 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[.8fr_1.2fr] lg:px-12">
-          <SectionHeading eyebrow="Firm philosophy" title="Access is not the constraint. Discipline is." />
+          <SectionHeading eyebrow="Firm evolution" title="From operating experience to intelligence infrastructure." />
           <div className="space-y-5 text-[1.0625rem] leading-[1.8] text-[var(--ink)]/85">
             <p>
-              Private-market outcomes depend on evidence quality, institutional readiness, counterparty fit, governance and the ability to manage a process under uncertainty.
+              Ravencourt originated through allocator-grade private-markets advisory and direct work across capital formation, transactions, diligence and counterparty engagement.
             </p>
             <p>
-              Ravencourt was built around that operating reality. We work selectively, maintain clear attribution and proceed only where there is a credible basis for execution.
+              That experience exposed a recurring structural problem: consequential decisions are still managed through fragmented information, disconnected workflows and limited institutional memory.
             </p>
             <p>
-              Our role is to bridge market expectations with organisational readiness—challenging assumptions, structuring evidence and keeping decisions accountable from first assessment through execution.
+              Ravencourt is converting that operating experience into proprietary intelligence and decision infrastructure designed to improve clarity, accountability and execution. Selected advisory engagements remain part of the model and provide live operating context without defining the firm’s future solely as an advisory boutique.
             </p>
           </div>
         </div>
@@ -55,8 +55,8 @@ function AboutPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <SectionHeading
             eyebrow="Ravencourt team"
-            title="Founder-led, with cross-border mandate coverage."
-            body="Mandate work spans North America, Europe, the Middle East and East Asia, supported by senior operating, legal, analytical and relationship coverage."
+            title="Founder-led, with cross-border operating coverage."
+            body="Work spans North America, Europe, the Middle East and East Asia, supported by senior operating, legal, analytical and relationship coverage."
           />
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
             {TEAM.map((member) => (
@@ -75,10 +75,10 @@ function AboutPage() {
         </div>
       </section>
       <BoundaryCallout eyebrow="Regulatory">
-        Ravencourt Capital provides strategic and operating advisory services. Regulated activities, where applicable, are undertaken through appropriately authorised partners. No information on this website constitutes an offer, solicitation or investment recommendation.
+        Ravencourt Capital develops proprietary intelligence infrastructure and provides selected strategic and operating advisory services. Regulated activities, where applicable, are undertaken through appropriately authorised partners. No information on this website constitutes an offer, solicitation or investment recommendation.
       </BoundaryCallout>
       <section className="py-24 text-center lg:py-32">
-        <CTA to="/contact">Discuss a Confidential Mandate</CTA>
+        <CTA to="/contact">Discuss a Use Case</CTA>
       </section>
     </SiteLayout>
   );
