@@ -3,6 +3,7 @@ import { absoluteUrl } from "@/lib/site";
 import { SiteLayout, PageHero, SectionHeading, BoundaryCallout, CTA } from "@/components/site";
 import rohanPhoto from "@/assets/rohan-kapoor-team-photo-july-2026.png";
 import { saaniaPhoto } from "@/assets/saania-shaikh-website-photo";
+import { mitulPhoto } from "@/assets/mitul-gouni-website-photo";
 
 export const Route = createFileRoute("/about")({
   component: AboutPage,
@@ -25,6 +26,7 @@ const TEAM = [
   { slug: "saania-shaikh", name: "Saania Shaikh", role: "Partnerships & Operations Director", location: "Dubai, UAE", image: saaniaPhoto, objectPosition: "50% 22%" },
   { slug: "luciano-mazzola", name: "Dr. Luciano Mazzola", role: "Legal & Cross-Border Structuring Advisor", location: "Milan, Italy", image: "/images/luciano.jpg", objectPosition: "50% 5%" },
   { slug: "isabella-xu", name: "Isabella Xu", role: "Private Markets Analyst", location: "Hong Kong & United States", image: "/images/isabella-xu.jpg", objectPosition: "50% 20%" },
+  { slug: "mitul-gouni", name: "Mitul Gouni", role: "Private Markets Analyst", location: "New York, United States", image: mitulPhoto, objectPosition: "50% 18%" },
 ] as const;
 
 function AboutPage() {
@@ -58,7 +60,7 @@ function AboutPage() {
             title="Founder-led, with cross-border operating coverage."
             body="Work spans North America, Europe, the Middle East and East Asia, supported by senior operating, legal, analytical and relationship coverage."
           />
-          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-5">
             {TEAM.map((member) => (
               <Link key={member.slug} to="/team/$slug" params={{ slug: member.slug }} className="group border border-[var(--rule)] bg-background">
                 <div className="aspect-[4/5] overflow-hidden bg-[oklch(0.9_0.012_85)]">
