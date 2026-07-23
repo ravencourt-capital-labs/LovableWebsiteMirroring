@@ -1,0 +1,56 @@
+name: Production Content Verification
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/production-content-verification.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-live-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Verify Mitul profile on production
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          about_url="https://ravencourtcapital.com/about?verify=${GITHUB_RUN_ID}"
+          profile_url="https://ravencourtcapital.com/team/mitul-gouni?verify=${GITHUB_RUN_ID}"
+
+          for attempt in $(seq 1 12); do
+            echo "Production verification attempt ${attempt}/12"
+
+            about_html="$(curl --fail --silent --show-error --location \
+              --retry 2 --retry-all-errors \
+              -H 'Cache-Control: no-cache' \
+              -H 'Pragma: no-cache' \
+              "$about_url" || true)"
+
+            profile_html="$(curl --fail --silent --show-error --location \
+              --retry 2 --retry-all-errors \
+              -H 'Cache-Control: no-cache' \
+              -H 'Pragma: no-cache' \
+              "$profile_url" || true)"
+
+            if grep -Fq "Mitul Gouni" <<<"$about_html" \
+              && grep -Fq "Mitul Gouni" <<<"$profile_html" \
+              && grep -Fq "Private Markets Analyst" <<<"$profile_html" \
+              && grep -Fq "New York, United States" <<<"$profile_html"; then
+              echo "Production verification passed."
+              exit 0
+            fi
+
+            sleep 15
+          done
+
+          echo "Production verification failed after all attempts."
+          echo "About page headers:"
+          curl --silent --show-error --location --head "https://ravencourtcapital.com/about" || true
+          echo "Profile page headers:"
+          curl --silent --show-error --location --head "https://ravencourtcapital.com/team/mitul-gouni" || true
+          exit 1
