@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import rohanPhoto from "@/assets/rohan-kapoor-team-photo-july-2026.png";
 import { saaniaPhoto } from "@/assets/saania-shaikh-website-photo";
+import { mitulPhoto } from "@/assets/mitul-gouni-website-photo";
 import { SiteLayout } from "@/components/site";
 import { absoluteUrl } from "@/lib/site";
 
@@ -63,6 +64,18 @@ const PROFILES: Record<string, Profile> = {
       "At Ravencourt Capital, Isabella contributes to counterparty research, market mapping, opportunity qualification, CRM and Airtable discipline, and selected valuation, memo and transaction-readiness work. Her role strengthens Ravencourt’s Hong Kong and Greater China coverage while supporting selected cross-border opportunities across Asian and US private markets.",
     ],
     coreRelevance: "private-markets research, quantitative analysis, market mapping, opportunity qualification, and Hong Kong, Greater China and US coverage.",
+  },
+  "mitul-gouni": {
+    name: "Mitul Gouni",
+    role: "Private Markets Analyst",
+    location: "New York, United States",
+    image: mitulPhoto,
+    objectPosition: "50% 18%",
+    paragraphs: [
+      "Mitul Gouni is an undergraduate at Columbia College in New York whose work spans private-markets research, organisational operations and relationship-led commercial development. He supports Ravencourt Capital’s North American coverage through company and institutional research, target-account qualification, and decision-maker and relationship mapping.",
+      "At Ravencourt Capital, Mitul also contributes to founder’s-office and people-operations execution, helping maintain disciplined workflows, data quality and accountable follow-up across the firm’s commercial work. His role supports the commercial development of RAAVEN by translating market research and operating context into structured, evidence-led business-development activity.",
+    ],
+    coreRelevance: "North American market research, target-account qualification, institutional relationship mapping, founder’s-office execution, people operations and commercial development.",
   },
 };
 
