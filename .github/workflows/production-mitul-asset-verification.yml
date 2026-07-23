@@ -1,0 +1,38 @@
+name: Production Mitul Asset Verification
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/production-mitul-asset-verification.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-live-profile-and-headshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Verify live profile text and embedded headshot
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          about_html="$(curl --compressed --fail --silent --show-error --location \
+            -H 'Cache-Control: no-cache' \
+            "https://ravencourtcapital.com/about?asset-verify=${GITHUB_RUN_ID}")"
+
+          profile_html="$(curl --compressed --fail --silent --show-error --location \
+            -H 'Cache-Control: no-cache' \
+            "https://ravencourtcapital.com/team/mitul-gouni?asset-verify=${GITHUB_RUN_ID}")"
+
+          grep -Fq "Mitul Gouni" <<<"$about_html"
+          grep -Fq "Mitul Gouni" <<<"$profile_html"
+          grep -Fq "Private Markets Analyst" <<<"$profile_html"
+          grep -Fq "New York, United States" <<<"$profile_html"
+          grep -Fq 'alt="Mitul Gouni"' <<<"$about_html"
+          grep -Fq 'alt="Mitul Gouni"' <<<"$profile_html"
+          grep -Fq 'data:image/webp;base64,' <<<"$about_html"
+          grep -Fq 'data:image/webp;base64,' <<<"$profile_html"
+
+          echo "Production profile and embedded headshot verification passed."
