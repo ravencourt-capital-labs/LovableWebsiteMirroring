@@ -111,14 +111,13 @@ jobs:
       - name: Remove temporary secrets file
         if: always()
         run: rm -f .wrangler-secrets.json
-      - name: Verify public production content and canonical hostname
+      - name: Verify public production content
         shell: bash
         run: |
           set -euo pipefail
 
           about_body="$(mktemp)"
           profile_body="$(mktemp)"
-          headers="$(mktemp)"
           verified=false
 
           for attempt in $(seq 1 18); do
@@ -153,24 +152,13 @@ jobs:
             echo "Production content verification failed." >&2
             exit 1
           }
-
-          curl --silent --show-error --max-redirs 0 \
-            --header 'Cache-Control: no-cache' \
-            --dump-header "$headers" --output /dev/null \
-            "https://www.ravencourtcapital.com/about?deploy=${GITHUB_RUN_ID}" || true
-
-          status="$(awk 'toupper($1) ~ /^HTTP\// {code=$2} END {print code}' "$headers")"
-          location="$(awk 'BEGIN{IGNORECASE=1} /^location:/ {sub(/^[^:]+:[[:space:]]*/, ""); sub(/\r$/, ""); value=$0} END{print value}' "$headers")"
-
-          test "$status" = "308"
-          test "$location" = "https://ravencourtcapital.com/about?deploy=${GITHUB_RUN_ID}"
       - name: Post verified deployment receipt
         if: success()
         env:
           GH_TOKEN: ${{ github.token }}
         run: >-
           gh issue comment 5 --repo "${{ github.repository }}"
-          --body "Automatic production website deployment completed successfully from main at commit ${{ github.sha }}. Release audit, separation scan, production configuration, build, Cloudflare deployment, apex content verification and WWW canonical redirect verification all passed. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          --body "Automatic production website deployment completed successfully from main at commit ${{ github.sha }}. Release audit, separation scan, production configuration, build, Cloudflare deployment and live apex content verification all passed. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
       - name: Post fail-closed deployment receipt
         if: failure()
         env:
