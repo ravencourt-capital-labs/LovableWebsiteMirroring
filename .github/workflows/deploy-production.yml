@@ -1,9 +1,19 @@
 name: Deploy Website Production
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "public/**"
+      - "scripts/**"
+      - "package.json"
+      - "bun.lock"
+      - "tsconfig*.json"
+      - "vite.config.*"
+      - "wrangler.jsonc"
+      - ".github/workflows/deploy-production.yml"
   workflow_dispatch:
-  issue_comment:
-    types: [created]
 
 permissions:
   contents: read
@@ -27,26 +37,12 @@ concurrency:
 jobs:
   deploy:
     if: >-
-      (github.event_name == 'workflow_dispatch' && github.ref_name == 'main') ||
-      (github.event_name == 'issue_comment' &&
-       github.event.action == 'created' &&
-       github.event.issue.number == 5 &&
-       github.event.comment.body == '/deploy-ravencourt-website-production')
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch' && github.ref_name == 'main')
     environment: website-production
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
-      - name: Verify founder authority for issue command
-        if: github.event_name == 'issue_comment'
-        env:
-          COMMENT_ACTOR: ${{ github.event.comment.user.login }}
-          AUTHOR_ASSOCIATION: ${{ github.event.comment.author_association }}
-        run: |
-          set -euo pipefail
-          test "$COMMENT_ACTOR" = "rohakapo"
-          case "$AUTHOR_ASSOCIATION" in
-            OWNER|MEMBER|COLLABORATOR) ;;
-            *) echo "Comment author is not authorised." >&2; exit 1 ;;
-          esac
       - uses: actions/checkout@v4
         with:
           ref: main
@@ -115,17 +111,70 @@ jobs:
       - name: Remove temporary secrets file
         if: always()
         run: rm -f .wrangler-secrets.json
+      - name: Verify public production content and canonical hostname
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          about_body="$(mktemp)"
+          profile_body="$(mktemp)"
+          headers="$(mktemp)"
+          verified=false
+
+          for attempt in $(seq 1 18); do
+            : > "$about_body"
+            : > "$profile_body"
+
+            about_status="$(curl --silent --show-error --location \
+              --retry 2 --retry-delay 2 --retry-all-errors \
+              --header 'Cache-Control: no-cache' \
+              --output "$about_body" --write-out '%{http_code}' \
+              "https://ravencourtcapital.com/about?deploy=${GITHUB_RUN_ID}")" || true
+
+            profile_status="$(curl --silent --show-error --location \
+              --retry 2 --retry-delay 2 --retry-all-errors \
+              --header 'Cache-Control: no-cache' \
+              --output "$profile_body" --write-out '%{http_code}' \
+              "https://ravencourtcapital.com/team/mitul-gouni?deploy=${GITHUB_RUN_ID}")" || true
+
+            if [[ "$about_status" == "200" && "$profile_status" == "200" ]] && \
+               grep -Fq "Mitul Gouni" "$about_body" && \
+               grep -Fq "Mitul Gouni" "$profile_body" && \
+               grep -Fq "Columbia University" "$profile_body" && \
+               ! grep -Fq "Columbia College" "$profile_body"; then
+              verified=true
+              break
+            fi
+
+            sleep 5
+          done
+
+          test "$verified" = true || {
+            echo "Production content verification failed." >&2
+            exit 1
+          }
+
+          curl --silent --show-error --max-redirs 0 \
+            --header 'Cache-Control: no-cache' \
+            --dump-header "$headers" --output /dev/null \
+            "https://www.ravencourtcapital.com/about?deploy=${GITHUB_RUN_ID}" || true
+
+          status="$(awk 'toupper($1) ~ /^HTTP\// {code=$2} END {print code}' "$headers")"
+          location="$(awk 'BEGIN{IGNORECASE=1} /^location:/ {sub(/^[^:]+:[[:space:]]*/, ""); sub(/\r$/, ""); value=$0} END{print value}' "$headers")"
+
+          test "$status" = "308"
+          test "$location" = "https://ravencourtcapital.com/about?deploy=${GITHUB_RUN_ID}"
       - name: Post verified deployment receipt
-        if: success() && github.event_name == 'issue_comment'
+        if: success()
         env:
           GH_TOKEN: ${{ github.token }}
         run: >-
           gh issue comment 5 --repo "${{ github.repository }}"
-          --body "Production website deployment completed successfully from main at commit ${{ github.sha }}. Release audit, separation scan, production configuration, build and Cloudflare deployment all passed. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          --body "Automatic production website deployment completed successfully from main at commit ${{ github.sha }}. Release audit, separation scan, production configuration, build, Cloudflare deployment, apex content verification and WWW canonical redirect verification all passed. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
       - name: Post fail-closed deployment receipt
-        if: failure() && github.event_name == 'issue_comment'
+        if: failure()
         env:
           GH_TOKEN: ${{ github.token }}
         run: >-
           gh issue comment 5 --repo "${{ github.repository }}"
-          --body "Production website deployment failed closed. Review the run before any retry: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          --body "Automatic production website deployment failed closed at commit ${{ github.sha }}. Review the run before retrying: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
