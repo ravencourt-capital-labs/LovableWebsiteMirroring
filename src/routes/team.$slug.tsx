@@ -72,7 +72,7 @@ const PROFILES: Record<string, Profile> = {
     image: mitulPhoto,
     objectPosition: "50% 18%",
     paragraphs: [
-      "Mitul Gouni is an undergraduate at Columbia College in New York whose work spans private-markets research, organisational operations and relationship-led commercial development. He supports Ravencourt Capital’s North American coverage through company and institutional research, target-account qualification, and decision-maker and relationship mapping.",
+      "Mitul Gouni is an undergraduate at Columbia University in New York whose work spans private-markets research, organisational operations and relationship-led commercial development. He supports Ravencourt Capital’s North American coverage through company and institutional research, target-account qualification, and decision-maker and relationship mapping.",
       "At Ravencourt Capital, Mitul also contributes to founder’s-office and people-operations execution, helping maintain disciplined workflows, data quality and accountable follow-up across the firm’s commercial work. His role supports the commercial development of RAAVEN by translating market research and operating context into structured, evidence-led business-development activity.",
     ],
     coreRelevance: "North American market research, target-account qualification, institutional relationship mapping, founder’s-office execution, people operations and commercial development.",
