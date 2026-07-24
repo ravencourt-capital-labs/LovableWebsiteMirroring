@@ -35,11 +35,11 @@ function AboutPage() {
       <PageHero
         eyebrow="About Ravencourt"
         headline="Milan-based. Intelligence-led. Built from execution."
-        body="Ravencourt Capital is a data intelligence and technology infrastructure firm shaped by direct private-markets execution. We build proprietary decision infrastructure for complex commercial and investment environments while undertaking selected advisory engagements where senior judgement and execution discipline remain essential."
+        body="Ravencourt Capital is a data intelligence and technology infrastructure firm shaped by direct private-markets execution. We develop proprietary decision infrastructure for complex commercial and investment environments and undertake selected advisory engagements where senior judgement remains essential."
       />
       <section className="border-b border-[var(--rule)] py-20 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[.8fr_1.2fr] lg:px-12">
-          <SectionHeading eyebrow="Firm evolution" title="From operating experience to intelligence infrastructure." />
+          <SectionHeading eyebrow="Firm foundation" title="Private-markets experience, applied through intelligence infrastructure." />
           <div className="space-y-5 text-[1.0625rem] leading-[1.8] text-[var(--ink)]/85">
             <p>
               Ravencourt originated through allocator-grade private-markets advisory and direct work across capital formation, transactions, diligence and counterparty engagement.
@@ -48,7 +48,7 @@ function AboutPage() {
               That experience exposed a recurring structural problem: consequential decisions are still managed through fragmented information, disconnected workflows and limited institutional memory.
             </p>
             <p>
-              Ravencourt is converting that operating experience into proprietary intelligence and decision infrastructure designed to improve clarity, accountability and execution. Selected advisory engagements remain part of the model and provide live operating context without defining the firm’s future solely through advisory services.
+              Ravencourt applies that operating experience through RAAVEN, its proprietary intelligence and decision infrastructure, to improve clarity, accountability and execution. Selected advisory engagements remain available where senior judgement, diligence and transaction discipline are decisive.
             </p>
           </div>
         </div>

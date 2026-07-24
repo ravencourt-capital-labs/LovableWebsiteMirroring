@@ -115,8 +115,8 @@ const CAPABILITIES = [
   },
   {
     number: "02",
-    title: "Private-markets intelligence",
-    body: "Structured market, allocator, counterparty and opportunity intelligence shaped by direct experience across capital, transactions and diligence.",
+    title: "Commercial intelligence",
+    body: "Structured market, account, counterparty and partnership intelligence for selective cross-border commercial expansion.",
     to: "/commercial-expansion" as const,
   },
   {
@@ -162,14 +162,14 @@ function HomePage() {
         <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[.8fr_1.2fr] lg:px-12">
           <SectionHeading
             eyebrow="Ravencourt positioning"
-            title="From operating experience to decision infrastructure."
+            title="Private-markets experience, applied through decision infrastructure."
           />
           <div className="space-y-5 text-[1.0625rem] leading-[1.8] text-[var(--ink)]/85">
             <p>
               Ravencourt originated through allocator-grade private-markets advisory and direct work across capital formation, transactions, diligence and counterparty engagement.
             </p>
             <p>
-              That experience exposed a recurring operating problem: consequential decisions are still managed through fragmented information, disconnected workflows and limited institutional memory. Ravencourt is converting that experience into proprietary intelligence and decision infrastructure.
+              That experience revealed a recurring operating problem: consequential decisions are still managed through fragmented information, disconnected workflows and limited institutional memory. Ravencourt applies its operating knowledge through proprietary intelligence and decision infrastructure designed to improve clarity, accountability and execution.
             </p>
           </div>
         </div>
@@ -225,7 +225,7 @@ function HomePage() {
             </div>
             <div>
               <p className="text-lg leading-relaxed text-white/70">
-                RAAVEN brings complex information, operating context and decision workflows into a governed environment designed to improve clarity, accountability and execution. The public framework is intentionally high-level; proprietary architecture and confidential operating methods remain private.
+                RAAVEN brings complex information, operating context and decision workflows into a governed environment designed to improve clarity, accountability and execution while keeping consequential decisions under explicit human authority.
               </p>
               <div className="mt-8">
                 <CTA to="/raaven" variant="light">Explore the RAAVEN framework</CTA>
@@ -291,7 +291,7 @@ function HomePage() {
       </section>
 
       <BoundaryCallout>
-        Ravencourt develops proprietary intelligence infrastructure and undertakes selected advisory work. It is not a database broker, volume placement agent or generic technology consultancy. Engagements proceed only where the decision context, evidence and execution credibility are sufficient.
+        Ravencourt accepts selected engagements where the decision context is material, relevant evidence is available and accountable senior ownership exists. Scope, responsibilities and governance are agreed before work begins.
       </BoundaryCallout>
 
       <section className="py-24 lg:py-32">
