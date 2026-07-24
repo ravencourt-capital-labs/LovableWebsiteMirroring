@@ -97,9 +97,9 @@ function OperatingIntelligencePage() {
           <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
             <div className="border-t border-[var(--rule)] pt-7">
               <p className="eyebrow mb-4">Initial engagement</p>
-              <h3 className="font-serif text-3xl leading-tight text-[var(--ink)]">15 business days after agreed onboarding conditions are satisfied.</h3>
+              <h3 className="font-serif text-3xl leading-tight text-[var(--ink)]">15 business days. €3,500 design-partner fee.</h3>
               <p className="mt-5 leading-relaxed text-[var(--ink-soft)]">
-                One organisation, one primary workflow and a bounded set of priority processes and source systems. Scope, evidence access, responsibilities, governance and economics are agreed before activation.
+                One organisation, one primary workflow and a bounded set of priority processes and source systems. The engagement has a fixed scope and is not offered as a free pilot. Scope, evidence access, responsibilities and governance are agreed before activation.
               </p>
               <div className="mt-8">
                 <ExternalCTA href={CALENDAR_URLS.operatingIntelligence}>Discuss the Baseline</ExternalCTA>
