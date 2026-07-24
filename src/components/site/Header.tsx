@@ -10,7 +10,7 @@ const PRIMARY_NAV = [
 ] as const;
 
 const TRAILING_NAV = [
-  { to: "/raaven", label: "RAAVEN Framework" },
+  { to: "/raaven", label: "RAAVEN" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ] as const;

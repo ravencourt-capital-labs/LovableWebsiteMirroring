@@ -147,4 +147,22 @@ if (publicTeamViolations.length) {
   process.exit(1);
 }
 
+const prohibitedInternalNarrative = [
+  "Service work reveals recurring operating patterns",
+  "develop together",
+  "leads the firm’s transition",
+  "Airtable discipline",
+  "founder’s-office",
+  "people-operations",
+  "internal workflows",
+  "fulfilment operations",
+  "30-minute assessment call",
+  "Data-room review",
+];
+const internalNarrativeViolations = prohibitedInternalNarrative.filter((text) => source.includes(text));
+if (internalNarrativeViolations.length) {
+  console.error("Internal narrative detected in public copy:", internalNarrativeViolations.join(", "));
+  process.exit(1);
+}
+
 console.log("Release content audit passed.");

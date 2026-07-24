@@ -80,18 +80,18 @@ const PATH: ProcessStep[] = [
   },
   {
     number: "02",
-    title: "Priority-Market Pilot",
-    body: "Focused pilot on one market and named account set, with evidence-backed prioritisation.",
+    title: "Priority-Market Engagement",
+    body: "Focused work on one market and a named account set, with evidence-backed prioritisation.",
   },
   {
     number: "03",
-    title: "Deployment",
-    body: "Deploy commercial intelligence, positioning and pipeline governance across selected markets.",
+    title: "Market Activation",
+    body: "Apply commercial intelligence, positioning and pipeline discipline across selected markets.",
   },
   {
     number: "04",
     title: "Managed Intelligence",
-    body: "Ongoing market, account and pipeline intelligence under Ravencourt governance.",
+    body: "Ongoing market, account and pipeline intelligence with defined ownership and review cadence.",
   },
   {
     number: "05",

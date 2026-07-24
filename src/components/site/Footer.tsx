@@ -38,7 +38,7 @@ export function Footer() {
             <p className="eyebrow mb-4">Firm</p>
             <ul className="space-y-2 text-[var(--ink-soft)]">
               <li><Link to="/operating-intelligence" className="hover:text-[var(--ink)]">Operating Intelligence</Link></li>
-              <li><Link to="/raaven" className="hover:text-[var(--ink)]">RAAVEN Framework</Link></li>
+              <li><Link to="/raaven" className="hover:text-[var(--ink)]">RAAVEN</Link></li>
               <li><Link to="/commercial-expansion" className="hover:text-[var(--ink)]">Commercial Intelligence</Link></li>
               <li><Link to="/strategic-advisory" className="hover:text-[var(--ink)]">Selective Strategic Advisory</Link></li>
               <li><Link to="/about" className="hover:text-[var(--ink)]">About</Link></li>

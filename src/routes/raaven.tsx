@@ -36,7 +36,7 @@ const TRAJECTORY = [
   {
     horizon: "Emerging",
     title: "RAAVEN as a Product",
-    body: "A configurable intelligence and decision platform being developed for direct client deployment, governed access and continuous operating use.",
+    body: "A configurable intelligence and decision platform under controlled development for direct client deployment, governed access and continuous operating use.",
   },
   {
     horizon: "Long term",
@@ -60,7 +60,7 @@ const DURABLE_POINTS = [
   },
   {
     title: "A defined starting point",
-    body: "Clients begin through a bounded service engagement while the configurable product layer continues to mature.",
+    body: "Clients begin through a defined service engagement, with direct deployment introduced selectively as the product layer matures.",
   },
 ] as const;
 
@@ -98,9 +98,9 @@ function RaavenPage() {
       <section className="border-b border-[var(--rule)] py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <SectionHeading
-            eyebrow="One institutional model"
-            title="Three horizons, developed through one shared intelligence core."
-            body="RAAVEN as a Service and RAAVEN as a Product develop together. Service work reveals recurring operating patterns; the reusable and non-confidential learning strengthens the platform without transferring client-confidential information."
+            eyebrow="One governed model"
+            title="Three horizons, one consistent operating standard."
+            body="Each horizon is built on the same governed intelligence model, allowing RAAVEN to progress from managed implementation to a configurable platform and, over time, institutional decision infrastructure. Client environments and confidential information remain isolated."
           />
           <div className="grid gap-px border border-[var(--rule)] bg-[var(--rule)] lg:grid-cols-3">
             {TRAJECTORY.map((item, index) => (
@@ -184,7 +184,7 @@ function RaavenPage() {
       </section>
 
       <BoundaryCallout>
-        Direct client deployment remains under controlled development and is available only through selected design-partner engagements. RAAVEN access and use are structured around each organisation's operating context, governance requirements and named human authority.
+        Clients can begin today through the Mandate Intelligence Baseline and selected managed implementations. Direct client deployment is introduced selectively where operating context, governance requirements and named human authority are clearly defined.
       </BoundaryCallout>
     </SiteLayout>
   );

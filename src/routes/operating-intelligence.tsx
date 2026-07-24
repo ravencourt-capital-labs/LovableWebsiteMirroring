@@ -30,26 +30,26 @@ export const Route = createFileRoute("/operating-intelligence")({
 });
 
 const CAPABILITIES = [
-  { number: "01", title: "Mandate & lifecycle discipline", body: "Structured intake, fit assessment, evidence thresholds, next-action control, stalled-case detection and accountable ownership." },
-  { number: "02", title: "Allocator & counterparty intelligence", body: "Type, ticket, geography, prior activity, relationship context and decision-process evidence assessed against the mandate." },
-  { number: "03", title: "Diligence readiness", body: "Document control, missing-evidence detection, inconsistency review, question management and auditable response coordination." },
-  { number: "04", title: "Communications intelligence", body: "Commitments, objections, decisions and follow-ups captured from relevant communications with human review of ambiguity." },
-  { number: "05", title: "Mandate monitoring", body: "Material events, milestones, risks, unresolved decisions and execution responsibilities remain visible throughout the engagement." },
-  { number: "06", title: "Decision accountability", body: "Consequential changes require explicit authority, documented reasoning and a durable review trail." },
+  { number: "01", title: "Mandate control", body: "Current status, ownership, next actions and stalled work are assessed against the mandate's objectives." },
+  { number: "02", title: "Counterparty relevance", body: "Material counterparty and relationship context is assessed against the mandate and its decision requirements." },
+  { number: "03", title: "Diligence readiness", body: "Evidence gaps, inconsistencies, outstanding questions and response responsibilities are made visible." },
+  { number: "04", title: "Commitments & follow-through", body: "Material commitments, objections, decisions and follow-ups are organised for accountable review." },
+  { number: "05", title: "Risk & progress visibility", body: "Milestones, risks, unresolved decisions and execution responsibilities remain visible throughout the engagement." },
+  { number: "06", title: "Decision accountability", body: "Consequential changes require named ownership, documented reasoning and an appropriate review record." },
 ];
 
 const BASELINE_OUTPUTS = [
-  "Intelligence architecture and source map",
-  "Entity, opportunity and evidence reconciliation",
-  "Pipeline integrity and lifecycle assessment",
-  "Prioritised management decision queue",
-  "Bounded economics, servicing and relationship analysis",
-  "Deployment and managed-intelligence roadmap",
+  "Current-state operating map",
+  "Mandate, opportunity and evidence reconciliation",
+  "Workflow integrity and progress assessment",
+  "Prioritised management action queue",
+  "Commercial and relationship observations within scope",
+  "Implementation and managed-intelligence roadmap",
 ];
 
 const QUALIFICATION_SIGNALS = [
   "At least three concurrent mandates or recurring commercial processes",
-  "Material information spread across email, calendars, spreadsheets or CRM",
+  "Material information spread across multiple operating tools and records",
   "Recurring senior time spent reconciling status, evidence and next actions",
   "An accountable executive sponsor and operating budget for improvement",
 ];
@@ -59,7 +59,7 @@ const OUTCOMES = [
   "Earlier identification of stalled mandates",
   "More consistent diligence preparation",
   "Clearer ownership and escalation",
-  "Stronger evidence provenance",
+  "Clearer traceability from evidence to decision",
   "A durable operating discipline",
 ];
 
@@ -99,7 +99,7 @@ function OperatingIntelligencePage() {
               <p className="eyebrow mb-4">Initial engagement</p>
               <h3 className="font-serif text-3xl leading-tight text-[var(--ink)]">15 business days. €3,500 design-partner fee.</h3>
               <p className="mt-5 leading-relaxed text-[var(--ink-soft)]">
-                One organisation, one primary workflow and a bounded set of priority processes and source systems. The engagement has a fixed scope and is not offered as a free pilot. Scope, evidence access, responsibilities and governance are agreed before activation.
+                One organisation, one primary workflow and a bounded set of priority processes and evidence sources. The engagement has a fixed scope and is not offered as a free pilot. Scope, evidence access, responsibilities and governance are agreed before activation.
               </p>
               <div className="mt-8">
                 <ExternalCTA href={CALENDAR_URLS.operatingIntelligence}>Discuss the Baseline</ExternalCTA>
@@ -122,7 +122,7 @@ function OperatingIntelligencePage() {
           <SectionHeading
             eyebrow="Initial client profile"
             title="Built for organisations with recurring private-markets workflow complexity."
-            body="The strongest initial clients are advisory firms, emerging managers, independent sponsors, acquisition platforms and related organisations with an operating budget—not single founders seeking success-fee-only introductions."
+            body="The strongest initial clients are advisory firms, emerging managers, independent sponsors, acquisition platforms and related organisations with an operating budget. The Baseline is not designed for one-off capital introductions or success-fee-only engagements."
           />
           <ul className="space-y-5">
             {QUALIFICATION_SIGNALS.map((signal) => (
@@ -138,9 +138,9 @@ function OperatingIntelligencePage() {
       <section className="border-b border-[var(--rule)] py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <SectionHeading
-            eyebrow="Six capabilities"
-            title="An operating model built around evidence and authority."
-            body="Each capability is configured around the organisation's actual mandate process—not around generic software templates or opaque automation."
+            eyebrow="What the Baseline examines"
+            title="The mandate conditions that most affect decision quality."
+            body="The review is tailored to the organisation's actual mandate process, with transparent findings and explicit human accountability."
           />
           <div className="grid gap-x-12 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
             {CAPABILITIES.map((capability) => (

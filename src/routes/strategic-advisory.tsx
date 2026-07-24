@@ -73,12 +73,10 @@ const GROUPS = [
 ];
 
 const PROCESS = [
-  "Materials review",
-  "30-minute assessment call",
-  "Mutual NDA where appropriate",
-  "Data-room review",
-  "Go / no-go decision",
-  "Engagement scope",
+  "Initial assessment",
+  "Confidential review",
+  "Engagement decision",
+  "Defined scope and responsibilities",
 ];
 
 function StrategicAdvisoryPage() {

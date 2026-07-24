@@ -25,7 +25,7 @@ const PROFILES: Record<string, Profile> = {
     objectPosition: "50% 25%",
     paragraphs: [
       "Rohan Kapoor brings an operator-led perspective to data intelligence, decision infrastructure and private-market execution, shaped by more than 16 years across engineering, semiconductor operations, manufacturing, commercial leadership, strategic partnerships and capital formation.",
-      "At Ravencourt Capital, Rohan leads the firm’s transition from advisory-led execution toward proprietary intelligence and decision infrastructure, while retaining senior responsibility for selected private-market and strategic engagements.",
+      "At Ravencourt Capital, Rohan leads RAAVEN's strategic direction and remains responsible for selected private-market and commercial engagements where senior judgement, governance and cross-border execution are decisive.",
     ],
     coreRelevance: "data intelligence, decision infrastructure, private-market execution, institutional operating discipline and cross-border strategy.",
   },
@@ -37,9 +37,9 @@ const PROFILES: Record<string, Profile> = {
     objectPosition: "50% 22%",
     paragraphs: [
       "Saania Shaikh leads partnership development and operating coordination across Ravencourt Capital’s intelligence, commercial and selected advisory work, with a particular focus on relationship-led engagement across the UAE, Saudi Arabia, Qatar and the wider Middle East.",
-      "Her role translates external conversations into disciplined follow-up, structured stakeholder context and accountable execution across business development, fulfilment operations, internal workflows and people coordination.",
+      "She translates external conversations into disciplined follow-through, structured stakeholder context and accountable execution across business development, client coordination and cross-border relationship management.",
     ],
-    coreRelevance: "Middle East partnerships, business development, stakeholder intelligence, fulfilment operations and cross-border execution.",
+    coreRelevance: "Middle East partnerships, business development, stakeholder intelligence, client coordination and cross-border execution.",
   },
   "luciano-mazzola": {
     name: "Dr. Luciano Mazzola",
@@ -61,7 +61,7 @@ const PROFILES: Record<string, Profile> = {
     objectPosition: "50% 20%",
     paragraphs: [
       "From Hong Kong and studying Applied Mathematics at Columbia University in New York, Isabella Xu spends her time between Hong Kong and the United States. She supports Ravencourt Capital’s private-markets and commercial intelligence work and brings early experience across equity research, finance operations, real-assets investing and business analysis.",
-      "At Ravencourt Capital, Isabella contributes to counterparty research, market mapping, opportunity qualification, CRM and Airtable discipline, and selected valuation, memo and transaction-readiness work. Her role strengthens Ravencourt’s Hong Kong and Greater China coverage while supporting selected cross-border opportunities across Asian and US private markets.",
+      "At Ravencourt Capital, Isabella contributes to counterparty research, market mapping, opportunity qualification and selected valuation, memo and transaction-readiness work. Her role strengthens Ravencourt’s Hong Kong and Greater China coverage while supporting selected cross-border opportunities across Asian and US private markets.",
     ],
     coreRelevance: "private-markets research, quantitative analysis, market mapping, opportunity qualification, and Hong Kong, Greater China and US coverage.",
   },
@@ -72,10 +72,10 @@ const PROFILES: Record<string, Profile> = {
     image: mitulPhoto,
     objectPosition: "50% 18%",
     paragraphs: [
-      "Mitul Gouni is an undergraduate at Columbia University in New York whose work spans private-markets research, organisational operations and relationship-led commercial development. He supports Ravencourt Capital’s North American coverage through company and institutional research, target-account qualification, and decision-maker and relationship mapping.",
-      "At Ravencourt Capital, Mitul also contributes to founder’s-office and people-operations execution, helping maintain disciplined workflows, data quality and accountable follow-up across the firm’s commercial work. His role supports the commercial development of RAAVEN by translating market research and operating context into structured, evidence-led business-development activity.",
+      "Mitul Gouni is an undergraduate at Columbia University in New York whose work spans private-markets research and relationship-led commercial development. He supports Ravencourt Capital’s North American coverage through company and institutional research, target-account qualification, and decision-maker and relationship mapping.",
+      "At Ravencourt Capital, Mitul translates market research and operating context into structured, evidence-led business-development activity across selected commercial and private-market opportunities.",
     ],
-    coreRelevance: "North American market research, target-account qualification, institutional relationship mapping, founder’s-office execution, people operations and commercial development.",
+    coreRelevance: "North American market research, target-account qualification, institutional relationship mapping and commercial development.",
   },
 };
 
