@@ -61,7 +61,7 @@ const requiredText = [
   "RAAVEN as a Service",
   "RAAVEN as a Product",
   "Institutional Decision Infrastructure",
-  "human judgement remains central",
+  "Human judgement remains central",
   "15 business days. €3,500 design-partner fee.",
   "Cross-Border Commercial Intelligence",
   "Private Markets Analyst",
